@@ -31,7 +31,9 @@ juggletest.start = function(){
 		,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
 		,	b2ContactListener = Box2D.Dynamics.b2ContactListener
 			//objects for the game
-		,	objectsToRemove = new Array();
+		,	objectsToRemove = new Array()
+		,	mouseX = 300
+		,	mouseY = 200
 		;
 
     //add layer and title to the scene
@@ -70,18 +72,31 @@ juggletest.start = function(){
 		//Check for collision between hand and apple
 		if (objectAname == "hand" && objectBname == "apple")
 		{
-			CalculateTrajectory(objectB);
+			calculateTrajectory(objectB);
 		}
 		if (objectAname == "apple" && objectBname == "hand")
 		{
-			CalculateTrajectory(objectA);
+			calculateTrajectory(objectA);
 		}
 	}
 	world.SetContactListener(contactListener);
 	
 	function calculateTrajectory(object)
 	{
-		//put stuff here
+		//calculate the initial vertical velocity required to reach the apex
+		var height = mouseY - object.GetPosition().y;
+		if (height < 0) {height = -height;}
+		var gravity = world.GetGravity()
+		var velocityY = -Math.sqrt(2*gravity.y*height);
+		
+		//calculate the time to reach the apex
+		var time = -velocityY / gravity.y;
+		
+		//calculate the initial horizontal velocity required to hit the apex
+		var width = mouseX - object.GetPosition().x;
+		var velocityX = width / time;
+		
+		object.SetLinearVelocity(new b2Vec2(velocityX, velocityY));
 	}
 	
 	function createBoundries()
@@ -188,7 +203,7 @@ juggletest.start = function(){
 	//Spawn one initial apple
 	GenerateApple();
 	//Schedule an apple to fall every 5 seconds
-	lime.scheduleManager.scheduleWithDelay(function (dt){GenerateApple()}, null, 50, 0)
+	lime.scheduleManager.scheduleWithDelay(function (dt){GenerateApple()}, null, 1000, 0)
 	
 	//controls
 	goog.events.listen(scene, ['keydown'], function(e){
@@ -216,8 +231,38 @@ juggletest.start = function(){
 		}
 	});
 
+	//track where the mouse is on screen and lock to screen boundries
+	document.addEventListener(['mousemove'], function(e){
+		var canvasPosition = getElementPosition(document.getElementById("canvas"));
+		mouseX = e.clientX - canvasPosition.x;
+        mouseY = e.clientY - canvasPosition.y;
+		if (mouseX > 600) {mouseX = 600;}
+		if (mouseY > 400) {mouseY = 400;}
+		mouseX = mouseX/30;
+		mouseY = mouseY/30;
+	},true);
 	
-	
+	 //http://js-tut.aardon.de/js-tut/tutorial/position.html
+	 function getElementPosition(element) {
+		var elem=element, tagname="", x=0, y=0;
+	   
+		while((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
+		   y += elem.offsetTop;
+		   x += elem.offsetLeft;
+		   tagname = elem.tagName.toUpperCase();
+
+		   if(tagname == "BODY")
+			  elem=0;
+
+		   if(typeof(elem) == "object") {
+			  if(typeof(elem.offsetParent) == "object")
+				 elem = elem.offsetParent;
+		   }
+		}
+
+		return {x: x, y: y};
+	 }
+		 
 	// set current scene active
 	director.replaceScene(scene);
 
