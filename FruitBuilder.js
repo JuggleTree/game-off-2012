@@ -17,7 +17,9 @@ goog.provide('juggletest.FruitBuilder');
 		var bodyDef = new b2BodyDef;
 		bodyDef.position.Set(x,y);
 		bodyDef.type = b2Body.b2_dynamicBody;
+		
 		var apple = world.CreateBody(bodyDef)
+		apple.SetUserData("apple");
 		
 		//Create the Polygons
 		var fixDef = new b2FixtureDef;

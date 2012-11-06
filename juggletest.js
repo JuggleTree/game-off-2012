@@ -11,20 +11,14 @@ goog.require('juggletest.FruitBuilder');
 
 // entrypoint
 juggletest.start = function(){
-
-	var director = new lime.Director(document.body,600,400),
-	    scene = new lime.Scene(),
-	    layer = new lime.Layer().setPosition(0,0)
-	;
-
-    //add layer and title to the scene
-    scene.appendChild(layer);
-
-	director.makeMobileWebAppCapable();
-
-	//Box2d required includes
-	var   b2Vec2 = Box2D.Common.Math.b2Vec2
-		,  b2AABB = Box2D.Collision.b2AABB
+			
+			//Lime2D variables
+	var 	director = new lime.Director(document.body,600,400)
+	    ,	scene = new lime.Scene()
+	    ,	layer = new lime.Layer().setPosition(0,0)
+			//Box2d required includes
+	    ,   b2Vec2 = Box2D.Common.Math.b2Vec2
+		,   b2AABB = Box2D.Collision.b2AABB
 		,	b2BodyDef = Box2D.Dynamics.b2BodyDef
 		,	b2Body = Box2D.Dynamics.b2Body
 		,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
@@ -35,7 +29,16 @@ juggletest.start = function(){
 		,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
 		,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 		,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
+		,	b2ContactListener = Box2D.Dynamics.b2ContactListener
+			//objects for the game
+		,	objectsToRemove = new Array();
 		;
+
+    //add layer and title to the scene
+    scene.appendChild(layer);
+
+	director.makeMobileWebAppCapable();
+
 		
 	//initialize the world
 	var world = new b2World
@@ -44,28 +47,76 @@ juggletest.start = function(){
 		true                 //allow sleep
 	);
 	
+	//create the listener which runs when 2 thinks collide
+	contactListener = new b2ContactListener();
+	contactListener.BeginContact = function(contact)
+	{
+		//Get the 2 objects that collided
+		var objectAname = contact.GetFixtureA().GetBody().GetUserData(),
+			objectBname = contact.GetFixtureB().GetBody().GetUserData(),
+			objectA = contact.GetFixtureA().GetBody(),
+			objectB = contact.GetFixtureB().GetBody();
+			
+		//Check for collision between wall and apple
+		if (objectAname == "wall" && objectBname == "apple")
+		{
+			objectsToRemove.push(objectB);
+		}
+		if (objectAname == "apple" && objectBname == "wall")
+		{
+			objectsToRemove.push(objectA);
+		}
+		
+		//Check for collision between hand and apple
+		if (objectAname == "hand" && objectBname == "apple")
+		{
+			CalculateTrajectory(objectB);
+		}
+		if (objectAname == "apple" && objectBname == "hand")
+		{
+			CalculateTrajectory(objectA);
+		}
+	}
+	world.SetContactListener(contactListener);
+	
+	function calculateTrajectory(object)
+	{
+		//put stuff here
+	}
+	
 	function createBoundries()
 	{
+		var wall;
 		var fixDef = new b2FixtureDef;
 		fixDef.density = 1.0;
 		fixDef.friction = 0.5;
 		fixDef.restitution = 0.2;
 	 
 		var bodyDef = new b2BodyDef;
-		
-		//create the playing field
 		bodyDef.type = b2Body.b2_staticBody;
 		fixDef.shape = new b2PolygonShape;
+		
 		fixDef.shape.SetAsBox(20, 2);
 		bodyDef.position.Set(10, 400 / 30 + 1.8);
-		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		wall = world.CreateBody(bodyDef)
+		wall.CreateFixture(fixDef);
+		wall.SetUserData("wall");
+		
 		bodyDef.position.Set(10, -1.8);
-		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		wall = world.CreateBody(bodyDef)
+		wall.CreateFixture(fixDef);
+		wall.SetUserData("wall");
+		
 		fixDef.shape.SetAsBox(2, 14);
 		bodyDef.position.Set(-1.8, 13);
-		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		wall = world.CreateBody(bodyDef)
+		wall.CreateFixture(fixDef);
+		wall.SetUserData("wall");
+		
 		bodyDef.position.Set(21.8, 13);
-		world.CreateBody(bodyDef).CreateFixture(fixDef);
+		wall = world.CreateBody(bodyDef)
+		wall.CreateFixture(fixDef);
+		wall.SetUserData("wall");
 	}
 	
 	function createHand(x, y)
@@ -74,7 +125,9 @@ juggletest.start = function(){
 		var bodyDef = new b2BodyDef;
 		bodyDef.type = b2Body.b2_kinematicBody;
 		bodyDef.position.Set(x,y);
+		
 		var hand = world.CreateBody(bodyDef);
+		hand.SetUserData("hand");
 		hand.SetSleepingAllowed(false);
 		
 		//Create the Shape
@@ -108,6 +161,10 @@ juggletest.start = function(){
 		world.Step(1 / 60, 10, 10);
 		world.DrawDebugData();
 		world.ClearForces();
+		
+		//Remove objects
+		for (i=0;i<objectsToRemove.length;i++)
+			{world.DestroyBody(objectsToRemove.pop());}
 	};
 	
 	
@@ -122,7 +179,7 @@ juggletest.start = function(){
 	
 	function GenerateApple()
 	{
-		var x = Math.random() * 18 + 1;
+		var x = Math.random() * 17 + 1;
 		var y = Math.random() * 3 + 1;
 		var size = Math.random() * 2 + 0.4;
 		createApple(x,y,size,world);
@@ -131,24 +188,19 @@ juggletest.start = function(){
 	//Spawn one initial apple
 	GenerateApple();
 	//Schedule an apple to fall every 5 seconds
-	lime.scheduleManager.scheduleWithDelay(function (dt){GenerateApple()}, null, 5000, 0)
-	
-	function SetSpeed(object, speed)
-	{
-		object.SetLinearVelocity(new b2Vec2(speed, 0));
-	}
+	lime.scheduleManager.scheduleWithDelay(function (dt){GenerateApple()}, null, 50, 0)
 	
 	//controls
 	goog.events.listen(scene, ['keydown'], function(e){
 		if (e.event.keyCode == goog.events.KeyCodes.LEFT)
 		{
-			SetSpeed(rightHand,-5);
-			SetSpeed(leftHand,-5);
+			rightHand.SetLinearVelocity(new b2Vec2(-7, 0));
+			leftHand.SetLinearVelocity(new b2Vec2(-7, 0));
 		}
 		if (e.event.keyCode == goog.events.KeyCodes.RIGHT)
 		{
-			SetSpeed(rightHand,5);
-			SetSpeed(leftHand,5);
+			rightHand.SetLinearVelocity(new b2Vec2(7, 0));
+			leftHand.SetLinearVelocity(new b2Vec2(7, 0));
 		}
 	});
 	
@@ -159,8 +211,8 @@ juggletest.start = function(){
 			|| (e.event.keyCode == goog.events.KeyCodes.RIGHT
 			&& velocity > 0))
 		{
-			SetSpeed(rightHand,0);
-			SetSpeed(leftHand,0);
+			rightHand.SetLinearVelocity(new b2Vec2(0, 0));
+			leftHand.SetLinearVelocity(new b2Vec2(0, 0));
 		}
 	});
 
