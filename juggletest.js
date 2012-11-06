@@ -266,6 +266,14 @@ juggletest.start = function(){
 	// set current scene active
 	director.replaceScene(scene);
 
+	
+	//debug stuff
+	lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);	
+	function PrintDebug()
+	{
+		document.getElementById("mouseX").innerHTML="Mouse X: " + mouseX;
+		document.getElementById("mouseY").innerHTML="Mouse Y: " + mouseY;
+	}
 }
 
 
