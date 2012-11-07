@@ -30,10 +30,15 @@ juggletest.start = function(){
 		,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
 		,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
 		,	b2ContactListener = Box2D.Dynamics.b2ContactListener
+		,	b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
 			//objects for the game
 		,	objectsToRemove = new Array()
-		,	mouseX = 300
-		,	mouseY = 200
+		,	mouseX = 8.5
+		,	mouseY = 6
+		,	points = 0
+		,	fruitsDropped = 0
+		,	leftHandJoint = "empty"
+		,	rightHandJoint = "empty"
 		;
 
     //add layer and title to the scene
@@ -41,6 +46,11 @@ juggletest.start = function(){
 
 	director.makeMobileWebAppCapable();
 
+	function gameObject(type, name)
+	{
+		this.type=type; //ex: fruit, hand, powerup
+		this.name=name; //ex: apple, orange, watermelon
+	}
 		
 	//initialize the world
 	var world = new b2World
@@ -54,34 +64,60 @@ juggletest.start = function(){
 	contactListener.BeginContact = function(contact)
 	{
 		//Get the 2 objects that collided
-		var objectAname = contact.GetFixtureA().GetBody().GetUserData(),
-			objectBname = contact.GetFixtureB().GetBody().GetUserData(),
-			objectA = contact.GetFixtureA().GetBody(),
+		var objectA = contact.GetFixtureA().GetBody(),
 			objectB = contact.GetFixtureB().GetBody();
 			
 		//Check for collision between wall and apple
-		if (objectAname == "wall" && objectBname == "apple")
+		if (objectA.GetUserData().type == "wall" && objectB.GetUserData().type == "fruit")
 		{
 			objectsToRemove.push(objectB);
 		}
-		if (objectAname == "apple" && objectBname == "wall")
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "wall")
 		{
 			objectsToRemove.push(objectA);
 		}
 		
 		//Check for collision between hand and apple
-		if (objectAname == "hand" && objectBname == "apple")
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "hand")
 		{
-			calculateTrajectory(objectB);
+			points++;
+			if (objectB.GetUserData().name == "left" && leftHandJoint == "empty")
+			{
+				jointDef = new b2DistanceJointDef();
+				jointDef.Initialize(objectA, objectB, objectA.GetPosition(), objectB.GetPosition());
+				jointDef.collideConnected = true;
+				leftHandJoint = world.CreateJoint(jointDef);
+			}
+			if (objectB.GetUserData().name == "right" && rightHandJoint == "empty")
+			{
+				jointDef = new b2DistanceJointDef();
+				jointDef.Initialize(objectA, objectB, objectA.GetPosition(), objectB.GetPosition());
+				jointDef.collideConnected = true;
+				rightHandJoint = world.CreateJoint(jointDef);
+			}
 		}
-		if (objectAname == "apple" && objectBname == "hand")
+		if (objectA.GetUserData().type == "hand" && objectB.GetUserData().type == "fruit")
 		{
-			calculateTrajectory(objectA);
+			points++;
+			if (objectB.GetUserData().name == "left" && leftHandJoint == "empty")
+			{
+				jointDef = new b2DistanceJointDef();
+				jointDef.Initialize(objectA, objectB, objectA.GetPosition(), objectB.GetPosition());
+				jointDef.collideConnected = true;
+				leftHandJoint = world.CreateJoint(jointDef);
+			}
+			if (objectB.GetUserData().name == "right" && rightHandJoint == "empty")
+			{
+				jointDef = new b2DistanceJointDef();
+				jointDef.Initialize(objectA, objectB, objectA.GetPosition(), objectB.GetPosition());
+				jointDef.collideConnected = true;
+				rightHandJoint = world.CreateJoint(jointDef);
+			}
 		}
 	}
 	world.SetContactListener(contactListener);
 	
-	function calculateTrajectory(object)
+	function throwObject(object)
 	{
 		//calculate the initial vertical velocity required to reach the apex
 		var height = mouseY - object.GetPosition().y;
@@ -115,26 +151,26 @@ juggletest.start = function(){
 		bodyDef.position.Set(10, 400 / 30 + 1.8);
 		wall = world.CreateBody(bodyDef)
 		wall.CreateFixture(fixDef);
-		wall.SetUserData("wall");
+		wall.SetUserData(new gameObject("wall","bottom"));
 		
 		bodyDef.position.Set(10, -1.8);
 		wall = world.CreateBody(bodyDef)
 		wall.CreateFixture(fixDef);
-		wall.SetUserData("wall");
+		wall.SetUserData(new gameObject("wall","top"));
 		
 		fixDef.shape.SetAsBox(2, 14);
 		bodyDef.position.Set(-1.8, 13);
 		wall = world.CreateBody(bodyDef)
 		wall.CreateFixture(fixDef);
-		wall.SetUserData("wall");
+		wall.SetUserData(new gameObject("wall","left"));
 		
 		bodyDef.position.Set(21.8, 13);
 		wall = world.CreateBody(bodyDef)
 		wall.CreateFixture(fixDef);
-		wall.SetUserData("wall");
+		wall.SetUserData(new gameObject("wall","right"));
 	}
 	
-	function createHand(x, y)
+	function createHand(x, y, name)
 	{
 		//Create the Body
 		var bodyDef = new b2BodyDef;
@@ -142,20 +178,57 @@ juggletest.start = function(){
 		bodyDef.position.Set(x,y);
 		
 		var hand = world.CreateBody(bodyDef);
-		hand.SetUserData("hand");
+		hand.SetUserData(new gameObject("hand",name));
 		hand.SetSleepingAllowed(false);
 		
 		//Create the Shape
 		var fixDef = new b2FixtureDef;
 		fixDef.density = 1.0;
 		fixDef.friction = 0.5;
-		fixDef.restitution = 1;
+		fixDef.restitution = 0;
 		fixDef.shape = new b2PolygonShape;
 		fixDef.shape.SetAsBox(1,0.1);
 		hand.CreateFixture(fixDef);
 		
 		//Return the hand as a reference so the player can move it
 		return hand;
+	}
+	
+	function createApple(x, y, size)
+	{
+		//Create the Body
+		var bodyDef = new b2BodyDef;
+		bodyDef.position.Set(x,y);
+		bodyDef.type = b2Body.b2_dynamicBody;
+		
+		var apple = world.CreateBody(bodyDef)
+		apple.SetUserData(new gameObject("fruit","apple"));
+		apple.SetAngle(Math.PI);
+		
+		//Create the Polygons
+		var fixDef = new b2FixtureDef;
+		fixDef.density = 1.0;
+		fixDef.friction = 0.5;
+		fixDef.restitution = 0.2;
+
+		fixDef.shape = new b2PolygonShape;
+		fixDef.shape.SetAsArray([new b2Vec2(0*size,-0.32*size),new b2Vec2(0.24*size,-0.34*size),new b2Vec2(0.5*size,-0.1*size),new b2Vec2(0.48*size,0.2*size)],4);
+		apple.CreateFixture(fixDef);
+
+		fixDef.shape.SetAsArray([new b2Vec2(0.48*size,0.2*size),new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.3*size,0.24*size),new b2Vec2(-0.5*size,0.1*size),new b2Vec2(-0.5*size,-0.08*size)],5);
+		apple.CreateFixture(fixDef);
+		
+		fixDef.shape.SetAsArray([new b2Vec2(-0.5*size,-0.08*size),new b2Vec2(-0.28*size,-0.34*size),new b2Vec2(-0.18*size,-0.4*size),new b2Vec2(-0.1*size,-0.4*size),new b2Vec2(0*size,-0.32*size),new b2Vec2(0.48*size,0.2*size)],6);
+		apple.CreateFixture(fixDef);
+		
+		fixDef.shape.SetAsArray([new b2Vec2(0.16*size,0.32*size),new b2Vec2(0.2*size,0.4*size),new b2Vec2(-0.04*size,0.3*size)],3);
+		apple.CreateFixture(fixDef);
+		
+		fixDef.shape.SetAsArray([new b2Vec2(-0.04*size,0.3*size),new b2Vec2(-0.1*size,0.42*size),new b2Vec2(-0.2*size,0.36*size),new b2Vec2(-0.1*size,0.24*size)],4);
+		apple.CreateFixture(fixDef);
+		
+		fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.24*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(0.3*size,0.32*size),new b2Vec2(0.16*size,0.32*size),new b2Vec2(-0.04*size,0.3*size)],5);
+		apple.CreateFixture(fixDef);
 	}
 	
 	function setupDebugWindow()
@@ -179,16 +252,18 @@ juggletest.start = function(){
 		
 		//Remove objects
 		for (i=0;i<objectsToRemove.length;i++)
-			{world.DestroyBody(objectsToRemove.pop());}
+			{
+				fruitsDropped++;
+				world.DestroyBody(objectsToRemove.pop());
+			}
 	};
 	
 	
 	//Setup the game
 	createBoundries();
-	//createApple(5,5,2,world);
 	
-	var rightHand = createHand(11, 12),
-		leftHand = createHand(7, 12);
+	var rightHand = createHand(11, 12, "right"),
+		leftHand = createHand(7, 12, "left");
 
 	setupDebugWindow();
 	
@@ -197,7 +272,7 @@ juggletest.start = function(){
 		var x = Math.random() * 17 + 1;
 		var y = Math.random() * 3 + 1;
 		var size = Math.random() * 2 + 0.4;
-		createApple(x,y,size,world);
+		createApple(x,y,size);
 	}
 	
 	//Spawn one initial apple
@@ -242,6 +317,43 @@ juggletest.start = function(){
 		mouseY = mouseY/30;
 	},true);
 	
+		goog.events.listen(scene, ['click'], function(e){
+		if (rightHandJoint != "empty")
+		{
+			if (rightHandJoint.GetBodyA().GetUserData().type == "fruit")
+			{
+				var object = rightHandJoint.GetBodyA();
+				world.DestroyJoint(rightHandJoint);
+				throwObject(object);
+				rightHandJoint = "empty";
+			}
+			else if (rightHandJoint.GetBodyB().GetUserData().type == "fruit")
+			{
+				var object = rightHandJoint.GetBodyB();
+				world.DestroyJoint(rightHandJoint);
+				throwObject(object);
+				rightHandJoint = "empty";
+			}
+		}
+		else if (leftHandJoint != "empty")
+		{
+			if (leftHandJoint.GetBodyA().GetUserData().type == "fruit")
+			{
+				var object = leftHandJoint.GetBodyA();
+				world.DestroyJoint(leftHandJoint);
+				throwObject(object);
+				leftHandJoint = "empty";
+			}
+			else if (leftHandJoint.GetBodyB().GetUserData().type == "fruit")
+			{
+				var object = leftHandJoint.GetBodyB();
+				world.DestroyJoint(leftHandJoint);
+				throwObject(object);
+				leftHandJoint = "empty";
+			}
+		}
+	});
+	
 	 //http://js-tut.aardon.de/js-tut/tutorial/position.html
 	 function getElementPosition(element) {
 		var elem=element, tagname="", x=0, y=0;
@@ -273,6 +385,8 @@ juggletest.start = function(){
 	{
 		document.getElementById("mouseX").innerHTML="Mouse X: " + mouseX;
 		document.getElementById("mouseY").innerHTML="Mouse Y: " + mouseY;
+		document.getElementById("points").innerHTML="Points: " + points;
+		document.getElementById("fruits").innerHTML="Fruits Dropped: " + fruitsDropped;
 	}
 }
 
