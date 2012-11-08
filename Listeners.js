@@ -78,11 +78,15 @@ function SetupKeyboardListener(scene, rightHand, leftHand)
 	});
 }
 	
-function SetupMouseListener(world, scene)
+function SetupMouseListener(debug, world, scene)
 {	
 	//track where the mouse is on screen and lock to screen boundries
 	document.addEventListener(['mousemove'], function(e){
-		var canvasPosition = getElementPosition(document.getElementById("canvas"));
+		if (debug)
+			{var canvasPosition = getElementPosition(document.getElementById("canvas"));}
+		else
+			{var canvasPosition = getElementPosition(document.body);}
+		
 		mouseX = e.clientX - canvasPosition.x;
         mouseY = e.clientY - canvasPosition.y;
 		if (mouseX > 600) {mouseX = 600;}

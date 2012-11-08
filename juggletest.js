@@ -11,10 +11,10 @@ goog.require('juggletest.BoxBuilder');
 goog.require('juggletest.Listeners');
 
 // entrypoint
-juggletest.start = function(){
+juggletest.start = function(debug){
 			
 			//Lime2D variables
-	var 	director = new lime.Director(document.getElementById("canvas"),600,400)
+	var 	director
 		,	gameplayScene = new lime.Scene()
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
@@ -26,6 +26,11 @@ juggletest.start = function(){
 		,	world
 		;
 
+	if (debug)
+		{director = new lime.Director(document.getElementById("canvas"),600,400)}
+	else
+		{director = new lime.Director(document.body,600,400)}
+		
 	//Setup the game
 	director.replaceScene(gameplayScene);
 	StartGame();
@@ -72,8 +77,9 @@ juggletest.start = function(){
 
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand);
 		SetupCollisionListener(world);
-		SetupMouseListener(world, gameplayScene);
-		setupDebugWindow();
+		SetupMouseListener(debug, world, gameplayScene);
+		if (debug)
+			{setupDebugWindow();}
 		
 		//generate the first fruit immediately
 		GenerateFruit(world);
@@ -82,7 +88,9 @@ juggletest.start = function(){
 	}
 		
 	//Add debug info to the page
-	lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);	
+	if (debug)
+	{lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);}
+	
 	function PrintDebug()
 	{
 		document.getElementById("mouseX").innerHTML="Mouse X: " + mouseX;
