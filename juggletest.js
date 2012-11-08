@@ -6,6 +6,10 @@ goog.provide('juggletest');
 goog.require('lime.Director');
 goog.require('lime.Scene');
 goog.require('lime.Layer');
+goog.require('lime.RoundedRect');
+goog.require('lime.Circle');
+goog.require('lime.Label');
+goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
 goog.require('juggletest.BoxBuilder');
 goog.require('juggletest.Listeners');
@@ -16,6 +20,8 @@ juggletest.start = function(debug){
 			//Lime2D variables
 	var 	director
 		,	gameplayScene = new lime.Scene()
+		,	titleScene
+		,	buttonLayer
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
@@ -24,16 +30,46 @@ juggletest.start = function(debug){
 		,	points = 0
 		,	fruitsDropped = 0
 		,	world
+		,	screenWidth = 600
+		,	screenHeight = 400
 		;
 
 	if (debug)
-		{director = new lime.Director(document.getElementById("canvas"),600,400)}
+	{
+		director = new lime.Director(document.getElementById("canvas"),screenWidth,screenHeight);
+		director.replaceScene(gameplayScene);
+		lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);
+		StartGame();
+	}
 	else
-		{director = new lime.Director(document.body,600,400)}
+	{
+		director = new lime.Director(document.body,screenWidth,screenHeight);
+		SetupTitleScreen(titleScene);
+		director.replaceScene(titleScene);
+	}
+	
+	function SetupTitleScreen()
+	{
+		titleScene = new lime.Scene();
+		buttonLayer = new lime.Layer();
+		titleScene.appendChild(buttonLayer);
+		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
+		var button = new lime.RoundedRect().setSize(200,50).setRadius(10).setFill('#c00');
+		var lbl = new lime.Label().setSize(160,50).setFontSize(30).setText('Start Game');
+		buttonLayer.appendChild(button);
+		buttonLayer.appendChild(lbl);
 		
-	//Setup the game
-	director.replaceScene(gameplayScene);
-	StartGame();
+		//Listener for clicks
+		goog.events.listen(buttonLayer,['mousedown'],function(e){
+			buttonLayer.runAction(new lime.animation.FadeTo(.5).setDuration(.2));
+			
+			e.swallow(['mouseup'],function()
+			{
+				buttonLayer.runAction(new lime.animation.FadeTo(1).setDuration(.2))
+			});
+            
+		});
+	}
 	
 	function setupDebugWindow()
 	{
@@ -86,11 +122,7 @@ juggletest.start = function(debug){
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 10000, 0)
 	}
-		
-	//Add debug info to the page
-	if (debug)
-	{lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);}
-	
+
 	function PrintDebug()
 	{
 		document.getElementById("mouseX").innerHTML="Mouse X: " + mouseX;
