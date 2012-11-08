@@ -14,7 +14,7 @@ goog.require('juggletest.Listeners');
 juggletest.start = function(){
 			
 			//Lime2D variables
-	var 	director = new lime.Director(document.body,600,400)
+	var 	director = new lime.Director(document.getElementById("canvas"),600,400)
 	    ,	scene = new lime.Scene()
 	    ,	layer = new lime.Layer().setPosition(0,0)
 			//Box2d required includes
