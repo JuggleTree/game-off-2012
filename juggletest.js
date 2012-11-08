@@ -15,38 +15,21 @@ juggletest.start = function(){
 			
 			//Lime2D variables
 	var 	director = new lime.Director(document.getElementById("canvas"),600,400)
-	    ,	scene = new lime.Scene()
-	    ,	layer = new lime.Layer().setPosition(0,0)
+		,	gameplayScene = new lime.Scene()
 			//Box2d required includes
-	    ,   b2Vec2 = Box2D.Common.Math.b2Vec2
-		,   b2AABB = Box2D.Collision.b2AABB
-		,	b2BodyDef = Box2D.Dynamics.b2BodyDef
-		,	b2Body = Box2D.Dynamics.b2Body
-		,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
-		,	b2Fixture = Box2D.Dynamics.b2Fixture
+		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
-		,	b2MassData = Box2D.Collision.Shapes.b2MassData
-		,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
-		,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
 		,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
-		,   b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
-		,	b2ContactListener = Box2D.Dynamics.b2ContactListener
-		,	b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
 			//objects for the game
 		,	points = 0
 		,	fruitsDropped = 0
+		,	world
 		;
 
-    //add layer and title to the scene
-    scene.appendChild(layer);
-		
-	//initialize the world
-	var world = new b2World
-	(
-		new b2Vec2(0, 5),    //gravity
-		true                 //allow sleep
-	);
-
+	//Setup the game
+	director.replaceScene(gameplayScene);
+	StartGame();
+	
 	function setupDebugWindow()
 	{
 		var debugDraw = new b2DebugDraw();
@@ -59,7 +42,7 @@ juggletest.start = function(){
 		 
 		window.setInterval(update, 1000 / 60);
 	}
-	 
+		 
 	function update() 
 	{
 		world.Step(1 / 60, 10, 10);
@@ -73,27 +56,32 @@ juggletest.start = function(){
 				world.DestroyBody(fruitToRemove.pop());
 			}
 	};
-	
+		
+	function StartGame()
+	{
+		//initialize the world
+	world = new b2World
+	(
+		new b2Vec2(0, 2),    //gravity
+		true                 //allow sleep
+	);
+		createBoundries(world);
+		
+		var rightHand = createHand(world, 11, 12, "right"),
+			leftHand = createHand(world, 7, 12, "left");
 
-	//Setup the game
-	createBoundries(world);
-	
-	var rightHand = createHand(world, 11, 12, "right"),
-		leftHand = createHand(world, 7, 12, "left");
-
-	SetupKeyboardListener(scene, rightHand, leftHand);
-	SetupCollisionListener(world);
-	SetupMouseListener(world, scene);
-	setupDebugWindow();
-	
-	//Schedule an apple to fall every 5 seconds
-	lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 1000, 0)
-	
-	// set current scene active
-	director.replaceScene(scene);
-
-	
-	//debug stuff
+		SetupKeyboardListener(gameplayScene, rightHand, leftHand);
+		SetupCollisionListener(world);
+		SetupMouseListener(world, gameplayScene);
+		setupDebugWindow();
+		
+		//generate the first fruit immediately
+		GenerateFruit(world);
+		//Schedule a fruit to fall every 10 seconds
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 10000, 0)
+	}
+		
+	//Add debug info to the page
 	lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);	
 	function PrintDebug()
 	{
