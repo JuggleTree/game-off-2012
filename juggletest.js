@@ -23,6 +23,7 @@ juggletest.start = function(debug){
 		,	titleScene
 		,	fruitLayer
 		,	buttonLayer
+		,	backgroundLayer
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
@@ -107,6 +108,9 @@ juggletest.start = function(debug){
 	{
 		gameplayScene = new lime.Scene();
 		fruitLayer = new lime.Layer();
+		backgroundLayer = new lime.Layer();
+		backgroundLayer.appendChild(new lime.Sprite().setFill('#afa').setSize(screenWidth*2,screenHeight*2));
+		gameplayScene.appendChild(backgroundLayer);
 		gameplayScene.appendChild(fruitLayer);
 		director.replaceScene(gameplayScene);
 		//initialize the world
@@ -131,7 +135,7 @@ juggletest.start = function(debug){
 		//generate the first fruit immediately
 		GenerateFruit(world, fruitLayer);
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 10000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 5000, 0)
 		//Tell Box2d to update every frame
 		if (!debug)
 		{

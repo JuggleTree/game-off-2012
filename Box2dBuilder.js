@@ -71,7 +71,7 @@ function createHand(world, x, y, name)
 	var hand = world.CreateBody(bodyDef);
 		var texture = new lime.Sprite()
 		.setFill('#c00')
-		.setSize(1*30, 0.1*30);
+		.setSize(1*2*30, 0.1*2*30);
 	hand.SetUserData(new gameObject("hand",name,texture));
 	hand.SetSleepingAllowed(false);
 	
@@ -98,7 +98,7 @@ function createApple(world, x, y, size)
 	var apple = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/apple.png')
-		.setSize(size*38, size*31);
+		.setSize(size*30, size*24.27);
 	apple.SetUserData(new gameObject("fruit","apple",texture));
 	apple.SetAngle(Math.PI);
 	
@@ -109,22 +109,22 @@ function createApple(world, x, y, size)
 	fixDef.restitution = 0.2;
 
 	fixDef.shape = new b2PolygonShape;
-	fixDef.shape.SetAsArray([new b2Vec2(0*size,-0.32*size),new b2Vec2(0.24*size,-0.34*size),new b2Vec2(0.5*size,-0.1*size),new b2Vec2(0.48*size,0.2*size)],4);
+	fixDef.shape.SetAsArray([new b2Vec2(0.24*size,-0.34*size),new b2Vec2(0.5*size,-0.1*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(0*size,-0.32*size)],4);
 	apple.CreateFixture(fixDef);
 
-	fixDef.shape.SetAsArray([new b2Vec2(0.48*size,0.2*size),new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.3*size,0.24*size),new b2Vec2(-0.5*size,0.1*size),new b2Vec2(-0.5*size,-0.08*size)],5);
+	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.3*size,0.24*size),new b2Vec2(-0.5*size,0.1*size),new b2Vec2(-0.5*size,-0.08*size),new b2Vec2(0.48*size,0.2*size)],5);
 	apple.CreateFixture(fixDef);
 	
-	fixDef.shape.SetAsArray([new b2Vec2(-0.5*size,-0.08*size),new b2Vec2(-0.28*size,-0.34*size),new b2Vec2(-0.18*size,-0.4*size),new b2Vec2(-0.1*size,-0.4*size),new b2Vec2(0*size,-0.32*size),new b2Vec2(0.48*size,0.2*size)],6);
+	fixDef.shape.SetAsArray([new b2Vec2(-0.28*size,-0.34*size),new b2Vec2(-0.18*size,-0.4*size),new b2Vec2(-0.1*size,-0.4*size),new b2Vec2(0*size,-0.32*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(-0.5*size,-0.08*size)],6);
 	apple.CreateFixture(fixDef);
 	
-	fixDef.shape.SetAsArray([new b2Vec2(0.16*size,0.32*size),new b2Vec2(0.2*size,0.4*size),new b2Vec2(-0.04*size,0.3*size)],3);
+	fixDef.shape.SetAsArray([new b2Vec2(0.2*size,0.4*size),new b2Vec2(-0.04*size,0.3*size),new b2Vec2(0.16*size,0.32*size)],3);
 	apple.CreateFixture(fixDef);
 	
-	fixDef.shape.SetAsArray([new b2Vec2(-0.04*size,0.3*size),new b2Vec2(-0.1*size,0.42*size),new b2Vec2(-0.2*size,0.36*size),new b2Vec2(-0.1*size,0.24*size)],4);
+	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.42*size),new b2Vec2(-0.2*size,0.36*size),new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.04*size,0.3*size)],4);
 	apple.CreateFixture(fixDef);
 	
-	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.24*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(0.3*size,0.32*size),new b2Vec2(0.16*size,0.32*size),new b2Vec2(-0.04*size,0.3*size)],5);
+	fixDef.shape.SetAsArray([new b2Vec2(0.48*size,0.2*size),new b2Vec2(0.3*size,0.32*size),new b2Vec2(0.16*size,0.32*size),new b2Vec2(-0.04*size,0.3*size),new b2Vec2(-0.1*size,0.24*size)],5);
 	apple.CreateFixture(fixDef);
 	
 	return apple;
