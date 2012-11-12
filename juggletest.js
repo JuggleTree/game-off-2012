@@ -21,11 +21,13 @@ juggletest.start = function(debug){
 	var 	director
 		,	gameplayScene = new lime.Scene()
 		,	titleScene
+		,	fruitLayer
 		,	buttonLayer
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
 		,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+		,	b2Body = Box2D.Dynamics.b2Body
 			//objects for the game
 		,	points = 0
 		,	fruitsDropped = 0
@@ -61,12 +63,14 @@ juggletest.start = function(debug){
 		
 		//Listener for clicks
 		goog.events.listen(buttonLayer,['mousedown'],function(e){
-			buttonLayer.runAction(new lime.animation.FadeTo(.5).setDuration(.2));
+			StartGame();
 			
-			e.swallow(['mouseup'],function()
-			{
-				buttonLayer.runAction(new lime.animation.FadeTo(1).setDuration(.2))
-			});
+			//buttonLayer.runAction(new lime.animation.FadeTo(.5).setDuration(.2));
+			
+			//e.swallow(['mouseup'],function()
+			//{
+				//buttonLayer.runAction(new lime.animation.FadeTo(1).setDuration(.2));
+			//});
             
 		});
 	}
@@ -84,6 +88,7 @@ juggletest.start = function(debug){
 		window.setInterval(update, 1000 / 60);
 	}
 		 
+	//This function is only used for Box2d debugging	 
 	function update() 
 	{
 		world.Step(1 / 60, 10, 10);
@@ -100,6 +105,10 @@ juggletest.start = function(debug){
 		
 	function StartGame()
 	{
+		gameplayScene = new lime.Scene();
+		fruitLayer = new lime.Layer();
+		gameplayScene.appendChild(fruitLayer);
+		director.replaceScene(gameplayScene);
 		//initialize the world
 	world = new b2World
 	(
@@ -110,6 +119,8 @@ juggletest.start = function(debug){
 		
 		var rightHand = createHand(world, 11, 12, "right"),
 			leftHand = createHand(world, 7, 12, "left");
+		fruitLayer.appendChild(rightHand.GetUserData().texture);
+		fruitLayer.appendChild(leftHand.GetUserData().texture);
 
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand);
 		SetupCollisionListener(world);
@@ -118,9 +129,34 @@ juggletest.start = function(debug){
 			{setupDebugWindow();}
 		
 		//generate the first fruit immediately
-		GenerateFruit(world);
+		GenerateFruit(world, fruitLayer);
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 10000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 10000, 0)
+		//Tell Box2d to update every frame
+		if (!debug)
+		{
+			lime.scheduleManager.schedule(function(dt) {
+				world.Step(dt / 1000, 8, 3);
+				world.ClearForces();
+			
+				//Remove objects
+				for (i=0;i<fruitToRemove.length;i++)
+					{
+						fruitsDropped++;
+						var fruit = fruitToRemove.pop();
+						fruitLayer.removeChild(fruit.GetUserData().texture);
+						world.DestroyBody(fruit);
+					}
+					
+				//Draw limeJS objects
+				for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
+				{
+					var position = b.GetPosition();
+					b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
+					b.GetUserData().texture.setPosition(position.x*30, position.y*30);
+				}
+			},this);
+		}
 	}
 
 	function PrintDebug()

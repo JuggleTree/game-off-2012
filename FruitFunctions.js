@@ -5,12 +5,13 @@ var		fruitToRemove = new Array()
 	,	rightHandJoint = "empty"
 	;
 
-function GenerateFruit(world)
+function GenerateFruit(world, fruitLayer)
 {
 	var x = Math.random() * 17 + 1;
 	var y = Math.random() * 3 + 1;
 	var size = Math.random() * 1 + 0.5;
-	createApple(world,x,y,size);
+	var apple = createApple(world,x,y,size);
+	fruitLayer.appendChild(apple.GetUserData().texture);
 }
 
 function RemoveFruit(fruit)

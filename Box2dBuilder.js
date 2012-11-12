@@ -1,5 +1,7 @@
 goog.provide('juggletest.BoxBuilder');
 
+goog.require('lime.Sprite');
+
  var   b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	b2BodyDef = Box2D.Dynamics.b2BodyDef
 	,	b2Body = Box2D.Dynamics.b2Body
@@ -13,10 +15,11 @@ goog.provide('juggletest.BoxBuilder');
 
 //Each Box2d body will have this game object attached to it
 //Data can be accessed by using the function b2body.GetUserData()
-function gameObject(type, name)
+function gameObject(type, name, texture)
 {
 	this.type=type; //ex: fruit, hand, powerup
 	this.name=name; //ex: apple, orange, watermelon
+	this.texture = texture;
 }
 	
 function createBoundries(world)
@@ -31,27 +34,31 @@ function createBoundries(world)
 	bodyDef.type = b2Body.b2_staticBody;
 	fixDef.shape = new b2PolygonShape;
 	
+	var texture = new lime.Sprite()
+		.setFill('#0c0')
+		.setSize(30, 30);
+	
 	fixDef.shape.SetAsBox(20, 2);
 	bodyDef.position.Set(10, 400 / 30 + 1.8);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","bottom"));
+	wall.SetUserData(new gameObject("wall","bottom",texture));
 	
 	bodyDef.position.Set(10, -1.8);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","top"));
+	wall.SetUserData(new gameObject("wall","top",texture));
 	
 	fixDef.shape.SetAsBox(2, 14);
 	bodyDef.position.Set(-1.8, 13);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","left"));
+	wall.SetUserData(new gameObject("wall","left",texture));
 	
 	bodyDef.position.Set(21.8, 13);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","right"));
+	wall.SetUserData(new gameObject("wall","right",texture));
 }
 
 function createHand(world, x, y, name)
@@ -62,7 +69,10 @@ function createHand(world, x, y, name)
 	bodyDef.position.Set(x,y);
 	
 	var hand = world.CreateBody(bodyDef);
-	hand.SetUserData(new gameObject("hand",name));
+		var texture = new lime.Sprite()
+		.setFill('#c00')
+		.setSize(1*30, 0.1*30);
+	hand.SetUserData(new gameObject("hand",name,texture));
 	hand.SetSleepingAllowed(false);
 	
 	//Create the Shape
@@ -86,7 +96,10 @@ function createApple(world, x, y, size)
 	bodyDef.type = b2Body.b2_dynamicBody;
 	
 	var apple = world.CreateBody(bodyDef)
-	apple.SetUserData(new gameObject("fruit","apple"));
+		var texture = new lime.Sprite()
+		.setFill('assets/apple.png')
+		.setSize(size*38, size*31);
+	apple.SetUserData(new gameObject("fruit","apple",texture));
 	apple.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -113,4 +126,6 @@ function createApple(world, x, y, size)
 	
 	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.24*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(0.3*size,0.32*size),new b2Vec2(0.16*size,0.32*size),new b2Vec2(-0.04*size,0.3*size)],5);
 	apple.CreateFixture(fixDef);
+	
+	return apple;
 }
