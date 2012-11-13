@@ -3,6 +3,7 @@ goog.provide('juggletest.FruitFunctions');
 var		fruitToRemove = new Array()
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
+  , heldFruit = []
 	;
 
 function GenerateFruit(world, fruitLayer)
@@ -21,51 +22,40 @@ function RemoveFruit(fruit)
 
 function CatchFruit(world, fruit, hand, handType)
 {
-	if (leftHandJoint == "empty" && handType == "left"
-		|| rightHandJoint == "empty" && handType == "right")
-	{
-		jointDef = new b2DistanceJointDef();
-		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
-		jointDef.collideConnected = true;
-		if (handType == "left")
-		{ leftHandJoint = world.CreateJoint(jointDef); }
-		else if (handType == "right")
-		{ rightHandJoint = world.CreateJoint(jointDef); }
-	}
+  //make sure fruit is not currently attached to something
+  if (!fruit.hasJoint)
+  {
+    fruit.hasJoint = true;
+    jointDef = new b2DistanceJointDef();
+    jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
+    jointDef.collideConnected = true;
+    heldFruit.push([world.CreateJoint(jointDef), fruit]);
+  }
 }
 
 function ThrowFruit(world)
 {
-	if (rightHandJoint != "empty")
-	{
-		if (rightHandJoint.GetBodyA().GetUserData().type == "fruit")
+  //fruits are currently attached
+  if (heldFruit.length > 0)
+  {
+    var temp = heldFruit.shift();
+    var currentJoint = temp[0];
+    var currentFruit = temp[1];
+
+    //get whichever body is the fruit
+    if (currentJoint.GetBodyA().GetUserData().type == "fruit")
 		{
-			world.DestroyJoint(rightHandJoint);
-			Throw(world, rightHandJoint.GetBodyA());
-			rightHandJoint = "empty";
-		}
-		else if (rightHandJoint.GetBodyB().GetUserData().type == "fruit")
-		{
-			world.DestroyJoint(rightHandJoint);
-			Throw(world, rightHandJoint.GetBodyB());
-			rightHandJoint = "empty";
-		}
-	}
-	else if (leftHandJoint != "empty")
-	{
-		if (leftHandJoint.GetBodyA().GetUserData().type == "fruit")
-		{
-			world.DestroyJoint(leftHandJoint);
-			Throw(world, leftHandJoint.GetBodyA());
-			leftHandJoint = "empty";
-		}
-		else if (leftHandJoint.GetBodyB().GetUserData().type == "fruit")
-		{
-			world.DestroyJoint(leftHandJoint);
-			Throw(world, leftHandJoint.GetBodyB());
-			leftHandJoint = "empty";
-		}
-	}
+      world.DestroyJoint(currentJoint);
+      Throw(world, currentJoint.GetBodyA());
+    }
+    else if (currentJoint.GetBodyB().GetUserData().type == "fruit")
+    {
+      world.DestroyJoint(currentJoint);
+      Throw(world, currentJoint.GetBodyA());
+    }
+    //remove joint check
+    currentFruit.hasJoint = false;
+  }
 }
 
 function Throw(world, fruit)

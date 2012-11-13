@@ -20,6 +20,7 @@ function gameObject(type, name, texture)
 	this.type=type; //ex: fruit, hand, powerup
 	this.name=name; //ex: apple, orange, watermelon
 	this.texture = texture;
+  this.hasJoint=false; // check to see if this is attached to anything
 }
 	
 function createBoundries(world)
