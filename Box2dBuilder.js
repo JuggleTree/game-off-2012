@@ -49,10 +49,11 @@ function createBoundries(world)
 	wall.CreateFixture(fixDef);
 	wall.SetUserData(new gameObject("wall","bottom",texture));
 	
-	bodyDef.position.Set(10, -1.8);
-	wall = world.CreateBody(bodyDef)
-	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","top",texture));
+	//I don't think we need a top wall
+	//bodyDef.position.Set(10, -1.8);
+	//wall = world.CreateBody(bodyDef)
+	//wall.CreateFixture(fixDef);
+	//wall.SetUserData(new gameObject("wall","top",texture));
 	
 	fixDef.shape.SetAsBox(2, 14);
 	bodyDef.position.Set(-1.8, 13);
@@ -100,12 +101,12 @@ function createApple(world, x, y, size)
 	bodyDef.position.Set(x,y);
 	bodyDef.type = b2Body.b2_dynamicBody;
 	
-	var apple = world.CreateBody(bodyDef)
+	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/apple.png')
 		.setSize(size*30, size*24.27);
-	apple.SetUserData(new gameObject("fruit","apple",texture));
-	apple.SetAngle(Math.PI);
+	body.SetUserData(new gameObject("fruit","apple",texture));
+	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -115,22 +116,426 @@ function createApple(world, x, y, size)
 
 	fixDef.shape = new b2PolygonShape;
 	fixDef.shape.SetAsArray([new b2Vec2(0.24*size,-0.34*size),new b2Vec2(0.5*size,-0.1*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(0*size,-0.32*size)],4);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 
 	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.3*size,0.24*size),new b2Vec2(-0.5*size,0.1*size),new b2Vec2(-0.5*size,-0.08*size),new b2Vec2(0.48*size,0.2*size)],5);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 	
 	fixDef.shape.SetAsArray([new b2Vec2(-0.28*size,-0.34*size),new b2Vec2(-0.18*size,-0.4*size),new b2Vec2(-0.1*size,-0.4*size),new b2Vec2(0*size,-0.32*size),new b2Vec2(0.48*size,0.2*size),new b2Vec2(-0.5*size,-0.08*size)],6);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 	
 	fixDef.shape.SetAsArray([new b2Vec2(0.2*size,0.4*size),new b2Vec2(-0.04*size,0.3*size),new b2Vec2(0.16*size,0.32*size)],3);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 	
 	fixDef.shape.SetAsArray([new b2Vec2(-0.1*size,0.42*size),new b2Vec2(-0.2*size,0.36*size),new b2Vec2(-0.1*size,0.24*size),new b2Vec2(-0.04*size,0.3*size)],4);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 	
 	fixDef.shape.SetAsArray([new b2Vec2(0.48*size,0.2*size),new b2Vec2(0.3*size,0.32*size),new b2Vec2(0.16*size,0.32*size),new b2Vec2(-0.04*size,0.3*size),new b2Vec2(-0.1*size,0.24*size)],5);
-	apple.CreateFixture(fixDef);
+	body.CreateFixture(fixDef);
 	
-	return apple;
+	return body;
+}
+
+function createBanana(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/banana.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","banana",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.95*size,0.54*size),new b2Vec2(0.95*size,0.68*size),new b2Vec2(0.86*size,0.7*size),new b2Vec2(0.86*size,0.55*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.15*size,0.26*size),new b2Vec2(0.07*size,0.33*size),new b2Vec2(0*size,0.28*size),new b2Vec2(0*size,0.2*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0*size,0.2*size),new b2Vec2(0.15*size,0.06*size),new b2Vec2(0.28*size,0*size),new b2Vec2(0.59*size,0*size),new b2Vec2(0.6*size,0.26*size),new b2Vec2(0.15*size,0.26*size)],6);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.59*size,0*size),new b2Vec2(0.84*size,0.07*size),new b2Vec2(0.93*size,0.14*size),new b2Vec2(1*size,0.26*size),new b2Vec2(1*size,0.48*size),new b2Vec2(0.95*size,0.54*size),new b2Vec2(0.82*size,0.46*size),new b2Vec2(0.60*size,0.26*size)],8);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.95*size,0.54*size),new b2Vec2(0.86*size,0.55*size),new b2Vec2(0.82*size,0.46*size)],3);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createGrape(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/grape.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","grape",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.27*size,0.11*size),new b2Vec2(0.36*size,0*size),new b2Vec2(0.59*size,0*size),new b2Vec2(0.65*size,0.09*size),new b2Vec2(0.65*size,0.15*size)],5);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.65*size,0.15*size),new b2Vec2(0.79*size,0.15*size),new b2Vec2(0.79*size,0.3*size)],3);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.79*size,0.3*size),new b2Vec2(0.15*size,0.5*size),new b2Vec2(0.15*size,0.11*size),new b2Vec2(0.27*size,0.11*size),new b2Vec2(0.65*size,0.15*size)],5);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.90*size,0.94*size),new b2Vec2(0.90*size,1.05*size),new b2Vec2(0.84*size,1.1*size),new b2Vec2(0.65*size,1.1*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.65*size,1.1*size),new b2Vec2(0.89*size,0.54*size),new b2Vec2(1*size,0.65*size),new b2Vec2(1*size,0.85*size),new b2Vec2(0.90*size,0.94*size)],5);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.71*size,1.34*size),new b2Vec2(0.89*size,1.34*size),new b2Vec2(0.89*size,1.5*size),new b2Vec2(0.76*size,1.5*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.76*size,1.5*size),new b2Vec2(0.5*size,1.30*size),new b2Vec2(0.64*size,1.28*size),new b2Vec2(0.71*size,1.34*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.5*size,1.30*size),new b2Vec2(0.65*size,1.10*size),new b2Vec2(0.64*size,1.28*size)],3);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.33*size,1.20*size),new b2Vec2(0.11*size,1.20*size),new b2Vec2(0.10*size,0.83*size)],3);
+	body.CreateFixture(fixDef);	
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.10*size,0.83*size),new b2Vec2(0*size,0.72*size),new b2Vec2(0*size,0.56*size)],3);
+	body.CreateFixture(fixDef);	
+
+	fixDef.shape.SetAsArray([new b2Vec2(0*size,0.56*size),new b2Vec2(0.15*size,0.5*size),new b2Vec2(0.79*size,0.30*size),new b2Vec2(0.89*size,0.30*size),new b2Vec2(0.89*size,0.54*size),new b2Vec2(0.65*size,1.10*size)],6);
+	body.CreateFixture(fixDef);	
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.65*size,1.10*size),new b2Vec2(0.5*size,1.30*size),new b2Vec2(0.40*size,1.30*size),new b2Vec2(0.33*size,1.20*size),new b2Vec2(0.10*size,0.83*size),new b2Vec2(0*size,0.56*size)],6);
+	body.CreateFixture(fixDef);		
+	return body;
+}
+
+function createCherry(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/cherry.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","cherry",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.64*size,1.46*size),new b2Vec2(0.99*size,1.89*size),new b2Vec2(0.77*size,1.89*size),new b2Vec2(0.45*size,1.54*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.45*size,1.54*size),new b2Vec2(0.45*size,1.05*size),new b2Vec2(0.64*size,1.03*size),new b2Vec2(0.64*size,1.46*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.45*size,1.05*size),new b2Vec2(0*size,0.91*size),new b2Vec2(0*size,0.13*size),new b2Vec2(0.15*size,0*size),new b2Vec2(0.81*size,0.01*size),new b2Vec2(0.99*size,0.18*size),new b2Vec2(0.99*size,0.74*size),new b2Vec2(0.64*size,1.03*size)],8);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createLemon(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/lemon.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","lemon",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.69*size,1.11*size),new b2Vec2(0.69*size,1.19*size),new b2Vec2(0.65*size,1.26*size),new b2Vec2(0.53*size,1.26*size),new b2Vec2(0.48*size,1.15*size)],5);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.48*size,1.15*size),new b2Vec2(0.26*size,1.03*size),new b2Vec2(0.8*size,0.92*size),new b2Vec2(0.69*size,1.11*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.26*size,1.03*size),new b2Vec2(0.11*size,0.95*size),new b2Vec2(0*size,0.82*size),new b2Vec2(0*size,0.39*size),new b2Vec2(0.05*size,0.24*size),new b2Vec2(0.39*size,0*size),new b2Vec2(0.55*size,0*size)],7);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.55*size,0*size),new b2Vec2(0.79*size,0.14*size),new b2Vec2(1*size,0.36*size),new b2Vec2(1*size,0.65*size),new b2Vec2(0.89*size,0.89*size),new b2Vec2(0.80*size,0.92*size),new b2Vec2(0.26*size,1.03*size)],7);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createOrange(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/orange.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","orange",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.96*size,0.28*size),new b2Vec2(1*size,0.37*size),new b2Vec2(1*size,0.56*size)],3);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(1*size,0.56*size),new b2Vec2(0.92*size,0.74*size),new b2Vec2(0.87*size,0.84*size),new b2Vec2(0.67*size,0.96*size),new b2Vec2(0.41*size,0.96*size),new b2Vec2(0.19*size,0.88*size),new b2Vec2(0*size,0.67*size)],7);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0*size,0.67*size),new b2Vec2(0*size,0.28*size),new b2Vec2(0.13*size,0.12*size),new b2Vec2(0.33*size,0*size),new b2Vec2(0.79*size,0*size),new b2Vec2(0.89*size,0.12*size),new b2Vec2(0.96*size,0.28*size),new b2Vec2(1*size,0.56*size)],8);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createPear(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/pear.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","pear",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.66*size,1.35*size),new b2Vec2(0.66*size,1.55*size),new b2Vec2(0.55*size,1.56*size),new b2Vec2(0.58*size,1.34*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.35*size,1.05*size),new b2Vec2(0.08*size,0.81*size),new b2Vec2(0*size,0.66*size),new b2Vec2(0*size,0.31*size),new b2Vec2(0.05*size,0.21*size),new b2Vec2(0.09*size,0.13*size),new b2Vec2(0.2*size,0.05*size),new b2Vec2(0.32*size,0*size)],8);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.32*size,0*size),new b2Vec2(0.57*size,0*size),new b2Vec2(0.76*size,0.08*size),new b2Vec2(0.88*size,0.18*size),new b2Vec2(1*size,0.42*size)],5);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(1*size,0.42*size),new b2Vec2(1*size,0.63*size),new b2Vec2(0.89*size,1.07*size),new b2Vec2(0.83*size,1.27*size),new b2Vec2(0.35*size,1.05*size),new b2Vec2(0.32*size,0*size)],6);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.83*size,1.27*size),new b2Vec2(0.66*size,1.35*size),new b2Vec2(0.58*size,1.34*size),new b2Vec2(0.38*size,1.23*size),new b2Vec2(0.35*size,1.05*size)],5);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createPineapple(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/pineapple.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","pineapple",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.32*size,1.19*size),new b2Vec2(0.22*size,1.11*size),new b2Vec2(0.08*size,0.74*size),new b2Vec2(0.05*size,0.51*size),new b2Vec2(0.04*size,0.18*size),new b2Vec2(0.15*size,0.07*size)],6);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.15*size,0.07*size),new b2Vec2(0.36*size,0*size),new b2Vec2(0.55*size,0*size),new b2Vec2(0.87*size,0.12*size),new b2Vec2(0.83*size,0.81*size),new b2Vec2(0.71*size,1.17*size),new b2Vec2(0.32*size,1.19*size)],7);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.86*size,1.4*size),new b2Vec2(1*size,1.52*size),new b2Vec2(0.76*size,1.51*size),new b2Vec2(0.77*size,1.36*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.77*size,1.27*size),new b2Vec2(0.90*size,1.28*size),new b2Vec2(1*size,1.39*size),new b2Vec2(0.86*size,1.40*size),new b2Vec2(0.77*size,1.36*size)],5);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.76*size,1.51*size),new b2Vec2(0.77*size,1.61*size),new b2Vec2(0.72*size,1.80*size),new b2Vec2(0.58*size,1.68*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.58*size,1.68*size),new b2Vec2(0.55*size,1.87*size),new b2Vec2(0.47*size,2.07*size),new b2Vec2(0.34*size,2.17*size),new b2Vec2(0.35*size,1.64*size)],5);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.35*size,1.64*size),new b2Vec2(0.23*size,1.31*size),new b2Vec2(0.32*size,1.19*size),new b2Vec2(0.71*size,1.17*size),new b2Vec2(0.77*size,1.27*size),new b2Vec2(0.76*size,1.51*size),new b2Vec2(0.58*size,1.68*size)],7);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.35*size,1.64*size),new b2Vec2(0.16*size,1.39*size),new b2Vec2(0.10*size,1.30*size),new b2Vec2(0.12*size,1.21*size),new b2Vec2(0.23*size,1.31*size)],5);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.13*size,1.63*size),new b2Vec2(-0.01*size,1.58*size),new b2Vec2(0.16*size,1.39*size),new b2Vec2(0.35*size,1.64*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.35*size,1.64*size),new b2Vec2(0.06*size,1.86*size),new b2Vec2(0.06*size,1.75*size),new b2Vec2(0.13*size,1.63*size)],4);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createPlum(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/plum.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","plum",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.27*size,0*size),new b2Vec2(0.64*size,0*size),new b2Vec2(0.87*size,0.12*size),new b2Vec2(1*size,0.29*size),new b2Vec2(0.99*size,1*size),new b2Vec2(0.59*size,1.22*size)],6);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.59*size,1.22*size),new b2Vec2(0.42*size,1.22*size),new b2Vec2(0.22*size,1.12*size),new b2Vec2(-0.01*size,0.89*size),new b2Vec2(0*size,0.29*size),new b2Vec2(0.05*size,0.19*size),new b2Vec2(0.27*size,0*size)],7);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createStrawberry(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/strawberry.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","strawberry",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.72*size,1.1*size),new b2Vec2(0.62*size,1.1*size),new b2Vec2(0.82*size,0.92*size)],3);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.82*size,0.92*size),new b2Vec2(0.94*size,1.17*size),new b2Vec2(0.75*size,1.17*size),new b2Vec2(0.72*size,1.10*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.62*size,1.1*size),new b2Vec2(0.58*size,1.16*size),new b2Vec2(0.49*size,1.16*size),new b2Vec2(0.46*size,1.09*size)],4);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.38*size,1.09*size),new b2Vec2(0.30*size,1.17*size),new b2Vec2(0.22*size,1.12*size),new b2Vec2(0.30*size,1.03*size)],4);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.30*size,1.03*size),new b2Vec2(0.46*size,1.09*size),new b2Vec2(0.38*size,1.09*size)],3);
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.30*size,1.03*size),new b2Vec2(0*size,0.83*size),new b2Vec2(0*size,0.35*size),new b2Vec2(0.17*size,0*size),new b2Vec2(0.65*size,0*size),new b2Vec2(1*size,0.45*size)],6);
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(1*size,0.45*size),new b2Vec2(1*size,0.66*size),new b2Vec2(0.82*size,0.92*size),new b2Vec2(0.62*size,1.1*size),new b2Vec2(0.46*size,1.09*size),new b2Vec2(0.30*size,1.03*size)],6);
+	body.CreateFixture(fixDef);
+	
+	return body;
+}
+
+function createWatermelon(world, x, y, size)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.position.Set(x,y);
+	bodyDef.type = b2Body.b2_dynamicBody;
+	
+	var body = world.CreateBody(bodyDef)
+		var texture = new lime.Sprite()
+		.setFill('assets/watermelon.png')
+		.setSize(size*30, size*24.27);
+	body.SetUserData(new gameObject("fruit","watermelon",texture));
+	body.SetAngle(Math.PI);
+	
+	//Create the Polygons
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsArray([new b2Vec2(0.24*size,0*size),new b2Vec2(0.37*size,0*size),new b2Vec2(0.55*size,0.04*size),new b2Vec2(0.7*size,0.12*size),new b2Vec2(0.82*size,0.25*size),new b2Vec2(0.93*size,0.4*size)],6);	
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.93*size,0.4*size),new b2Vec2(0.98*size,0.5*size),new b2Vec2(1*size,0.61*size),new b2Vec2(1*size,0.69*size),new b2Vec2(0.94*size,0.83*size),new b2Vec2(0.80*size,0.95*size),new b2Vec2(0.24*size,0*size)],7);	
+	body.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.80*size,0.95*size),new b2Vec2(0.76*size,0.96*size),new b2Vec2(0.57*size,0.96*size),new b2Vec2(0.37*size,0.89*size),new b2Vec2(0.29*size,0.84*size),new b2Vec2(0.16*size,0.71*size),new b2Vec2(0*size,0.48*size)],7);	
+	body.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0*size,0.48*size),new b2Vec2(0*size,0.27*size),new b2Vec2(0.03*size,0.17*size),new b2Vec2(0.08*size,0.1*size),new b2Vec2(0.17*size,0.04*size),new b2Vec2(0.24*size,0*size),new b2Vec2(0.80*size,0.95*size)],7);	
+	body.CreateFixture(fixDef);
+	
+	return body;
 }
