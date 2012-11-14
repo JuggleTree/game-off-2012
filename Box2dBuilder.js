@@ -15,12 +15,16 @@ goog.require('lime.Sprite');
 
 //Each Box2d body will have this game object attached to it
 //Data can be accessed by using the function b2body.GetUserData()
-function gameObject(type, name, texture)
+function gameObject(type, name, texture, value)
 {
 	this.type=type; //ex: fruit, hand, powerup
 	this.name=name; //ex: apple, orange, watermelon
 	this.texture = texture;
 	this.hasJoint=false; // check to see if this is attached to anything
+	if(!value)
+		this.value = 0;
+	else
+		this.value = value;
 }
 	
 function createBoundries(world)
