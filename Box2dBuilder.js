@@ -75,9 +75,14 @@ function createHand(world, x, y, name)
 	bodyDef.position.Set(x,y);
 	
 	var hand = world.CreateBody(bodyDef);
-		var texture = new lime.Sprite()
-		.setFill('#c00')
-		.setSize(1*2*30, 0.1*2*30);
+	var texture = new lime.Sprite()
+		.setSize(1.4*30, 0.4*30);
+		
+	if (name=="left")
+		texture.setFill('assets/LeftHand.png');
+	else if (name=="right")
+		texture.setFill('assets/RightHand.png');
+		
 	hand.SetUserData(new gameObject("hand",name,texture));
 	hand.SetSleepingAllowed(false);
 	
@@ -87,11 +92,47 @@ function createHand(world, x, y, name)
 	fixDef.friction = 0.5;
 	fixDef.restitution = 0;
 	fixDef.shape = new b2PolygonShape;
-	fixDef.shape.SetAsBox(1,0.1);
+	fixDef.shape.SetAsBox(0.7,0.05);
 	hand.CreateFixture(fixDef);
 	
 	//Return the hand as a reference so the player can move it
 	return hand;
+}
+
+//Currently the juggler doesn't have a box2d body so fruits will pass through him
+function createJuggler(world, x, y, jugglerLayer)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.type = b2Body.b2_kinematicBody;
+	bodyDef.position.Set(x,y);
+	var juggler = world.CreateBody(bodyDef);
+
+	var animation = true;
+	var texture = new lime.Sprite()
+		.setSize(49, 88)
+		.setFill('assets/Juggler0.png')
+		.setPosition(x*30,y*30);
+		
+	juggler.SetUserData(new gameObject("juggler","juggler",texture));
+	juggler.SetSleepingAllowed(false);
+
+	//animate the juggler
+	lime.scheduleManager.scheduleWithDelay(function (dt)
+		{
+			if (animation)
+			{
+				texture.setFill('assets/Juggler1.png');
+				animation = false;
+			}
+			else
+			{
+				texture.setFill('assets/Juggler0.png');
+				animation = true;
+			}
+		}, null, 600, 0)
+		
+	return juggler;
 }
 
 function createApple(world, x, y, size)

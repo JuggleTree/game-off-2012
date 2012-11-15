@@ -22,6 +22,7 @@ juggletest.start = function(debug){
 		,	gameplayScene = new lime.Scene()
 		,	titleScene
 		,	fruitLayer
+		,	jugglerLayer
 		,	buttonLayer
 		,	backgroundLayer
 			//Box2d required includes
@@ -106,27 +107,41 @@ juggletest.start = function(debug){
 		
 	function StartGame()
 	{
+		//initialize objects
 		gameplayScene = new lime.Scene();
 		fruitLayer = new lime.Layer();
 		backgroundLayer = new lime.Layer();
+		jugglerLayer = new lime.Layer()
+		
+		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill('#afa').setSize(screenWidth*2,screenHeight*2));
+		
+		//add the layers to the scene
 		gameplayScene.appendChild(backgroundLayer);
+		gameplayScene.appendChild(jugglerLayer);
 		gameplayScene.appendChild(fruitLayer);
+		
 		director.replaceScene(gameplayScene);
+		
 		//initialize the world
-	world = new b2World
-	(
-		new b2Vec2(0, 2),    //gravity
-		true                 //allow sleep
-	);
+		world = new b2World
+		(
+			new b2Vec2(0, 2),    //gravity
+			true                 //allow sleep
+		);
 		createBoundries(world);
 		
+		//Create the juggler
 		var rightHand = createHand(world, 11, 12, "right"),
-			leftHand = createHand(world, 7, 12, "left");
-		fruitLayer.appendChild(rightHand.GetUserData().texture);
-		fruitLayer.appendChild(leftHand.GetUserData().texture);
+			leftHand = createHand(world, 7, 12, "left"),
+			juggler = createJuggler(world, 9,12);
+			
+		jugglerLayer.appendChild(juggler.GetUserData().texture);
+		jugglerLayer.appendChild(rightHand.GetUserData().texture);
+		jugglerLayer.appendChild(leftHand.GetUserData().texture);
 
-		SetupKeyboardListener(gameplayScene, rightHand, leftHand);
+		//Setup Listeners
+		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler);
 		SetupCollisionListener(world);
 		SetupMouseListener(debug, world, gameplayScene);
 		if (debug)
