@@ -81,37 +81,35 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler)
 	});
 }
 	
-function SetupMouseListener(debug, world, scene)
-{	
-	if (debug)
+function SetupMouseListener(world, scene)
+{
+	var canvasPosition = getElementPosition(document.body);
+
+	goog.events.listen(scene, ['mousemove'], function(e)
 	{
-		//track where the mouse is on screen and lock to screen boundries
-		document.addEventListener(['mousemove'], function(e){
-			if (debug)
-				{var canvasPosition = getElementPosition(document.getElementById("canvas"));}
-			else
-				{var canvasPosition = getElementPosition(document.body);}
-			
-			mouseX = e.clientX - canvasPosition.x;
-			mouseY = e.clientY - canvasPosition.y;
-			if (mouseX > 600) {mouseX = 600;}
-			if (mouseY > 400) {mouseY = 400;}
-			mouseX = mouseX/30;
-			mouseY = mouseY/30;
-		},true);
-	}
-	else
-	{
-		goog.events.listen(scene, ['mousemove'], function(e)
-		{
-			var position = e.position;
-			mouseX = position.x/30;
-			mouseY = position.y/30;
-		});
-	}
+		var position = e.position;
+		mouseX = position.x/30;
+		mouseY = position.y/30;
+	});
 	
 	goog.events.listen(scene, ['click'], function(e){ThrowFruit(world)});
-}	
+}
+
+function SetupDebugMouseListener(world, scene)
+{
+	//track where the mouse is on screen and lock to screen boundries
+	document.addEventListener(['mousemove'], function(e){
+		var canvasPosition = getElementPosition(document.getElementById("canvas"));
+		mouseX = e.clientX - canvasPosition.x;
+		mouseY = e.clientY - canvasPosition.y;
+		if (mouseX > 600) {mouseX = 600;}
+		if (mouseY > 400) {mouseY = 400;}
+		mouseX = mouseX/30;
+		mouseY = mouseY/30;
+	},true);
+	
+	goog.events.listen(scene, ['click'], function(e){ThrowFruit(world)});
+}
 	 
  //mouse helper function to determine where the screen is located
  //http://js-tut.aardon.de/js-tut/tutorial/position.html

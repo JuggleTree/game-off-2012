@@ -13,13 +13,14 @@ goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
 goog.require('JuggleTree.BoxBuilder');
 goog.require('JuggleTree.Listeners');
+goog.require('JuggleTree.Debug');
 
 // entrypoint
 JuggleTree.start = function(debug){
 			
 			//Lime2D variables
 	var 	director
-		,	gameplayScene = new lime.Scene()
+		,	gameplayScene
 		,	titleScene
 		,	fruitLayer
 		,	jugglerLayer
@@ -29,7 +30,7 @@ JuggleTree.start = function(debug){
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
-		,	b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+
 		,	b2Body = Box2D.Dynamics.b2Body
 			//objects for the game
 		,	points = 0
@@ -41,10 +42,7 @@ JuggleTree.start = function(debug){
 
 	if (debug)
 	{
-		director = new lime.Director(document.getElementById("canvas"),screenWidth,screenHeight);
-		director.replaceScene(gameplayScene);
-		lime.scheduleManager.schedule(function (dt){PrintDebug()}, null);
-		StartGame();
+		SetupDebug(screenWidth, screenHeight);
 	}
 	else
 	{
@@ -69,44 +67,9 @@ JuggleTree.start = function(debug){
 		//Listener for clicks
 		goog.events.listen(startButton,['mousedown'],function(e){
 			StartGame();
-			
-			//buttonLayer.runAction(new lime.animation.FadeTo(.5).setDuration(.2));
-			
-			//e.swallow(['mouseup'],function()
-			//{
-				//buttonLayer.runAction(new lime.animation.FadeTo(1).setDuration(.2));
-			//});
             
 		});
 	}
-	
-	function setupDebugWindow()
-	{
-		var debugDraw = new b2DebugDraw();
-			debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
-			debugDraw.SetDrawScale(30.0);
-			debugDraw.SetFillAlpha(0.5);
-			debugDraw.SetLineThickness(1.0);
-			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
-			world.SetDebugDraw(debugDraw);
-		 
-		window.setInterval(update, 1000 / 60);
-	}
-		 
-	//This function is only used for Box2d debugging	 
-	function update() 
-	{
-		world.Step(1 / 60, 10, 10);
-		world.DrawDebugData();
-		world.ClearForces();
-		
-		//Remove objects
-		for (i=0;i<fruitToRemove.length;i++)
-			{
-				fruitsDropped++;
-				world.DestroyBody(fruitToRemove.pop());
-			}
-	};
 		
 	function StartGame()
 	{
@@ -153,55 +116,46 @@ JuggleTree.start = function(debug){
 		//Setup Listeners
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler);
 		SetupCollisionListener(world);
-		SetupMouseListener(debug, world, gameplayScene);
-		if (debug)
-			{setupDebugWindow();}
+		SetupMouseListener(world, gameplayScene);
 		
 		//generate the first fruit immediately
 		GenerateFruit(world, fruitLayer);
+		
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 2000, 0)
+		
 		//Tell Box2d to update every frame
-		if (!debug)
-		{
-			lime.scheduleManager.schedule(function(dt) {
-				world.Step(dt / 1000, 8, 3);
-				world.ClearForces();
-			
-				//Remove objects
-				for (i=0;i<fruitToRemove.length;i++)
-					{
-						fruitsDropped++;
-						var fruit = fruitToRemove.pop();
-						fruitLayer.removeChild(fruit.GetUserData().texture);
-						world.DestroyBody(fruit);
-					}
-					
-				//Draw limeJS objects
-				for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
+		lime.scheduleManager.schedule(function(dt) {
+			world.Step(dt / 1000, 8, 3);
+			world.ClearForces();
+		
+			//Remove objects
+			for (i=0;i<fruitToRemove.length;i++)
 				{
-					var position = b.GetPosition();
-					b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
-					b.GetUserData().texture.setPosition(position.x*30, position.y*30);
+					fruitsDropped++;
+					var fruit = fruitToRemove.pop();
+					fruitLayer.removeChild(fruit.GetUserData().texture);
+					world.DestroyBody(fruit);
 				}
 				
-				//Update the HUD
-				scoreLbl.setText('Score: ' + points);
-				droppedLbl.setText('Dropped: ' + fruitsDropped);
-				
-			},this);
-		}
+			//Draw limeJS objects
+			for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
+			{
+				var position = b.GetPosition();
+				b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
+				b.GetUserData().texture.setPosition(position.x*30, position.y*30);
+			}
+			
+			//Update the HUD
+			scoreLbl.setText('Score: ' + points);
+			droppedLbl.setText('Dropped: ' + fruitsDropped);
+			
+		},this);
 	}
 
-	function PrintDebug()
-	{
-		document.getElementById("mouseX").innerHTML="Mouse X: " + mouseX;
-		document.getElementById("mouseY").innerHTML="Mouse Y: " + mouseY;
-		document.getElementById("points").innerHTML="Points: " + points;
-		document.getElementById("fruits").innerHTML="Fruits Dropped: " + fruitsDropped;
-	}
+
 }
 
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
-goog.exportSymbol('juggletest.start', juggletest.start);
+goog.exportSymbol('JuggleTree.start', JuggleTree.start);
