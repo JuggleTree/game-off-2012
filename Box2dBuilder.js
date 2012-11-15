@@ -146,7 +146,8 @@ function createBanana(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/banana.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*20.93)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","banana",texture));
 	body.SetAngle(Math.PI);
 	
@@ -185,7 +186,8 @@ function createGrape(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/grape.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*45)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","grape",texture));
 	body.SetAngle(Math.PI);
 	
@@ -244,7 +246,8 @@ function createCherry(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/cherry.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*56.25)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","cherry",texture));
 	body.SetAngle(Math.PI);
 	
@@ -277,7 +280,8 @@ function createLemon(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/lemon.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*37.83)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","lemon",texture));
 	body.SetAngle(Math.PI);
 	
@@ -313,7 +317,8 @@ function createOrange(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/orange.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*28.8)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","orange",texture));
 	body.SetAngle(Math.PI);
 	
@@ -346,7 +351,8 @@ function createPear(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/pear.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*46.67)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pear",texture));
 	body.SetAngle(Math.PI);
 	
@@ -385,7 +391,8 @@ function createPineapple(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/pineapple.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*65.17)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pineapple",texture));
 	body.SetAngle(Math.PI);
 	
@@ -439,7 +446,8 @@ function createPlum(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/plum.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*36.52)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","plum",texture));
 	body.SetAngle(Math.PI);
 	
@@ -469,7 +477,8 @@ function createStrawberry(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/strawberry.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*35)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","strawberry",texture));
 	body.SetAngle(Math.PI);
 	
@@ -514,7 +523,8 @@ function createWatermelon(world, x, y, size)
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/watermelon.png')
-		.setSize(size*30, size*24.27);
+		.setSize(size*30, size*28.89)
+		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","watermelon",texture));
 	body.SetAngle(Math.PI);
 	

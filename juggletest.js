@@ -135,7 +135,7 @@ juggletest.start = function(debug){
 		//generate the first fruit immediately
 		GenerateFruit(world, fruitLayer);
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 5000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 2000, 0)
 		//Tell Box2d to update every frame
 		if (!debug)
 		{

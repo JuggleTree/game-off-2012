@@ -12,42 +12,44 @@ function GenerateFruit(world, fruitLayer)
 	var y = Math.random() * 3 + 1;
 	var size = Math.random() * 1 + 0.5;
 	var type = Math.floor((Math.random()*11));
+	var body;
 	switch(type)
 	{
 		case 0:
-			createStrawberry(world,x,y,size);
+			body = createStrawberry(world,x,y,size);
 			break;
 		case 1:
-			createApple(world,x,y,size);
+			body = createApple(world,x,y,size);
 			break;
 		case 2:
-			createBanana(world,x,y,size);
+			body = createBanana(world,x,y,size);
 			break;
 		case 3:
-			createCherry(world,x,y,size);
+			body = createCherry(world,x,y,size);
 			break;
 		case 4:
-			createGrape(world,x,y,size);
+			body = createGrape(world,x,y,size);
 			break;
 		case 5:
-			createLemon(world,x,y,size);
+			body = createLemon(world,x,y,size);
 			break;
 		case 6:
-			createOrange(world,x,y,size);
+			body = createOrange(world,x,y,size);
 			break;
 		case 7:
-			createPear(world,x,y,size);
+			body = createPear(world,x,y,size);
 			break;
 		case 8:
-			createPineapple(world,x,y,size);
+			body = createPineapple(world,x,y,size);
 			break;
 		case 9:
-			createPlum(world,x,y,size);
+			body = createPlum(world,x,y,size);
 			break;
 		case 10:
-			createWatermelon(world,x,y,size);
+			body = createWatermelon(world,x,y,size);
 			break;
 	}
+	fruitLayer.appendChild(body.GetUserData().texture);
 }
 
 function RemoveFruit(fruit)
