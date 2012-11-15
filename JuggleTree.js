@@ -81,7 +81,8 @@ JuggleTree.start = function(debug){
 		hudLayer = new lime.Layer();
 		
 		//set the background
-		backgroundLayer.appendChild(new lime.Sprite().setFill('#afa').setSize(screenWidth*2,screenHeight*2));
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0))
 		
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
@@ -105,9 +106,9 @@ JuggleTree.start = function(debug){
 		createBoundries(world);
 		
 		//Create the juggler
-		var rightHand = createHand(world, 11, 12, "right"),
-			leftHand = createHand(world, 7, 12, "left"),
-			juggler = createJuggler(world, 9,12);
+		var rightHand = createHand(world, 11, 11.5, "right"),
+			leftHand = createHand(world, 7, 11.5, "left"),
+			juggler = createJuggler(world, 9,11.5);
 			
 		jugglerLayer.appendChild(juggler.GetUserData().texture);
 		jugglerLayer.appendChild(rightHand.GetUserData().texture);
