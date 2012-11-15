@@ -25,6 +25,7 @@ juggletest.start = function(debug){
 		,	jugglerLayer
 		,	buttonLayer
 		,	backgroundLayer
+		,	hudLayer
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
@@ -113,16 +114,23 @@ juggletest.start = function(debug){
 		gameplayScene = new lime.Scene();
 		fruitLayer = new lime.Layer();
 		backgroundLayer = new lime.Layer();
-		jugglerLayer = new lime.Layer()
+		jugglerLayer = new lime.Layer();
+		hudLayer = new lime.Layer();
 		
 		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill('#afa').setSize(screenWidth*2,screenHeight*2));
+		
+		//Create the Heads Up Display
+		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
+		droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
+		hudLayer.appendChild(scoreLbl);
+		hudLayer.appendChild(droppedLbl);
 		
 		//add the layers to the scene
 		gameplayScene.appendChild(backgroundLayer);
 		gameplayScene.appendChild(jugglerLayer);
 		gameplayScene.appendChild(fruitLayer);
-		
+		gameplayScene.appendChild(hudLayer);
 		director.replaceScene(gameplayScene);
 		
 		//initialize the world
@@ -176,6 +184,11 @@ juggletest.start = function(debug){
 					b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
 					b.GetUserData().texture.setPosition(position.x*30, position.y*30);
 				}
+				
+				//Update the HUD
+				scoreLbl.setText('Score: ' + points);
+				droppedLbl.setText('Dropped: ' + fruitsDropped);
+				
 			},this);
 		}
 	}
