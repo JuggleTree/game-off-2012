@@ -46,6 +46,21 @@ function SetupCollisionListener(world)
 		{
 			CatchFruit(world, objectB, objectA, objectA.GetUserData().name);
 		}
+		
+		//2 fruits collide
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "fruit")
+		{
+			//the fruits are the same
+			if (objectA.GetUserData().name == objectB.GetUserData().name)
+			{
+				MergeFruits(world, objectA, objectB)
+			}
+			//the fruits are different
+			if (objectA.GetUserData().name != objectB.GetUserData().name)
+			{
+				//ForkFruits(world, objectA, objectB)
+			}
+		}
 	}
 	world.SetContactListener(contactListener);
 }

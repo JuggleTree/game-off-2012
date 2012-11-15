@@ -15,16 +15,14 @@ goog.require('lime.Sprite');
 
 //Each Box2d body will have this game object attached to it
 //Data can be accessed by using the function b2body.GetUserData()
-function gameObject(type, name, texture, value)
+function gameObject(type, name, texture, value, size)
 {
 	this.type=type; //ex: fruit, hand, powerup
 	this.name=name; //ex: apple, orange, watermelon
 	this.texture = texture;
 	this.hasJoint=false; // check to see if this is attached to anything
-	if(!value)
-		this.value = 0;
-	else
-		this.value = value;
+	this.value = value;
+	this.size = size;
 }
 	
 function createBoundries(world)
@@ -47,7 +45,7 @@ function createBoundries(world)
 	bodyDef.position.Set(10, 400 / 30 + 1.8);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","bottom",texture));
+	wall.SetUserData(new gameObject("wall","bottom",texture,0,0));
 	
 	//I don't think we need a top wall
 	//bodyDef.position.Set(10, -1.8);
@@ -59,12 +57,12 @@ function createBoundries(world)
 	bodyDef.position.Set(-1.8, 13);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","left",texture));
+	wall.SetUserData(new gameObject("wall","left",texture,0,0));
 	
 	bodyDef.position.Set(21.8, 13);
 	wall = world.CreateBody(bodyDef)
 	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","right",texture));
+	wall.SetUserData(new gameObject("wall","right",texture,0,0));
 }
 
 function createHand(world, x, y, name)
@@ -83,7 +81,7 @@ function createHand(world, x, y, name)
 	else if (name=="right")
 		texture.setFill('assets/RightHand.png');
 		
-	hand.SetUserData(new gameObject("hand",name,texture));
+	hand.SetUserData(new gameObject("hand",name,texture,0,0));
 	hand.SetSleepingAllowed(false);
 	
 	//Create the Shape
@@ -114,7 +112,7 @@ function createJuggler(world, x, y, jugglerLayer)
 		.setFill('assets/Juggler0.png')
 		.setPosition(x*30,y*30);
 		
-	juggler.SetUserData(new gameObject("juggler","juggler",texture));
+	juggler.SetUserData(new gameObject("juggler","juggler",texture,0,0));
 	juggler.SetSleepingAllowed(false);
 
 	//animate the juggler
@@ -146,7 +144,7 @@ function createApple(world, x, y, size)
 		var texture = new lime.Sprite()
 		.setFill('assets/apple.png')
 		.setSize(size*30, size*24.27);
-	body.SetUserData(new gameObject("fruit","apple",texture));
+	body.SetUserData(new gameObject("fruit","apple",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -189,7 +187,7 @@ function createBanana(world, x, y, size)
 		.setFill('assets/banana.png')
 		.setSize(size*30, size*20.93)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","banana",texture));
+	body.SetUserData(new gameObject("fruit","banana",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -229,7 +227,7 @@ function createGrape(world, x, y, size)
 		.setFill('assets/grape.png')
 		.setSize(size*30, size*45)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","grape",texture));
+	body.SetUserData(new gameObject("fruit","grape",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -289,7 +287,7 @@ function createCherry(world, x, y, size)
 		.setFill('assets/cherry.png')
 		.setSize(size*30, size*56.25)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","cherry",texture));
+	body.SetUserData(new gameObject("fruit","cherry",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -323,7 +321,7 @@ function createLemon(world, x, y, size)
 		.setFill('assets/lemon.png')
 		.setSize(size*30, size*37.83)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","lemon",texture));
+	body.SetUserData(new gameObject("fruit","lemon",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -360,7 +358,7 @@ function createOrange(world, x, y, size)
 		.setFill('assets/orange.png')
 		.setSize(size*30, size*28.8)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","orange",texture));
+	body.SetUserData(new gameObject("fruit","orange",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -394,7 +392,7 @@ function createPear(world, x, y, size)
 		.setFill('assets/pear.png')
 		.setSize(size*30, size*46.67)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","pear",texture));
+	body.SetUserData(new gameObject("fruit","pear",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -434,7 +432,7 @@ function createPineapple(world, x, y, size)
 		.setFill('assets/pineapple.png')
 		.setSize(size*30, size*65.17)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","pineapple",texture));
+	body.SetUserData(new gameObject("fruit","pineapple",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -489,7 +487,7 @@ function createPlum(world, x, y, size)
 		.setFill('assets/plum.png')
 		.setSize(size*30, size*36.52)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","plum",texture));
+	body.SetUserData(new gameObject("fruit","plum",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -520,7 +518,7 @@ function createStrawberry(world, x, y, size)
 		.setFill('assets/strawberry.png')
 		.setSize(size*30, size*35)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","strawberry",texture));
+	body.SetUserData(new gameObject("fruit","strawberry",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons
@@ -566,7 +564,7 @@ function createWatermelon(world, x, y, size)
 		.setFill('assets/watermelon.png')
 		.setSize(size*30, size*28.89)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","watermelon",texture));
+	body.SetUserData(new gameObject("fruit","watermelon",texture,1,size));
 	body.SetAngle(Math.PI);
 	
 	//Create the Polygons

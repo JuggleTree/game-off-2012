@@ -118,25 +118,29 @@ JuggleTree.start = function(debug){
 		SetupCollisionListener(world);
 		SetupMouseListener(world, gameplayScene);
 		
-		//generate the first fruit immediately
-		GenerateFruit(world, fruitLayer);
-		
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world, fruitLayer)}, null, 2000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 2000, 0)
 		
 		//Tell Box2d to update every frame
 		lime.scheduleManager.schedule(function(dt) {
 			world.Step(dt / 1000, 8, 3);
 			world.ClearForces();
 		
-			//Remove objects
+			//Remove old fruits
 			for (i=0;i<fruitToRemove.length;i++)
-				{
-					fruitsDropped++;
-					var fruit = fruitToRemove.pop();
-					fruitLayer.removeChild(fruit.GetUserData().texture);
-					world.DestroyBody(fruit);
-				}
+			{
+				fruitsDropped++;
+				var fruit = fruitToRemove.pop();
+				fruitLayer.removeChild(fruit.GetUserData().texture);
+				world.DestroyBody(fruit);
+			}
+				
+			//Add new fruits
+			for (i=0;i<fruitToAdd.length;i++)
+			{
+				var fruit = fruitToAdd.pop();
+				fruitLayer.appendChild(fruit.GetUserData().texture);
+			}
 				
 			//Draw limeJS objects
 			for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())

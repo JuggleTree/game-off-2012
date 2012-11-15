@@ -1,17 +1,18 @@
 goog.provide('JuggleTree.FruitFunctions');
 
 var		fruitToRemove = new Array()
+	,	fruitToAdd = new Array()
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
-	, heldFruit = []
+	,	heldFruit = []
 	;
 
-function GenerateFruit(world, fruitLayer)
+function GenerateFruit(world)
 {
 	var x = Math.random() * 17 + 1;
 	var y = Math.random() * 3 + 1;
 	var size = Math.random() * 1 + 0.5;
-	var type = Math.floor((Math.random()*11));
+	var type = 1//Math.floor((Math.random()*11));
 	var body;
 	switch(type)
 	{
@@ -49,12 +50,18 @@ function GenerateFruit(world, fruitLayer)
 			body = createWatermelon(world,x,y,size);
 			break;
 	}
-	fruitLayer.appendChild(body.GetUserData().texture);
+	AddFruit(body);
+
 }
 
 function RemoveFruit(fruit)
 {
 	fruitToRemove.push(fruit);
+}
+
+function AddFruit(fruit)
+{
+	fruitToAdd.push(fruit);
 }
 
 function CatchFruit(world, fruit, hand, handType)
@@ -113,3 +120,54 @@ function Throw(world, fruit)
 	fruit.SetLinearVelocity(new b2Vec2(velocityX, velocityY));
 }
 
+function MergeFruits(world, fruitA, fruitB)
+{
+	var size = fruitA.GetUserData().size + fruitB.GetUserData().size;
+	var value = fruitA.GetUserData().value + fruitB.GetUserData().value;
+	var x = fruitA.GetPosition().x;
+	var y = fruitA.GetPosition().y;
+	
+	switch(fruitA.GetUserData().name)
+	{
+		case "strawberry":
+			body = createStrawberry(world,x,y,size);
+			break;
+		case "apple":
+			lime.scheduleManager.callAfter(function(dt){
+				body = createApple(world,x,y,size);
+				AddFruit(body);
+			}, null, 100)
+			
+			break;
+		case "banana":
+			body = createBanana(world,x,y,size);
+			break;
+		case "cherry":
+			body = createCherry(world,x,y,size);
+			break;
+		case "grape":
+			body = createGrape(world,x,y,size);
+			break;
+		case "lemon":
+			body = createLemon(world,x,y,size);
+			break;
+		case "orange":
+			body = createOrange(world,x,y,size);
+			break;
+		case "pear":
+			body = createPear(world,x,y,size);
+			break;
+		case "pineapple":
+			body = createPineapple(world,x,y,size);
+			break;
+		case "plum":
+			body = createPlum(world,x,y,size);
+			break;
+		case "watermelon":
+			body = createWatermelon(world,x,y,size);
+			break;
+	}
+	
+	RemoveFruit(fruitA);
+	RemoveFruit(fruitB);
+}
