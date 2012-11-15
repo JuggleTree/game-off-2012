@@ -58,13 +58,15 @@ juggletest.start = function(debug){
 		buttonLayer = new lime.Layer();
 		titleScene.appendChild(buttonLayer);
 		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
-		var button = new lime.RoundedRect().setSize(200,50).setRadius(10).setFill('#c00');
-		var lbl = new lime.Label().setSize(160,50).setFontSize(30).setText('Start Game');
-		buttonLayer.appendChild(button);
-		buttonLayer.appendChild(lbl);
+		var startButton = new lime.RoundedRect().setSize(200,50).setRadius(10).setFill('#c00');
+		var startLbl = new lime.Label().setSize(160,50).setFontSize(30).setPosition(0,7).setText('Start Game');
+		var titleLbl = new lime.Label().setSize(250,50).setFontSize(40).setFontColor('#3C3').setPosition(0,-100).setText('Juggle Tree');
+		buttonLayer.appendChild(titleLbl);
+		buttonLayer.appendChild(startButton);
+		buttonLayer.appendChild(startLbl);
 		
 		//Listener for clicks
-		goog.events.listen(buttonLayer,['mousedown'],function(e){
+		goog.events.listen(startButton,['mousedown'],function(e){
 			StartGame();
 			
 			//buttonLayer.runAction(new lime.animation.FadeTo(.5).setDuration(.2));
