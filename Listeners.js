@@ -53,7 +53,8 @@ function SetupCollisionListener(world)
 			//the fruits are the same
 			if (objectA.GetUserData().name == objectB.GetUserData().name)
 			{
-				MergeFruits(world, objectA, objectB)
+				if (!objectA.GetUserData().collide || !objectB.GetUserData().collide)
+					{MergeFruits(world, objectA, objectB);}
 			}
 			//the fruits are different
 			if (objectA.GetUserData().name != objectB.GetUserData().name)

@@ -128,7 +128,7 @@ JuggleTree.start = function(debug){
 			world.ClearForces();
 		
 			//Remove old fruits
-			for (i=0;i<fruitToRemove.length;i++)
+			for (i=0;i<fruitToRemove.length;i)
 			{
 				fruitsDropped++;
 				var fruit = fruitToRemove.pop();

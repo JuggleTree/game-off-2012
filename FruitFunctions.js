@@ -122,7 +122,15 @@ function Throw(world, fruit)
 
 function MergeFruits(world, fruitA, fruitB)
 {
-	var size = fruitA.GetUserData().size + fruitB.GetUserData().size;
+	fruitA.GetUserData().collide = true;
+	fruitB.GetUserData().collide = true;
+	var sizeA = fruitA.GetUserData().size;
+	var sizeB = fruitB.GetUserData().size;
+	var size;
+	if (sizeA > sizeB)
+		{size = sizeA + 0.15;}
+	else
+		{size = sizeB + 0.15;}
 	var value = fruitA.GetUserData().value + fruitB.GetUserData().value;
 	var x = fruitA.GetPosition().x;
 	var y = fruitA.GetPosition().y;
@@ -130,41 +138,71 @@ function MergeFruits(world, fruitA, fruitB)
 	switch(fruitA.GetUserData().name)
 	{
 		case "strawberry":
-			body = createStrawberry(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createStrawberry(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "apple":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createApple(world,x,y,size);
 				AddFruit(body);
-			}, null, 100)
+			}, null, 10)
 			
 			break;
 		case "banana":
-			body = createBanana(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createBanana(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "cherry":
-			body = createCherry(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createCherry(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "grape":
-			body = createGrape(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createGrape(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "lemon":
-			body = createLemon(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createLemon(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "orange":
-			body = createOrange(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createOrange(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "pear":
-			body = createPear(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createPear(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "pineapple":
-			body = createPineapple(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createPineapple(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "plum":
-			body = createPlum(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createPlum(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 		case "watermelon":
-			body = createWatermelon(world,x,y,size);
+			lime.scheduleManager.callAfter(function(dt){
+				body = createWatermelon(world,x,y,size);
+				AddFruit(body);
+			}, null, 10)
 			break;
 	}
 	

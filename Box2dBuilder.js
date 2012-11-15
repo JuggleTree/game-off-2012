@@ -23,6 +23,7 @@ function gameObject(type, name, texture, value, size)
 	this.hasJoint=false; // check to see if this is attached to anything
 	this.value = value;
 	this.size = size;
+	this.collide = false; //Need this for the fruit merging. When 2 fruits collide they call the MergeFruit function more than once, causing too many new fruits to spawn.
 }
 	
 function createBoundries(world)
