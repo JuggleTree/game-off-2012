@@ -30,11 +30,9 @@ JuggleTree.start = function(debug){
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
-
 		,	b2Body = Box2D.Dynamics.b2Body
 			//objects for the game
 		,	points = 0
-		,	fruitsDropped = 0
 		,	world
 		,	screenWidth = 600
 		,	screenHeight = 400
@@ -130,7 +128,6 @@ JuggleTree.start = function(debug){
 			//Remove old fruits
 			for (i=0;i<fruitToRemove.length;i)
 			{
-				fruitsDropped++;
 				var fruit = fruitToRemove.pop();
 				fruitLayer.removeChild(fruit.GetUserData().texture);
 				world.DestroyBody(fruit);

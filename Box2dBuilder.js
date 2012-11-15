@@ -134,7 +134,7 @@ function createJuggler(world, x, y, jugglerLayer)
 	return juggler;
 }
 
-function createApple(world, x, y, size)
+function createApple(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -147,6 +147,7 @@ function createApple(world, x, y, size)
 		.setSize(size*30, size*24.27);
 	body.SetUserData(new gameObject("fruit","apple",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -176,7 +177,7 @@ function createApple(world, x, y, size)
 	return body;
 }
 
-function createBanana(world, x, y, size)
+function createBanana(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -190,6 +191,7 @@ function createBanana(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","banana",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -216,7 +218,7 @@ function createBanana(world, x, y, size)
 	return body;
 }
 
-function createGrape(world, x, y, size)
+function createGrape(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -230,6 +232,7 @@ function createGrape(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","grape",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -276,7 +279,7 @@ function createGrape(world, x, y, size)
 	return body;
 }
 
-function createCherry(world, x, y, size)
+function createCherry(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -290,6 +293,7 @@ function createCherry(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","cherry",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -310,7 +314,7 @@ function createCherry(world, x, y, size)
 	return body;
 }
 
-function createLemon(world, x, y, size)
+function createLemon(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -324,6 +328,7 @@ function createLemon(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","lemon",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -347,7 +352,7 @@ function createLemon(world, x, y, size)
 	return body;
 }
 
-function createOrange(world, x, y, size)
+function createOrange(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -361,6 +366,7 @@ function createOrange(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","orange",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -381,7 +387,7 @@ function createOrange(world, x, y, size)
 	return body;
 }
 
-function createPear(world, x, y, size)
+function createPear(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -395,6 +401,7 @@ function createPear(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pear",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -421,7 +428,7 @@ function createPear(world, x, y, size)
 	return body;
 }
 
-function createPineapple(world, x, y, size)
+function createPineapple(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -435,6 +442,7 @@ function createPineapple(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pineapple",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -476,7 +484,7 @@ function createPineapple(world, x, y, size)
 	return body;
 }
 
-function createPlum(world, x, y, size)
+function createPlum(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -490,6 +498,7 @@ function createPlum(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","plum",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -507,7 +516,7 @@ function createPlum(world, x, y, size)
 	return body;
 }
 
-function createStrawberry(world, x, y, size)
+function createStrawberry(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -521,6 +530,7 @@ function createStrawberry(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","strawberry",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;
@@ -553,7 +563,7 @@ function createStrawberry(world, x, y, size)
 	return body;
 }
 
-function createWatermelon(world, x, y, size)
+function createWatermelon(world, x, y, size, velocity)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
@@ -567,6 +577,7 @@ function createWatermelon(world, x, y, size)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","watermelon",texture,1,size));
 	body.SetAngle(Math.PI);
+	body.SetLinearVelocity(velocity);
 	
 	//Create the Polygons
 	var fixDef = new b2FixtureDef;

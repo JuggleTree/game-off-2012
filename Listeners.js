@@ -15,6 +15,7 @@ var		b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef
 	,	mouseX = 8.5
 	,	mouseY = 6
+	,	fruitsDropped = 0
 	;
 	
 //create the listener which runs when 2 thinks collide
@@ -30,10 +31,12 @@ function SetupCollisionListener(world)
 		//boundries and fruit collide
 		if (objectA.GetUserData().type == "wall" && objectB.GetUserData().type == "fruit")
 		{
+			fruitsDropped++;
 			RemoveFruit(objectB);
 		}
 		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "wall")
 		{
+			fruitsDropped++;
 			RemoveFruit(objectA);
 		}
 		
