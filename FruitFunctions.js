@@ -148,7 +148,20 @@ function MergeFruits(world, fruitA, fruitB)
 	var x = (fruitA.GetPosition().x + fruitB.GetPosition().x)/2;
 	var y = (fruitA.GetPosition().y + fruitB.GetPosition().y)/2;
 	
-	switch(fruitA.GetUserData().name)
+	CreateNewFruit(fruitA.GetUserData().name, world, x, y, size, velocity);
+	
+	RemoveFruit(fruitA);
+	RemoveFruit(fruitB);
+}
+
+function ForkFruits(fruitA, fruitB)
+{
+
+}
+
+function CreateNewFruit(name, world, x, y, size, velocity)
+{
+	switch(name)
 	{
 		case "strawberry":
 			lime.scheduleManager.callAfter(function(dt){
@@ -218,7 +231,4 @@ function MergeFruits(world, fruitA, fruitB)
 			}, null, 10)
 			break;
 	}
-	
-	RemoveFruit(fruitA);
-	RemoveFruit(fruitB);
 }
