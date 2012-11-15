@@ -11,15 +11,15 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 function GenerateFruit(world)
 {
 	var x = Math.random() * 17 + 1;
-	var y = Math.random() * 3 + 1;
-	var size = Math.random() * 1 + 0.5;
-	var type = 1//Math.floor((Math.random()*11));
+	var y = Math.random() * 2 + 1;
+	var size = Math.random() + 0.3;
+	var type = Math.floor((Math.random()*11));
 	var initialVelocity = new b2Vec2(0, 0);
 	var body;
 	switch(type)
 	{
 		case 0:
-			body = createStrawberry(world,x,y,size,initialVelocity);
+			body = createStrawberry(world,x,y,size*0.5,initialVelocity);
 			break;
 		case 1:
 			body = createApple(world,x,y,size,initialVelocity);
@@ -28,16 +28,16 @@ function GenerateFruit(world)
 			body = createBanana(world,x,y,size,initialVelocity);
 			break;
 		case 3:
-			body = createCherry(world,x,y,size,initialVelocity);
+			body = createCherry(world,x,y,size*0.5,initialVelocity);
 			break;
 		case 4:
-			body = createGrape(world,x,y,size,initialVelocity);
+			body = createGrape(world,x,y,size*0.8,initialVelocity);
 			break;
 		case 5:
 			body = createLemon(world,x,y,size,initialVelocity);
 			break;
 		case 6:
-			body = createOrange(world,x,y,size,initialVelocity);
+			body = createOrange(world,x,y,size*0.7,initialVelocity);
 			break;
 		case 7:
 			body = createPear(world,x,y,size,initialVelocity);
@@ -49,7 +49,7 @@ function GenerateFruit(world)
 			body = createPlum(world,x,y,size,initialVelocity);
 			break;
 		case 10:
-			body = createWatermelon(world,x,y,size,initialVelocity);
+			body = createWatermelon(world,x,y,size*1.3,initialVelocity);
 			break;
 	}
 	AddFruit(body);
