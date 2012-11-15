@@ -1,5 +1,5 @@
 //set main namespace
-goog.provide('juggletest');
+goog.provide('JuggleTree');
 
 
 //get requirements
@@ -11,11 +11,11 @@ goog.require('lime.Circle');
 goog.require('lime.Label');
 goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
-goog.require('juggletest.BoxBuilder');
-goog.require('juggletest.Listeners');
+goog.require('JuggleTree.BoxBuilder');
+goog.require('JuggleTree.Listeners');
 
 // entrypoint
-juggletest.start = function(debug){
+JuggleTree.start = function(debug){
 			
 			//Lime2D variables
 	var 	director

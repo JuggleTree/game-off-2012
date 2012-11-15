@@ -1,4 +1,4 @@
-goog.provide('juggletest.BoxBuilder');
+goog.provide('JuggleTree.BoxBuilder');
 
 goog.require('lime.Sprite');
 

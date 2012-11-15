@@ -1,4 +1,4 @@
-goog.provide('juggletest.FruitFunctions');
+goog.provide('JuggleTree.FruitFunctions');
 
 var		fruitToRemove = new Array()
 	,	leftHandJoint = "empty"
