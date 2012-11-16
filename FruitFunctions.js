@@ -137,9 +137,9 @@ function MergeFruits(world, fruitA, fruitB)
 	var sizeB = fruitB.GetUserData().size;
 	var size;
 	if (sizeA > sizeB)
-		{size = sizeA + 0.15;}
+		{size = sizeA + 0.2;}
 	else
-		{size = sizeB + 0.15;}
+		{size = sizeB + 0.2;}
 		
 	//set the new value
 	var value = fruitA.GetUserData().value + fruitB.GetUserData().value;
@@ -154,9 +154,37 @@ function MergeFruits(world, fruitA, fruitB)
 	RemoveFruit(fruitB);
 }
 
-function ForkFruits(fruitA, fruitB)
+function ForkFruits(world, fruitA, fruitB)
 {
+	fruitA.GetUserData().collide = true;
+	fruitB.GetUserData().collide = true;
 
+	var fruitFork;
+	var fruitNone;
+	if (fruitA.GetUserData().size > fruitB.GetUserData().size)
+		{fruitFork = fruitA; fruitNone = fruitB;}
+	else
+		{fruitFork = fruitB; fruitNone = fruitA;}
+		
+	var velocity = fruitFork.GetLinearVelocity();
+	
+	//var newVelocity = velocity.GetNegative();
+	var velocity1 = new b2Vec2(-velocity.x, velocity.y);
+	var velocity2 = new b2Vec2(velocity.x, -velocity.y);
+	
+	var size = fruitFork.GetUserData().size/1.2;
+	
+	var position1 = new b2Vec2(velocity1.x*size/2 + fruitFork.GetPosition().x, velocity1.y*size/2 + fruitFork.GetPosition().y);
+	var position2 = new b2Vec2(velocity2.x*size/2 + fruitFork.GetPosition().x, velocity2.y*size/2 + fruitFork.GetPosition().y);
+	//position1 = velocity1.Add(fruitFork.GetPosition());
+	
+	var x = fruitFork.GetPosition().x;
+	var y = fruitFork.GetPosition().y;
+	
+	
+	CreateNewFruit(fruitFork.GetUserData().name, world, position1.x, position1.y, size, velocity1);
+	CreateNewFruit(fruitFork.GetUserData().name, world, position2.x, position2.y, size, velocity2);
+	RemoveFruit(fruitFork);
 }
 
 function CreateNewFruit(name, world, x, y, size, velocity)
