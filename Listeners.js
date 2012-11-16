@@ -72,13 +72,16 @@ function SetupCollisionListener(world)
 function SetupKeyboardListener(scene, rightHand, leftHand, juggler)
 {
 	goog.events.listen(scene, ['keydown'], function(e){
-		if (e.event.keyCode == goog.events.KeyCodes.LEFT)
+		if (e.event.keyCode == goog.events.KeyCodes.LEFT 
+			|| e.event.keyCode == goog.events.KeyCodes.A)
 		{
 			rightHand.SetLinearVelocity(new b2Vec2(-7, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(-7, 0));
 			juggler.SetLinearVelocity(new b2Vec2(-7, 0));
 		}
-		if (e.event.keyCode == goog.events.KeyCodes.RIGHT)
+		if (e.event.keyCode == goog.events.KeyCodes.RIGHT
+			 || e.event.keyCode == goog.events.KeyCodes.E
+			  || e.event.keyCode == goog.events.KeyCodes.D)
 		{
 			rightHand.SetLinearVelocity(new b2Vec2(7, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(7, 0));
@@ -89,8 +92,11 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler)
 	goog.events.listen(scene, ['keyup'], function(e){
 		var velocity = leftHand.GetLinearVelocity().x;
 		if ((e.event.keyCode == goog.events.KeyCodes.LEFT
+			|| e.event.keyCode == goog.events.KeyCodes.A
 			&& velocity < 0)
 			|| (e.event.keyCode == goog.events.KeyCodes.RIGHT
+			|| e.event.keyCode == goog.events.KeyCodes.E
+			|| e.event.keyCode == goog.events.KeyCodes.D
 			&& velocity > 0))
 		{
 			rightHand.SetLinearVelocity(new b2Vec2(0, 0));

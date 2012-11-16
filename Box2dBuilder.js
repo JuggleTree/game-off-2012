@@ -11,6 +11,7 @@ goog.require('lime.Sprite');
 	,	b2MassData = Box2D.Collision.Shapes.b2MassData
 	,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
 	,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
+	,	b2EdgeShape = Box2D.Collision.Shapes.b2EdgeShape
 	;
 
 //Each Box2d body will have this game object attached to it
@@ -28,42 +29,29 @@ function gameObject(type, name, texture, value, size)
 	
 function createBoundries(world)
 {
-	var wall;
-	var fixDef = new b2FixtureDef;
-	fixDef.density = 1.0;
-	fixDef.friction = 0.5;
-	fixDef.restitution = 0.2;
- 
 	var bodyDef = new b2BodyDef;
 	bodyDef.type = b2Body.b2_staticBody;
-	fixDef.shape = new b2PolygonShape;
+	var wall = world.CreateBody(bodyDef);
 	
 	var texture = new lime.Sprite()
 		.setFill('#0c0')
 		.setSize(30, 30);
-	
-	fixDef.shape.SetAsBox(20, 2);
-	bodyDef.position.Set(10, 400 / 30 + 1.8);
-	wall = world.CreateBody(bodyDef)
-	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","bottom",texture,0,0));
-	
-	//I don't think we need a top wall
-	//bodyDef.position.Set(10, -1.8);
-	//wall = world.CreateBody(bodyDef)
-	//wall.CreateFixture(fixDef);
-	//wall.SetUserData(new gameObject("wall","top",texture));
-	
-	fixDef.shape.SetAsBox(2, 14);
-	bodyDef.position.Set(-1.8, 13);
-	wall = world.CreateBody(bodyDef)
-	wall.CreateFixture(fixDef);
-	wall.SetUserData(new gameObject("wall","left",texture,0,0));
-	
-	bodyDef.position.Set(21.8, 13);
-	wall = world.CreateBody(bodyDef)
-	wall.CreateFixture(fixDef);
 	wall.SetUserData(new gameObject("wall","right",texture,0,0));
+	
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.2;
+	fixDef.shape = new b2PolygonShape;
+	
+	fixDef.shape.SetAsEdge(new b2Vec2(-1,-2), new b2Vec2(-1,15));
+	wall.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsEdge(new b2Vec2(-1,15), new b2Vec2(25,15));
+	wall.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsEdge(new b2Vec2(25,15), new b2Vec2(25,-2));
+	wall.CreateFixture(fixDef);	
 }
 
 function createHand(world, x, y, name)

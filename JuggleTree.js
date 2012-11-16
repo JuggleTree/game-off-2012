@@ -98,7 +98,7 @@ JuggleTree.start = function(debug){
 		//initialize the world
 		world = new b2World
 		(
-			new b2Vec2(0, 2),    //gravity
+			new b2Vec2(0, 1),    //gravity
 			true                 //allow sleep
 		);
 		createBoundries(world);
