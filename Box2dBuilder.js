@@ -122,6 +122,11 @@ function createJuggler(world, x, y, jugglerLayer)
 	return juggler;
 }
 
+function GetValue(size)
+{
+	Math.floor(size*10);
+}
+
 function createApple(world, x, y, size, velocity)
 {
 	//Create the Body
@@ -133,7 +138,7 @@ function createApple(world, x, y, size, velocity)
 		var texture = new lime.Sprite()
 		.setFill('assets/apple.png')
 		.setSize(size*30, size*24.27);
-	body.SetUserData(new gameObject("fruit","apple",texture,1,size));
+	body.SetUserData(new gameObject("fruit","apple",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -177,7 +182,7 @@ function createBanana(world, x, y, size, velocity)
 		.setFill('assets/banana.png')
 		.setSize(size*30, size*20.93)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","banana",texture,1,size));
+	body.SetUserData(new gameObject("fruit","banana",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -218,7 +223,7 @@ function createGrape(world, x, y, size, velocity)
 		.setFill('assets/grape.png')
 		.setSize(size*30, size*45)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","grape",texture,1,size));
+	body.SetUserData(new gameObject("fruit","grape",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -279,7 +284,7 @@ function createCherry(world, x, y, size, velocity)
 		.setFill('assets/cherry.png')
 		.setSize(size*30, size*56.25)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","cherry",texture,1,size));
+	body.SetUserData(new gameObject("fruit","cherry",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -314,7 +319,7 @@ function createLemon(world, x, y, size, velocity)
 		.setFill('assets/lemon.png')
 		.setSize(size*30, size*37.83)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","lemon",texture,1,size));
+	body.SetUserData(new gameObject("fruit","lemon",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -352,7 +357,7 @@ function createOrange(world, x, y, size, velocity)
 		.setFill('assets/orange.png')
 		.setSize(size*30, size*28.8)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","orange",texture,1,size));
+	body.SetUserData(new gameObject("fruit","orange",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -387,7 +392,7 @@ function createPear(world, x, y, size, velocity)
 		.setFill('assets/pear.png')
 		.setSize(size*30, size*46.67)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","pear",texture,1,size));
+	body.SetUserData(new gameObject("fruit","pear",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -428,7 +433,7 @@ function createPineapple(world, x, y, size, velocity)
 		.setFill('assets/pineapple.png')
 		.setSize(size*30, size*65.17)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","pineapple",texture,1,size));
+	body.SetUserData(new gameObject("fruit","pineapple",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -484,7 +489,7 @@ function createPlum(world, x, y, size, velocity)
 		.setFill('assets/plum.png')
 		.setSize(size*30, size*36.52)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","plum",texture,1,size));
+	body.SetUserData(new gameObject("fruit","plum",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -516,7 +521,7 @@ function createStrawberry(world, x, y, size, velocity)
 		.setFill('assets/strawberry.png')
 		.setSize(size*30, size*35)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","strawberry",texture,1,size));
+	body.SetUserData(new gameObject("fruit","strawberry",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	
@@ -563,7 +568,7 @@ function createWatermelon(world, x, y, size, velocity)
 		.setFill('assets/watermelon.png')
 		.setSize(size*30, size*28.89)
 		.setAnchorPoint(0,0);
-	body.SetUserData(new gameObject("fruit","watermelon",texture,1,size));
+	body.SetUserData(new gameObject("fruit","watermelon",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
 	body.SetLinearVelocity(velocity);
 	

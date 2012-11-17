@@ -16,7 +16,6 @@ var		b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	mouseX = 8.5
 	,	mouseY = 6
 	,	fruitsDropped = 0
-	,	points = 0
 	;
 	
 //create the listener which runs when 2 thinks collide

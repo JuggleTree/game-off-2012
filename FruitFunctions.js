@@ -6,6 +6,7 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
 	,	heldFruit = []
+	,	points = 0
 	;
 
 function GenerateFruit(world)
@@ -76,6 +77,11 @@ function CatchFruit(world, fruit, hand, handType)
 		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
 		jointDef.collideConnected = true;
 		heldFruit.push([world.CreateJoint(jointDef), fruit]);
+		//add points to total score
+		points += fruit.GetUserData().value;
+		
+		//increase point value by one
+		fruit.GetUserData().value++;
 	}
 }
 
