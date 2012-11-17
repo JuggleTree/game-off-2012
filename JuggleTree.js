@@ -32,7 +32,6 @@ JuggleTree.start = function(debug){
 		,	b2World = Box2D.Dynamics.b2World
 		,	b2Body = Box2D.Dynamics.b2Body
 			//objects for the game
-		,	points = 0
 		,	world
 		,	screenWidth = 600
 		,	screenHeight = 400

@@ -87,19 +87,10 @@ function ThrowFruit(world)
 		var temp = heldFruit.shift();
 		var currentJoint = temp[0];
 		var currentFruit = temp[1];
+		
+		world.DestroyJoint(currentJoint);
+		Throw(world, currentFruit);
 
-		//get whichever body is the fruit
-		if (currentJoint.GetBodyA().GetUserData().type == "fruit")
-		{
-			world.DestroyJoint(currentJoint);
-			Throw(world, currentJoint.GetBodyA());
-		}
-		else if (currentJoint.GetBodyB().GetUserData().type == "fruit")
-		{
-			world.DestroyJoint(currentJoint);
-			Throw(world, currentJoint.GetBodyA());
-		}
-		//remove joint check
 		currentFruit.hasJoint = false;
 	}
 }
