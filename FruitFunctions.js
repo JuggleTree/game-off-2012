@@ -1,5 +1,7 @@
 goog.provide('JuggleTree.FruitFunctions');
 
+goog.require('JuggleTree.Popups');
+
 var     b2Vec2 = Box2D.Common.Math.b2Vec2	
 	,	fruitToRemove = new Array()
 	,	fruitToAdd = new Array()
@@ -77,6 +79,9 @@ function CatchFruit(world, fruit, hand, handType)
 		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
 		jointDef.collideConnected = true;
 		heldFruit.push([world.CreateJoint(jointDef), fruit]);
+		
+		CreatePopup(fruit.GetUserData().value, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
+		
 		//add points to total score
 		points += fruit.GetUserData().value;
 		
@@ -146,6 +151,8 @@ function MergeFruits(world, fruitA, fruitB)
 	var y = (fruitA.GetPosition().y + fruitB.GetPosition().y)/2;
 	
 	CreateNewFruit(fruitA.GetUserData().name, world, x, y, size, velocity);
+	
+	CreatePopup("Merge!", x*30, y*30);
 	
 	RemoveFruit(fruitA);
 	RemoveFruit(fruitB);

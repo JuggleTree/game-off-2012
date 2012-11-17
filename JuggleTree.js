@@ -14,6 +14,7 @@ goog.require('goog.events.KeyCodes');
 goog.require('JuggleTree.BoxBuilder');
 goog.require('JuggleTree.Listeners');
 goog.require('JuggleTree.Debug');
+goog.require('JuggleTree.Popups');
 
 // entrypoint
 JuggleTree.start = function(debug){
@@ -115,6 +116,9 @@ JuggleTree.start = function(debug){
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler);
 		SetupCollisionListener(world);
 		SetupMouseListener(world, gameplayScene);
+		
+		//SetupPopups
+		SetupPopupManager(hudLayer);
 		
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 2000, 0)
