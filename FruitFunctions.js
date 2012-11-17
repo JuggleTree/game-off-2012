@@ -185,6 +185,7 @@ function ForkFruits(world, fruitA, fruitB)
 	var x = fruitFork.GetPosition().x;
 	var y = fruitFork.GetPosition().y;
 	
+	CreatePopup("Fork!", x*30, y*30);
 	
 	CreateNewFruit(fruitFork.GetUserData().name, world, position1.x, position1.y, size, velocity1);
 	CreateNewFruit(fruitFork.GetUserData().name, world, position2.x, position2.y, size, velocity2);
