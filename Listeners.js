@@ -69,7 +69,7 @@ function SetupCollisionListener(world)
 	world.SetContactListener(contactListener);
 }
 	
-function SetupKeyboardListener(scene, rightHand, leftHand, juggler)
+function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 {
 	goog.events.listen(scene, ['keydown'], function(e){
 		if (e.event.keyCode == goog.events.KeyCodes.LEFT 
@@ -86,6 +86,17 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler)
 			rightHand.SetLinearVelocity(new b2Vec2(7, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(7, 0));
 			juggler.SetLinearVelocity(new b2Vec2(7, 0));
+		}
+		if (e.event.keyCode == goog.events.KeyCodes.ENTER)
+		{
+			//Pause the game
+				try{
+					if(!director.isPaused()) 
+						director.setPaused(true);
+					else
+						director.setPaused(false);
+				}
+				catch(e){}
 		}
 	});
 	

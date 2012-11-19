@@ -77,6 +77,7 @@ JuggleTree.start = function(debug){
 		backgroundLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
+
 		
 		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
@@ -113,7 +114,7 @@ JuggleTree.start = function(debug){
 		jugglerLayer.appendChild(leftHand.GetUserData().texture);
 
 		//Setup Listeners
-		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler);
+		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler, director);
 		SetupCollisionListener(world);
 		SetupMouseListener(world, gameplayScene);
 		
@@ -121,7 +122,7 @@ JuggleTree.start = function(debug){
 		SetupPopupManager(hudLayer);
 		
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, null, 2000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, world, 2000, 0)
 		
 		//Tell Box2d to update every frame
 		lime.scheduleManager.schedule(function(dt) {
@@ -155,19 +156,9 @@ JuggleTree.start = function(debug){
 			scoreLbl.setText('Score: ' + points);
 			droppedLbl.setText('Dropped: ' + fruitsDropped);
 			
-		},this);
+		},world);
 	}
-	// set listener for titleScene
-	goog.events.listen(titleScene, ['keydown'], function(e){
-		if (e.event.keyCode == goog.events.KeyCodes.Z)
-			try{
-				if(!director.isPaused()) 
-					director.setPaused(true);
-				else
-					director.setPaused(false);
-			}
-			catch(e){}
-	});
+	
 }
 
 

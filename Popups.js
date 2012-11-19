@@ -25,7 +25,7 @@ function CreatePopup(text, x, y)
 		new lime.animation.MoveTo(x,y-10).setDuration(1)
 	));
 	
-	lime.scheduleManager.callAfter(function (dt){RemovePopup(layer, popup);}, null, 1000)
+	lime.scheduleManager.callAfter(function (dt){RemovePopup(layer, popup);}, layer, 1000)
 }
 
 function RemovePopup(popup)

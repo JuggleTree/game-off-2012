@@ -117,7 +117,7 @@ function createJuggler(world, x, y, jugglerLayer)
 				texture.setFill('assets/Juggler0.png');
 				animation = true;
 			}
-		}, null, 600, 0)
+		}, world, 600, 0)
 		
 	return juggler;
 }
