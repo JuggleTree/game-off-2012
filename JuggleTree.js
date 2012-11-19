@@ -157,8 +157,17 @@ JuggleTree.start = function(debug){
 			
 		},this);
 	}
-
-
+	// set listener for titleScene
+	goog.events.listen(titleScene, ['keydown'], function(e){
+		if (e.event.keyCode == goog.events.KeyCodes.Z)
+			try{
+				if(!director.isPaused()) 
+					director.setPaused(true);
+				else
+					director.setPaused(false);
+			}
+			catch(e){}
+	});
 }
 
 
