@@ -15,6 +15,7 @@ goog.require('JuggleTree.BoxBuilder');
 goog.require('JuggleTree.Listeners');
 goog.require('JuggleTree.Debug');
 goog.require('JuggleTree.Popups');
+goog.require('JuggleTree.PauseScene');
 
 // entrypoint
 JuggleTree.start = function(debug){
@@ -23,6 +24,7 @@ JuggleTree.start = function(debug){
 	var 	director
 		,	gameplayScene
 		,	titleScene
+		,	pauseScene
 		,	fruitLayer
 		,	jugglerLayer
 		,	buttonLayer
@@ -77,6 +79,7 @@ JuggleTree.start = function(debug){
 		backgroundLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
+		
 
 		
 		//set the background
@@ -122,7 +125,7 @@ JuggleTree.start = function(debug){
 		SetupPopupManager(hudLayer);
 		
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, world, 2000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, director, 2000, 0)
 		
 		//Tell Box2d to update every frame
 		lime.scheduleManager.schedule(function(dt) {
@@ -156,7 +159,7 @@ JuggleTree.start = function(debug){
 			scoreLbl.setText('Score: ' + points);
 			droppedLbl.setText('Dropped: ' + fruitsDropped);
 			
-		},world);
+		},director);
 	}
 	
 }

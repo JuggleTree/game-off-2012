@@ -90,13 +90,9 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 		if (e.event.keyCode == goog.events.KeyCodes.ENTER)
 		{
 			//Pause the game
-				try{
-					if(!director.isPaused()) 
-						director.setPaused(true);
-					else
-						director.setPaused(false);
-				}
-				catch(e){}
+			director.setPaused(true);
+			//This is needed to show any objects on the pause screen
+			lime.updateDirtyObjects();
 		}
 	});
 	
