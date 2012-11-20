@@ -75,7 +75,7 @@ function CatchFruit(world, fruit, hand, handType)
 	if (!fruit.hasJoint)
 	{
 		fruit.hasJoint = true;
-		jointDef = new b2DistanceJointDef();
+		jointDef = new b2WeldJointDef();
 		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
 		jointDef.collideConnected = true;
 		heldFruit.push([world.CreateJoint(jointDef), fruit]);
