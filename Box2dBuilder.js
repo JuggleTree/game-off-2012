@@ -33,24 +33,26 @@ function createBoundries(world)
 	bodyDef.type = b2Body.b2_staticBody;
 	var wall = world.CreateBody(bodyDef);
 	
-	var texture = new lime.Sprite()
-		.setFill('#0c0')
-		.setSize(30, 30);
-	wall.SetUserData(new gameObject("wall","right",texture,0,0));
+	var texture = new lime.Sprite(); //empty sprite
 	
 	var fixDef = new b2FixtureDef;
 	fixDef.density = 1.0;
 	fixDef.friction = 0.5;
-	fixDef.restitution = 0.2;
+	fixDef.restitution = 0.8;
 	fixDef.shape = new b2PolygonShape;
 	
-	fixDef.shape.SetAsEdge(new b2Vec2(-1,-2), new b2Vec2(-1,15));
+	wall.SetUserData(new gameObject("wall","left",texture,0,0));
+	fixDef.shape.SetAsEdge(new b2Vec2(0,-2), new b2Vec2(0,15));
 	wall.CreateFixture(fixDef);
 	
-	fixDef.shape.SetAsEdge(new b2Vec2(-1,15), new b2Vec2(25,15));
+	wall = world.CreateBody(bodyDef);
+	wall.SetUserData(new gameObject("wall","bottom",texture,0,0));
+	fixDef.shape.SetAsEdge(new b2Vec2(0,15), new b2Vec2(20,15));
 	wall.CreateFixture(fixDef);
 
-	fixDef.shape.SetAsEdge(new b2Vec2(25,15), new b2Vec2(25,-2));
+	wall = world.CreateBody(bodyDef);
+	wall.SetUserData(new gameObject("wall","right",texture,0,0));
+	fixDef.shape.SetAsEdge(new b2Vec2(20,15), new b2Vec2(20,-2));
 	wall.CreateFixture(fixDef);	
 }
 

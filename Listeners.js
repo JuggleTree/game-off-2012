@@ -17,6 +17,14 @@ var		b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	mouseY = 6
 	,	fruitsDropped = 0
 	;
+
+function PauseGame(director)
+{
+	//Pause the game
+	director.setPaused(true);
+	//This is needed to show any objects on the pause screen
+	lime.updateDirtyObjects();
+}
 	
 //create the listener which runs when 2 thinks collide
 function SetupCollisionListener(world)
@@ -29,12 +37,12 @@ function SetupCollisionListener(world)
 			objectB = contact.GetFixtureB().GetBody();
 			
 		//boundries and fruit collide
-		if (objectA.GetUserData().type == "wall" && objectB.GetUserData().type == "fruit")
+		if (objectA.GetUserData().type == "wall" && objectA.GetUserData().name == "bottom" && objectB.GetUserData().type == "fruit")
 		{
 			fruitsDropped++;
 			RemoveFruit(objectB);
 		}
-		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "wall")
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "wall"  && objectB.GetUserData().name == "bottom" )
 		{
 			fruitsDropped++;
 			RemoveFruit(objectA);
@@ -89,10 +97,7 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 		}
 		if (e.event.keyCode == goog.events.KeyCodes.ENTER)
 		{
-			//Pause the game
-			director.setPaused(true);
-			//This is needed to show any objects on the pause screen
-			lime.updateDirtyObjects();
+			PauseGame(director);
 		}
 	});
 	
