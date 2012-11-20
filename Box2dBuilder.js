@@ -134,8 +134,8 @@ function createApple(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
-	
+	bodyDef.type = b2Body.b2_staticBody;
+		
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
 		.setFill('assets/apple.png')
@@ -177,7 +177,7 @@ function createBanana(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -218,7 +218,7 @@ function createGrape(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -279,7 +279,7 @@ function createCherry(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -314,7 +314,7 @@ function createLemon(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -352,7 +352,7 @@ function createOrange(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -387,7 +387,7 @@ function createPear(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -428,7 +428,7 @@ function createPineapple(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -484,7 +484,7 @@ function createPlum(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -516,7 +516,7 @@ function createStrawberry(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
@@ -563,7 +563,7 @@ function createWatermelon(world, x, y, size, velocity)
 	//Create the Body
 	var bodyDef = new b2BodyDef;
 	bodyDef.position.Set(x,y);
-	bodyDef.type = b2Body.b2_dynamicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()

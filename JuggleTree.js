@@ -137,8 +137,7 @@ JuggleTree.start = function(debug){
 		
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(generateFruitFunction = function (dt){
-			if (fruitLayer.getNumberOfChildren() < 3)
-				GenerateFruit(world);
+				GenerateFruit(world, fruitLayer);
 		}, director, 2000, 0);
 		
 		//This is the Update Loop
@@ -155,14 +154,17 @@ JuggleTree.start = function(debug){
 				fruitLayer.removeChild(fruit.GetUserData().texture);
 				world.DestroyBody(fruit);
 			}
-				
+			
 			//Add new fruits
 			for (i=0;i<fruitToAdd.length;i++)
 			{
 				var fruit = fruitToAdd.pop();
 				fruitLayer.appendChild(fruit.GetUserData().texture);
 			}
-				
+			
+			//See if fruits should fall from the tree
+			DropFruit();
+			
 			//Draw limeJS objects
 			for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
 			{
@@ -176,7 +178,7 @@ JuggleTree.start = function(debug){
 			droppedLbl.setText('Dropped: ' + fruitsDropped);
 			
 			//Check for game over
-			if (fruitsDropped >= 1)
+			if (fruitsDropped >= 5)
 				GameOver();
 		},director);
 		

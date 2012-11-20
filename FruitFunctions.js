@@ -8,59 +8,78 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
 	,	heldFruit = []
+	,	growingFruit = new Array()
+	,	fallingFruit = new Array()
 	,	points = 0
 	;
 
-function GenerateFruit(world)
+function GenerateFruit(world, fruitLayer)
 {
-	var x = Math.random() * 17 + 1;
-	var y = Math.random() * 2 + 1;
-	var size = Math.random() + 0.3;
-	var type = Math.floor((Math.random()*11));
-	var initialVelocity = new b2Vec2(0, 0);
-	var body;
-	switch(type)
-	{
-		case 0:
-			body = createStrawberry(world,x,y,size*0.5,initialVelocity);
-			break;
-		case 1:
-			body = createApple(world,x,y,size,initialVelocity);
-			break;
-		case 2:
-			body = createBanana(world,x,y,size,initialVelocity);
-			break;
-		case 3:
-			body = createCherry(world,x,y,size*0.5,initialVelocity);
-			break;
-		case 4:
-			body = createGrape(world,x,y,size*0.8,initialVelocity);
-			break;
-		case 5:
-			body = createLemon(world,x,y,size,initialVelocity);
-			break;
-		case 6:
-			body = createOrange(world,x,y,size*0.7,initialVelocity);
-			break;
-		case 7:
-			body = createPear(world,x,y,size,initialVelocity);
-			break;
-		case 8:
-			body = createPineapple(world,x,y,size,initialVelocity);
-			break;
-		case 9:
-			body = createPlum(world,x,y,size,initialVelocity);
-			break;
-		case 10:
-			body = createWatermelon(world,x,y,size*1.3,initialVelocity);
-			break;
-	}
-	AddFruit(body);
 
+	if (fruitLayer.getNumberOfChildren() < 10)
+	{
+		var x = Math.random() * 17 + 1;
+		var y = Math.random() + 1;
+		var size = Math.random() + 0.3;
+		var type = Math.floor((Math.random()*11));
+		var initialVelocity = new b2Vec2(0, 0);
+		var body;
+		switch(type)
+		{
+			case 0:
+				body = createStrawberry(world,x,y,size*0.5,initialVelocity);
+				break;
+			case 1:
+				body = createApple(world,x,y,size,initialVelocity,true);
+				break;
+			case 2:
+				body = createBanana(world,x,y,size,initialVelocity);
+				break;
+			case 3:
+				body = createCherry(world,x,y,size*0.5,initialVelocity);
+				break;
+			case 4:
+				body = createGrape(world,x,y,size*0.8,initialVelocity);
+				break;
+			case 5:
+				body = createLemon(world,x,y,size,initialVelocity);
+				break;
+			case 6:
+				body = createOrange(world,x,y,size*0.7,initialVelocity);
+				break;
+			case 7:
+				body = createPear(world,x,y,size,initialVelocity);
+				break;
+			case 8:
+				body = createPineapple(world,x,y,size,initialVelocity);
+				break;
+			case 9:
+				body = createPlum(world,x,y,size,initialVelocity);
+				break;
+			case 10:
+				body = createWatermelon(world,x,y,size*1.3,initialVelocity);
+				break;
+		}
+		AddFruit(body);
+		growingFruit.push(body);
+	}
+
+}
+
+function DropFruit()
+{
+	if (fallingFruit.length < 3 && growingFruit.length > 0)
+	{
+		var fruit = growingFruit.shift();
+		fruit.SetType(b2Body.b2_dynamicBody);
+		fallingFruit.push(fruit);
+	}
 }
 
 function RemoveFruit(fruit)
 {
+	var index = fallingFruit.lastIndexOf(fruit);
+	fallingFruit.splice(index,1);
 	fruitToRemove.push(fruit);
 }
 
@@ -199,12 +218,16 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 		case "strawberry":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createStrawberry(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "apple":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createApple(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
 			
@@ -212,54 +235,72 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 		case "banana":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createBanana(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "cherry":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createCherry(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "grape":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createGrape(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "lemon":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createLemon(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "orange":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createOrange(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "pear":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPear(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "pineapple":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPineapple(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "plum":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPlum(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
 		case "watermelon":
 			lime.scheduleManager.callAfter(function(dt){
 				body = createWatermelon(world,x,y,size,velocity);
+				body.SetType(b2Body.b2_dynamicBody);
+				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
 			break;
