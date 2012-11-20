@@ -24,7 +24,6 @@ JuggleTree.start = function(debug){
 	var 	director
 		,	gameplayScene
 		,	titleScene
-		,	pauseScene
 		,	fruitLayer
 		,	jugglerLayer
 		,	buttonLayer
@@ -55,16 +54,32 @@ JuggleTree.start = function(debug){
 	{
 		titleScene = new lime.Scene();
 		buttonLayer = new lime.Layer();
+		backgroundLayer = new lime.Layer();
+		titleScene.appendChild(backgroundLayer);
 		titleScene.appendChild(buttonLayer);
-		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
-		var startButton = new lime.RoundedRect().setSize(200,50).setRadius(10).setFill('#c00');
-		var startLbl = new lime.Label().setSize(160,50).setFontSize(30).setPosition(0,7).setText('Start Game');
-		var titleLbl = new lime.Label().setSize(250,50).setFontSize(40).setFontColor('#3C3').setPosition(0,-100).setText('Juggle Tree');
-		buttonLayer.appendChild(titleLbl);
-		buttonLayer.appendChild(startButton);
-		buttonLayer.appendChild(startLbl);
 		
-		//Listener for clicks
+		//set the background
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		
+		//set the button layer
+		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
+		var startButton = new lime.Sprite().setSize(127,46).setPosition(0,25).setFill('assets/Start1.png');
+		var title = new lime.Sprite().setSize(270,167).setPosition(0,-100).setFill('assets/Title.png');
+		buttonLayer.appendChild(title);
+		buttonLayer.appendChild(startButton);
+		
+		//Button listeners
+		goog.events.listen(startButton, ['mouseover'], function(e)
+		{
+			startButton.setFill('assets/Start2.png');
+		});
+		
+		goog.events.listen(titleScene, ['mouseout'], function(e)
+		{
+			startButton.setFill('assets/Start1.png');
+		});
+		
 		goog.events.listen(startButton,['mousedown'],function(e){
 			StartGame();
             
@@ -76,15 +91,8 @@ JuggleTree.start = function(debug){
 		//initialize objects
 		gameplayScene = new lime.Scene();
 		fruitLayer = new lime.Layer();
-		backgroundLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
-		
-
-		
-		//set the background
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0))
 		
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
