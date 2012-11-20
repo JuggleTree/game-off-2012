@@ -24,6 +24,7 @@ JuggleTree.start = function(debug){
 	var 	director
 		,	gameplayScene
 		,	titleScene
+		,	gameOverScene
 		,	fruitLayer
 		,	jugglerLayer
 		,	buttonLayer
@@ -47,7 +48,6 @@ JuggleTree.start = function(debug){
 	{
 		director = new lime.Director(document.body,screenWidth,screenHeight);
 		SetupTitleScreen(titleScene);
-		director.replaceScene(titleScene);
 	}
 	
 	function SetupTitleScreen()
@@ -82,8 +82,9 @@ JuggleTree.start = function(debug){
 		
 		goog.events.listen(startButton,['mousedown'],function(e){
 			StartGame();
-            
 		});
+		
+		director.replaceScene(titleScene);
 	}
 		
 	function StartGame()
@@ -105,7 +106,6 @@ JuggleTree.start = function(debug){
 		gameplayScene.appendChild(jugglerLayer);
 		gameplayScene.appendChild(fruitLayer);
 		gameplayScene.appendChild(hudLayer);
-		director.replaceScene(gameplayScene);
 		
 		//initialize the world
 		world = new b2World
@@ -138,39 +138,82 @@ JuggleTree.start = function(debug){
 				GenerateFruit(world);
 		}, director, 2000, 0);
 		
-		//Tell Box2d to update every frame
-		lime.scheduleManager.schedule(function(dt) {
-			world.Step(dt / 1000, 8, 3);
-			world.ClearForces();
-		
-			//Remove old fruits
-			for (i=0;i<fruitToRemove.length;i)
-			{
-				var fruit = fruitToRemove.pop();
-				fruitLayer.removeChild(fruit.GetUserData().texture);
-				world.DestroyBody(fruit);
-			}
-				
-			//Add new fruits
-			for (i=0;i<fruitToAdd.length;i++)
-			{
-				var fruit = fruitToAdd.pop();
-				fruitLayer.appendChild(fruit.GetUserData().texture);
-			}
-				
-			//Draw limeJS objects
-			for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
-			{
-				var position = b.GetPosition();
-				b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
-				b.GetUserData().texture.setPosition(position.x*30, position.y*30);
-			}
-			
-			//Update the HUD
-			scoreLbl.setText('Score: ' + points);
-			droppedLbl.setText('Dropped: ' + fruitsDropped);
-			
+		//This is the Update Loop
+		lime.scheduleManager.schedule(function(dt) 
+		{
+			UpdateLoop(dt);	
 		},director);
+		
+		director.replaceScene(gameplayScene);
+	}
+	
+	function UpdateLoop(dt)
+	{
+		//Update box2d
+		world.Step(dt / 1000, 8, 3);
+		world.ClearForces();
+	
+		//Remove old fruits
+		for (i=0;i<fruitToRemove.length;i)
+		{
+			var fruit = fruitToRemove.pop();
+			fruitLayer.removeChild(fruit.GetUserData().texture);
+			world.DestroyBody(fruit);
+		}
+			
+		//Add new fruits
+		for (i=0;i<fruitToAdd.length;i++)
+		{
+			var fruit = fruitToAdd.pop();
+			fruitLayer.appendChild(fruit.GetUserData().texture);
+		}
+			
+		//Draw limeJS objects
+		for (var b = world.GetBodyList(); b.GetNext()!=null; b = b.GetNext())
+		{
+			var position = b.GetPosition();
+			b.GetUserData().texture.setRotation(-b.GetAngle()/Math.PI*180);
+			b.GetUserData().texture.setPosition(position.x*30, position.y*30);
+		}
+		
+		//Update the HUD
+		scoreLbl.setText('Score: ' + points);
+		droppedLbl.setText('Dropped: ' + fruitsDropped);
+		
+		//Check for game over
+		if (fruitsDropped >= 1)
+			GameOver();
+	}
+	
+	function GameOver()
+	{
+		//vv this part doesn't work
+		//When game over happens all things on the schedule manager need removed.
+		lime.scheduleManager.unschedule(function(dt) 
+		{
+			UpdateLoop();	
+		},director);
+		//^^ doesn't work
+		
+		fruitsDropped = 0;
+		gameOverScene = new lime.Scene();
+		gameOverScene.appendChild(backgroundLayer);
+		
+		var gameoverLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 - 25).setText('Game Over');
+		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
+		var startButton = new lime.Sprite().setSize(127,46).setPosition(screenWidth/2,screenHeight/2 + 75).setFill('assets/Start1.png');
+		
+		
+		gameOverScene.appendChild(gameoverLbl);
+		gameOverScene.appendChild(scoreLbl);
+		gameOverScene.appendChild(startButton);
+		
+		goog.events.listen(startButton,['mousedown'],function(e){
+			points = 0;
+			SetupTitleScreen();
+		});
+		
+		director.replaceScene(gameOverScene);
 	}
 	
 }
