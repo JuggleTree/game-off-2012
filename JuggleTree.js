@@ -125,7 +125,10 @@ JuggleTree.start = function(debug){
 		SetupPopupManager(hudLayer);
 		
 		//Schedule a fruit to fall every 10 seconds
-		lime.scheduleManager.scheduleWithDelay(function (dt){GenerateFruit(world)}, director, 2000, 0)
+		lime.scheduleManager.scheduleWithDelay(function (dt){
+			if (fruitLayer.getNumberOfChildren() < 3)
+				GenerateFruit(world);
+		}, director, 2000, 0);
 		
 		//Tell Box2d to update every frame
 		lime.scheduleManager.schedule(function(dt) {
