@@ -13,55 +13,71 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	points = 0
 	;
 
-function GenerateFruit(world, fruitLayer)
+function GenerateFruit(world)
 {
-
-	if (fruitLayer.getNumberOfChildren() < 10)
+	if (growingFruit.length < 10)
 	{
-		var x = Math.random() * 17 + 1;
-		var y = Math.random() + 1;
-		var size = Math.random() + 0.3;
-		var type = Math.floor((Math.random()*11));
-		var initialVelocity = new b2Vec2(0, 0);
-		var body;
-		switch(type)
+		//Get a random, even number between 2 and 18
+		var x = (Math.floor((Math.random() * 9) + 1))*2;
+		//Get a random number 1.5 or 2.5
+		var y = (Math.floor((Math.random() * 2)+1))+0.5;
+		if (y == 2.5)
+			x++;
+		var generate = true;
+		//Check if a fruit already exists at that location
+		for (i = 0; i < growingFruit.length; i++)
 		{
-			case 0:
-				body = createStrawberry(world,x,y,size*0.5,initialVelocity);
-				break;
-			case 1:
-				body = createApple(world,x,y,size,initialVelocity,true);
-				break;
-			case 2:
-				body = createBanana(world,x,y,size,initialVelocity);
-				break;
-			case 3:
-				body = createCherry(world,x,y,size*0.5,initialVelocity);
-				break;
-			case 4:
-				body = createGrape(world,x,y,size*0.8,initialVelocity);
-				break;
-			case 5:
-				body = createLemon(world,x,y,size,initialVelocity);
-				break;
-			case 6:
-				body = createOrange(world,x,y,size*0.7,initialVelocity);
-				break;
-			case 7:
-				body = createPear(world,x,y,size,initialVelocity);
-				break;
-			case 8:
-				body = createPineapple(world,x,y,size,initialVelocity);
-				break;
-			case 9:
-				body = createPlum(world,x,y,size,initialVelocity);
-				break;
-			case 10:
-				body = createWatermelon(world,x,y,size*1.3,initialVelocity);
-				break;
+			var newx = growingFruit[i].GetPosition().x;
+			if (growingFruit[i].GetPosition().x == x &&
+				growingFruit[i].GetPosition().y == y)
+				generate = false;
 		}
-		AddFruit(body);
-		growingFruit.push(body);
+		//Generate the fruit
+		if (generate)
+		{
+			var size = Math.random() + 0.3;
+			var type = Math.floor((Math.random()*11));
+			var initialVelocity = new b2Vec2(0, 0);
+			var body;
+			switch(type)
+			{
+				case 0:
+					body = createStrawberry(world,x,y,size*0.5,initialVelocity);
+					break;
+				case 1:
+					body = createApple(world,x,y,size,initialVelocity,true);
+					break;
+				case 2:
+					body = createBanana(world,x,y,size,initialVelocity);
+					break;
+				case 3:
+					body = createCherry(world,x,y,size*0.5,initialVelocity);
+					break;
+				case 4:
+					body = createGrape(world,x,y,size*0.8,initialVelocity);
+					break;
+				case 5:
+					body = createLemon(world,x,y,size,initialVelocity);
+					break;
+				case 6:
+					body = createOrange(world,x,y,size*0.7,initialVelocity);
+					break;
+				case 7:
+					body = createPear(world,x,y,size,initialVelocity);
+					break;
+				case 8:
+					body = createPineapple(world,x,y,size,initialVelocity);
+					break;
+				case 9:
+					body = createPlum(world,x,y,size,initialVelocity);
+					break;
+				case 10:
+					body = createWatermelon(world,x,y,size*1.3,initialVelocity);
+					break;
+			}
+			AddFruit(body);
+			growingFruit.push(body);
+		}
 	}
 
 }
@@ -73,6 +89,25 @@ function DropFruit()
 		var fruit = growingFruit.shift();
 		fruit.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruit);
+	}
+}
+
+function CheckForDrop(fruitA, fruitB)
+{
+	var indexA = growingFruit.lastIndexOf(fruitA);
+	var indexB = growingFruit.lastIndexOf(fruitB);
+	//See if the fruit is on the tree and if so remove it from the array and drop it
+	if (indexA > -1)
+	{
+		growingFruit.splice(indexA,1);
+		fruitA.SetType(b2Body.b2_dynamicBody);
+		fallingFruit.push(fruitA);
+	}
+	if (indexB > -1)
+	{
+		growingFruit.splice(indexB,1);
+		fruitB.SetType(b2Body.b2_dynamicBody);
+		fallingFruit.push(fruitB);
 	}
 }
 

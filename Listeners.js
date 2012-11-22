@@ -69,6 +69,7 @@ function SetupCollisionListener(world)
 			//the fruits are different
 			if (objectA.GetUserData().name != objectB.GetUserData().name)
 			{
+				CheckForDrop(objectA, objectB);
 				//ForkFruits(world, objectA, objectB);
 			}
 		}

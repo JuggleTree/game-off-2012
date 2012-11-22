@@ -137,7 +137,7 @@ JuggleTree.start = function(debug){
 		
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(generateFruitFunction = function (dt){
-				GenerateFruit(world, fruitLayer);
+				GenerateFruit(world);
 		}, director, 2000, 0);
 		
 		//This is the Update Loop
