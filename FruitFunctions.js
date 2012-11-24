@@ -7,7 +7,7 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	fruitToAdd = new Array()
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
-	,	heldFruit = []
+	,	heldFruit = new Array()
 	,	growingFruit = new Array()
 	,	fallingFruit = new Array()
 	,	points = 0
@@ -133,6 +133,9 @@ function CatchFruit(world, fruit, hand, handType)
 		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
 		jointDef.collideConnected = true;
 		heldFruit.push([world.CreateJoint(jointDef), fruit]);
+    
+    //add highlight to the next fruit to throw
+    HighlightNextThrow();
 		
 		CreatePopup(fruit.GetUserData().value, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
 		
@@ -176,6 +179,22 @@ function Throw(world, fruit)
 	var velocityX = width / time;
 
 	fruit.SetLinearVelocity(new b2Vec2(velocityX, velocityY));
+  RemoveHighlight(fruit);
+  HighlightNextThrow();
+}
+
+// highlights top helfFruit after checking for existence and existing highlight
+function HighlightNextThrow()
+{
+  if(heldFruit.length > 0)
+    if(typeof(heldFruit[0][1]) != 'undefined')
+      if(!heldFruit[0][1].GetUserData().texture.getStroke())
+        heldFruit[0][1].GetUserData().texture.setStroke(5, '#c00');
+}
+
+function RemoveHighlight(fruit)
+{
+  fruit.GetUserData().texture.setStroke(null);
 }
 
 function MergeFruits(world, fruitA, fruitB)
