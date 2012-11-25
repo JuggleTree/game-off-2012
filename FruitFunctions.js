@@ -147,6 +147,13 @@ function CatchFruit(world, fruit, hand, handType)
 	}
 }
 
+function FruitCaughtInBasket(world, fruit, basket, basketType)
+{
+	points += (fruit.GetUserData().value * 2);
+	CreatePopup(fruit.GetUserData().value * 2, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
+	RemoveFruit(fruit);
+}
+
 function ThrowFruit(world)
 {
 	//fruits are currently attached

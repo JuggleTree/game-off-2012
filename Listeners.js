@@ -73,6 +73,16 @@ function SetupCollisionListener(world)
 				//ForkFruits(world, objectA, objectB);
 			}
 		}
+
+		//fruit and basket collide
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "basket")
+		{
+			FruitCaughtInBasket(world, objectA, objectB, objectB.GetUserData().name);
+		}
+		if (objectA.GetUserData().type == "basket" && objectB.GetUserData().type == "fruit")
+		{
+			FruitCaughtInBasket(world, objectB, objectA, objectA.GetUserData().name);
+		}
 	}
 	world.SetContactListener(contactListener);
 }
