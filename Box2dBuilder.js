@@ -124,6 +124,41 @@ function createJuggler(world, x, y, jugglerLayer)
 	return juggler;
 }
 
+function createBasket(world, x, y, name)
+{
+	//Create the Body
+	var bodyDef = new b2BodyDef;
+	bodyDef.type = b2Body.b2_kinematicBody;
+	bodyDef.position.Set(x,y);
+
+	var basket = world.CreateBody(bodyDef);
+	var texture = new lime.Sprite()
+	.setSize(2*30, 0.4*30)
+	.setFill('#c00');
+
+	if (name=="leftBasket")
+		texture.setFill('#c00');
+	//texture.setFill('assets/LeftBasket.png');
+	else if (name=="rightBasket")
+		texture.setFill('#c00');
+	//texture.setFill('assets/RightBasket.png');
+
+	basket.SetUserData(new gameObject("basket", name, texture, 0, 0));
+	basket.SetSleepingAllowed(false);
+
+	//Create the Shape
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0;
+	fixDef.shape = new b2PolygonShape;
+	fixDef.shape.SetAsBox(1.5,0.05);
+	basket.CreateFixture(fixDef);
+
+	//Return the basket as a reference
+	return basket;
+}
+
 function GetValue(size)
 {
 	Math.floor(size*10);

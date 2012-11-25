@@ -119,13 +119,18 @@ JuggleTree.start = function(debug){
 		createBoundries(world);
 		
 		//Create the juggler
-		var rightHand = createHand(world, 11, 11.5, "right"),
-			leftHand = createHand(world, 7, 11.5, "left"),
-			juggler = createJuggler(world, 9,11.5);
-			
+		var rightHand = createHand(world, 11, 11.5, "right")
+			, leftHand = createHand(world, 7, 11.5, "left")
+			, juggler = createJuggler(world, 9,11.5)
+			, rightBasket = createBasket(world, 19, 12.5, "rightBasket") 
+			, leftBasket = createBasket(world, 1, 12.5, "leftBasket")
+			;
+
 		jugglerLayer.appendChild(juggler.GetUserData().texture);
 		jugglerLayer.appendChild(rightHand.GetUserData().texture);
 		jugglerLayer.appendChild(leftHand.GetUserData().texture);
+    jugglerLayer.appendChild(rightBasket.GetUserData().texture);
+    jugglerLayer.appendChild(leftBasket.GetUserData().texture);
 
 		//Setup Listeners
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler, director);
