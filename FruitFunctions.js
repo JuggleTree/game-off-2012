@@ -132,10 +132,12 @@ function CatchFruit(world, fruit, hand, handType)
 		jointDef = new b2WeldJointDef();
 		jointDef.Initialize(fruit, hand, fruit.GetPosition(), hand.GetPosition());
 		jointDef.collideConnected = true;
-		heldFruit.push([world.CreateJoint(jointDef), fruit]);
+		var joint = world.CreateJoint(jointDef);
+		fruit.GetUserData().joint = joint;
+		heldFruit.push(fruit);
     
-    //add highlight to the next fruit to throw
-    HighlightNextThrow();
+		//add highlight to the next fruit to throw
+		HighlightNextThrow();
 		
 		CreatePopup(fruit.GetUserData().value, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
 		
@@ -159,11 +161,10 @@ function ThrowFruit(world)
 	//fruits are currently attached
 	if (heldFruit.length > 0)
 	{
-		var temp = heldFruit.shift();
-		var currentJoint = temp[0];
-		var currentFruit = temp[1];
+		var currentFruit = heldFruit.shift();
+		world.DestroyJoint(currentFruit.GetUserData().joint);
 		
-		world.DestroyJoint(currentJoint);
+		
 		Throw(world, currentFruit);
 
 		currentFruit.hasJoint = false;
@@ -194,9 +195,9 @@ function Throw(world, fruit)
 function HighlightNextThrow()
 {
   if(heldFruit.length > 0)
-    if(typeof(heldFruit[0][1]) != 'undefined')
-      if(!heldFruit[0][1].GetUserData().texture.getStroke())
-        heldFruit[0][1].GetUserData().texture.setStroke(5, '#c00');
+    if(typeof(heldFruit[0]) != 'undefined')
+      if(!heldFruit[0].GetUserData().texture.getStroke())
+        heldFruit[0].GetUserData().texture.setStroke(5, '#c00');
 }
 
 function RemoveHighlight(fruit)
@@ -206,6 +207,13 @@ function RemoveHighlight(fruit)
 
 function MergeFruits(world, fruitA, fruitB)
 {
+	var index = heldFruit.lastIndexOf(fruitA);
+	if (index != -1)
+		{heldFruit.splice(index,1);}
+	var index = heldFruit.lastIndexOf(fruitB);
+	if (index != -1)
+		{heldFruit.splice(index,1);}
+		
 	fruitA.GetUserData().collide = true;
 	fruitB.GetUserData().collide = true;
 	
@@ -233,7 +241,7 @@ function MergeFruits(world, fruitA, fruitB)
 	CreateNewFruit(fruitA.GetUserData().name, world, x, y, size, velocity);
 	
 	CreatePopup("Merge!", x*30, y*30);
-	
+
 	RemoveFruit(fruitA);
 	RemoveFruit(fruitB);
 }
