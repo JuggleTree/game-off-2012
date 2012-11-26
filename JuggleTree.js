@@ -311,6 +311,9 @@ JuggleTree.start = function(){
 			//Restart the game
 			fruitsDropped = 0;
 			points = 0;
+			fallingFruit = new Array();
+			growingFruit = new Array();
+			heldFruit = new Array();
 			SetupTitleScreen();
 		});
 		
