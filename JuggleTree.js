@@ -40,6 +40,7 @@ JuggleTree.start = function(){
 		,	b2Body = Box2D.Dynamics.b2Body
 			//objects for the game
 		,	world
+		,	highScores
 		,	screenWidth = 600
 		,	screenHeight = 400
 		;
@@ -117,27 +118,34 @@ JuggleTree.start = function(){
 		highScoreLayer.appendChild(title);
 		highScoreLayer.appendChild(returnButton);
 		
-		setCookie("highscores", "1234", 10);
-		var highScores = getCookie("highscores");		
-		var one = new lime.Label().setText("1: " + highScores + "pts").setPosition(0,100).setFontSize(15);
+		highScores = getCookie();
+		if (highScores == null || highScores == "")
+		{
+			var defaultScores = ["0","0","0","0","0","0","0","0","0","0"];
+			highScores = defaultScores;
+			setCookie(defaultScores);
+		}
 		
-		highScoreLayer.appendChild(one);
-		
+		for (var i=0; i < 10; i++)
+		{
+			var score = new lime.Label().setText((i+1) + ": " + highScores[i] + " pts").setPosition(0,i*20+100).setFontSize(15);
+			highScoreLayer.appendChild(score);
+		}
 		
 		goog.events.listen(returnButton,['mousedown'],function(e){
 			director.replaceScene(titleScene);
 		});
 	}
 	
-	function setCookie(c_name,value,exdays)
+	function setCookie(value)
 	{
 		var exdate=new Date();
-		exdate.setDate(exdate.getDate() + exdays);
-		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-		document.cookie=c_name + "=" + c_value;
+		exdate.setDate(exdate.getDate() + 356);
+		var c_value=value.toString() + "; expires="+exdate.toUTCString();
+		document.cookie="highscores" + "=" + c_value;
 	}
 	
-	function getCookie(c_name)
+	function getCookie()
 	{
 		var i,x,y,ARRcookies=document.cookie.split(";");
 		for (i=0;i<ARRcookies.length;i++)
@@ -145,9 +153,10 @@ JuggleTree.start = function(){
 			x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
 			y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
 			x=x.replace(/^\s+|\s+$/g,"");
-			if (x==c_name)
+			if (x=="highscores")
 			{
-				return unescape(y);
+				var value = y.split(",");
+				return value;
 			}
 		}
 	}
@@ -306,6 +315,13 @@ JuggleTree.start = function(){
 		});
 		
 		director.replaceScene(gameOverScene);
+		
+		//Add the new highscore
+		highScores.push(points)
+		highScores.sort(function(a,b){return b-a});
+		if (highScores.length > 10)
+			highScores.pop();
+		setCookie(highScores);
 	}
 	
 }
