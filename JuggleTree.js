@@ -13,18 +13,19 @@ goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
 goog.require('JuggleTree.BoxBuilder');
 goog.require('JuggleTree.Listeners');
-goog.require('JuggleTree.Debug');
+//goog.require('JuggleTree.Debug'); //uncomment this if you need to debug
 goog.require('JuggleTree.Popups');
-goog.require('JuggleTree.PauseScene');
 
 // entrypoint
-JuggleTree.start = function(debug){
-			
+//JuggleTree.start = function(debug){ //uncomment this if you need to debug
+JuggleTree.start = function(){
 			//Lime2D variables
 	var 	director
 		,	gameplayScene
 		,	titleScene
 		,	gameOverScene
+		,	highScoreScene
+		,	pauseScene
 		,	fruitLayer
 		,	jugglerLayer
 		,	buttonLayer
@@ -43,34 +44,37 @@ JuggleTree.start = function(debug){
 		,	screenHeight = 400
 		;
 
-	if (debug)
-	{
-		SetupDebug(screenWidth, screenHeight);
-	}
-	else
-	{
+	//if (debug)
+	//{
+		//SetupDebug(screenWidth, screenHeight); // uncomment this if you need to debug
+	//}
+	//else
+	//{
 		director = new lime.Director(document.body,screenWidth,screenHeight);
-		SetupTitleScreen(titleScene);
-	}
+		SetupTitleScreen();
+		SetupPauseScene();
+	//}
 	
 	function SetupTitleScreen()
 	{
 		titleScene = new lime.Scene();
 		buttonLayer = new lime.Layer();
 		backgroundLayer = new lime.Layer();
-		titleScene.appendChild(backgroundLayer);
-		titleScene.appendChild(buttonLayer);
 		
 		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
 		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		titleScene.appendChild(backgroundLayer);
 		
 		//set the button layer
 		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
 		var startButton = new lime.Sprite().setSize(127,46).setPosition(0,25).setFill('assets/Start1.png');
+		var highScoresButton = new lime.Label().setText("High Scores").setPosition(0,75).setFontSize(30);
 		var title = new lime.Sprite().setSize(270,167).setPosition(0,-100).setFill('assets/Title.png');
 		buttonLayer.appendChild(title);
 		buttonLayer.appendChild(startButton);
+		buttonLayer.appendChild(highScoresButton);
+		titleScene.appendChild(buttonLayer);
 		
 		//Button listeners
 		goog.events.listen(startButton, ['mouseover'], function(e)
@@ -87,11 +91,87 @@ JuggleTree.start = function(debug){
 			StartGame();
 		});
 		
-		director.replaceScene(titleScene);
-	}
+		goog.events.listen(highScoresButton,['mousedown'],function(e){
+			director.replaceScene(highScoreScene);;
+		});
 		
-	function StartGame()
+		director.replaceScene(titleScene);
+		
+		SetupHighScoreScene();
+	}
+	
+	function SetupHighScoreScene()
 	{
+		//I shouldn't have to create another background layer but using the one above doesn't work
+		backgroundLayer = new lime.Layer();
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+	
+		highScoreScene = new lime.Scene();
+		var highScoreLayer = new lime.Layer().setPosition(screenWidth/2, 0);
+		var title = new lime.Label().setText("High Scores").setPosition(0,75).setFontSize(20);
+		var returnButton = new lime.Label().setText("Back").setPosition(0,300).setFontSize(20);
+		
+		highScoreScene.appendChild(backgroundLayer);
+		highScoreScene.appendChild(highScoreLayer);
+		highScoreLayer.appendChild(title);
+		highScoreLayer.appendChild(returnButton);
+		
+		setCookie("highscores", "1234", 10);
+		var highScores = getCookie("highscores");		
+		var one = new lime.Label().setText("1: " + highScores + "pts").setPosition(0,100).setFontSize(15);
+		
+		highScoreLayer.appendChild(one);
+		
+		
+		goog.events.listen(returnButton,['mousedown'],function(e){
+			director.replaceScene(titleScene);
+		});
+	}
+	
+	function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
+	
+	function getCookie(c_name)
+	{
+		var i,x,y,ARRcookies=document.cookie.split(";");
+		for (i=0;i<ARRcookies.length;i++)
+		{
+			x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+			y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+			x=x.replace(/^\s+|\s+$/g,"");
+			if (x==c_name)
+			{
+				return unescape(y);
+			}
+		}
+	}
+
+	function SetupPauseScene()
+	{
+		pauseScene = new lime.Scene();
+
+		var label = new lime.Label().setText('Paused').setPosition(screenWidth/2, screenHeight/2);
+		pauseScene.appendChild(label);
+		
+		//listener to unpause the screen
+		goog.events.listen(pauseScene, ['keydown'], function(e){
+			if (e.event.keyCode == goog.events.KeyCodes.ENTER)
+			{
+			director.popScene();
+				director.setPaused(false);
+				
+			}
+		});
+	}
+	
+	function StartGame()
+	{	
 		//initialize objects
 		gameplayScene = new lime.Scene();
 		fruitLayer = new lime.Layer();
@@ -129,13 +209,22 @@ JuggleTree.start = function(debug){
 		jugglerLayer.appendChild(juggler.GetUserData().texture);
 		jugglerLayer.appendChild(rightHand.GetUserData().texture);
 		jugglerLayer.appendChild(leftHand.GetUserData().texture);
-    jugglerLayer.appendChild(rightBasket.GetUserData().texture);
-    jugglerLayer.appendChild(leftBasket.GetUserData().texture);
+		jugglerLayer.appendChild(rightBasket.GetUserData().texture);
+		jugglerLayer.appendChild(leftBasket.GetUserData().texture);
 
 		//Setup Listeners
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler, director);
 		SetupCollisionListener(world);
 		SetupMouseListener(world, gameplayScene);
+									
+		//listener to pause the screen
+		goog.events.listen(gameplayScene, ['keydown'], function(e){
+			if (e.event.keyCode == goog.events.KeyCodes.ENTER)
+			{
+				director.setPaused(true);
+				director.pushScene(pauseScene);
+			}
+		});
 		
 		//SetupPopups
 		SetupPopupManager(hudLayer);
