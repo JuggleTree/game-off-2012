@@ -17,8 +17,8 @@ function GenerateFruit(world)
 {
 	if (growingFruit.length < 10)
 	{
-		//Get a random, even number between 2 and 18
-		var x = (Math.floor((Math.random() * 9) + 1))*2;
+		//Get a random, even number between 4 and 16
+		var x = (Math.floor((Math.random() * 7) + 2))*2;
 		//Get a random number 1.5 or 2.5
 		var y = (Math.floor((Math.random() * 2)+1))+0.5;
 		if (y == 2.5)
