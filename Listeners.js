@@ -15,6 +15,7 @@ var		b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	mouseX = 8.5
 	,	mouseY = 6
 	,	fruitsDropped = 0
+	,	movementSpeed = 9
 	;
 	
 //create the listener which runs when 2 thinks collide
@@ -85,17 +86,17 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 		if (e.event.keyCode == goog.events.KeyCodes.LEFT 
 			|| e.event.keyCode == goog.events.KeyCodes.A)
 		{
-			rightHand.SetLinearVelocity(new b2Vec2(-7, 0));
-			leftHand.SetLinearVelocity(new b2Vec2(-7, 0));
-			juggler.SetLinearVelocity(new b2Vec2(-7, 0));
+			rightHand.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
+			leftHand.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
+			juggler.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
 		}
 		if (e.event.keyCode == goog.events.KeyCodes.RIGHT
 			 || e.event.keyCode == goog.events.KeyCodes.E
 			  || e.event.keyCode == goog.events.KeyCodes.D)
 		{
-			rightHand.SetLinearVelocity(new b2Vec2(7, 0));
-			leftHand.SetLinearVelocity(new b2Vec2(7, 0));
-			juggler.SetLinearVelocity(new b2Vec2(7, 0));
+			rightHand.SetLinearVelocity(new b2Vec2(movementSpeed, 0));
+			leftHand.SetLinearVelocity(new b2Vec2(movementSpeed, 0));
+			juggler.SetLinearVelocity(new b2Vec2(movementSpeed, 0));
 		}
 	});
 	
