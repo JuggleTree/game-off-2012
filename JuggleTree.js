@@ -34,6 +34,7 @@ JuggleTree.start = function(){
 			//Schedule Manager Functions
 		,	updateFunction
 		,	generateFruitFunction
+		,	setTimeRemaining
 			//Box2d required includes
 		,   b2Vec2 = Box2D.Common.Math.b2Vec2
 		,	b2World = Box2D.Dynamics.b2World
@@ -43,6 +44,7 @@ JuggleTree.start = function(){
 		,	highScores
 		,	screenWidth = 600
 		,	screenHeight = 400
+		,	timeRemaining
 		;
 
 	//if (debug)
@@ -254,6 +256,21 @@ JuggleTree.start = function(){
 		//SetupPopups
 		SetupPopupManager(hudLayer);
 		
+		//Create and schedule the timer
+		timeRemaining = 150; //seconds
+		var timeLabel = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(screenWidth - 40,10).setText(Math.floor((timeRemaining / 60)) + ':' + (timeRemaining%60));
+		hudLayer.appendChild(timeLabel);
+		lime.scheduleManager.scheduleWithDelay(setTimeRemaining = function (dt){
+				timeRemaining--;
+				if (timeRemaining%60 < 10)
+					timeLabel.setText(Math.floor((timeRemaining / 60)) + ':0' + (timeRemaining%60));
+				else
+					timeLabel.setText(Math.floor((timeRemaining / 60)) + ':' + (timeRemaining%60));
+				if (timeRemaining == 0)
+					GameOver();
+				
+		}, director, 1000, 0);		
+		
 		//Schedule a fruit to fall every 10 seconds
 		lime.scheduleManager.scheduleWithDelay(generateFruitFunction = function (dt){
 				GenerateFruit(world);
@@ -309,6 +326,7 @@ JuggleTree.start = function(){
 		//Remove the scheduled tasks
 		lime.scheduleManager.unschedule(updateFunction,director);
 		lime.scheduleManager.unschedule(generateFruitFunction,director);
+		lime.scheduleManager.unschedule(setTimeRemaining,director);
 		
 		//Set up the game over screen
 		gameOverScene = new lime.Scene();
