@@ -49,7 +49,7 @@ JuggleTree.start = function(){
 
 	//if (debug)
 	//{
-		//SetupDebug(screenWidth, screenHeight); // uncomment this if you need to debug
+	//	SetupDebug(screenWidth, screenHeight); // uncomment this if you need to debug
 	//}
 	//else
 	//{
@@ -223,8 +223,8 @@ JuggleTree.start = function(){
 		var rightHand = createHand(world, 11, 11.5, "right")
 			, leftHand = createHand(world, 7, 11.5, "left")
 			, juggler = createJuggler(world, 9,11.5)
-			, rightBasket = createBasket(world, 19, 12.5, "rightBasket") 
-			, leftBasket = createBasket(world, 1, 12.5, "leftBasket")
+			, rightBasket = createBasket(world, 20, 13, "rightBasket") 
+			, leftBasket = createBasket(world, 3, 13, "leftBasket")
 			;
 
 		jugglerLayer.appendChild(juggler.GetUserData().texture);

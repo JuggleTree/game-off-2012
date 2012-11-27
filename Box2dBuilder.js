@@ -129,33 +129,64 @@ function createBasket(world, x, y, name)
 {
 	//Create the Body
 	var bodyDef = new b2BodyDef;
-	bodyDef.type = b2Body.b2_kinematicBody;
+	bodyDef.type = b2Body.b2_staticBody;
 	bodyDef.position.Set(x,y);
 
+	var size = 3;
+	
 	var basket = world.CreateBody(bodyDef);
 	var texture = new lime.Sprite()
-	.setSize(2*30, 0.4*30)
-	.setFill('#c00');
-
-	if (name=="leftBasket")
-		texture.setFill('#c00');
-	//texture.setFill('assets/LeftBasket.png');
-	else if (name=="rightBasket")
-		texture.setFill('#c00');
-	//texture.setFill('assets/RightBasket.png');
+	.setSize(size*30, size*18.6)
+	.setAnchorPoint(0,0)
+	.setFill('assets/Basket.png');
 
 	basket.SetUserData(new gameObject("basket", name, texture, 0, 0));
 	basket.SetSleepingAllowed(false);
+	basket.SetAngle(Math.PI);
 
 	//Create the Shape
 	var fixDef = new b2FixtureDef;
 	fixDef.density = 1.0;
 	fixDef.friction = 0.5;
 	fixDef.restitution = 0;
+	
 	fixDef.shape = new b2PolygonShape;
-	fixDef.shape.SetAsBox(1.5,0.05);
+	fixDef.shape.SetAsArray([new b2Vec2(0.06*size,0.54*size),new b2Vec2(0.09*size,0.58*size),new b2Vec2(0.05*size,0.60*size),new b2Vec2(0.01*size,0.55*size)],4);
+	basket.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.01*size,0.55*size),new b2Vec2(0*size,0.25*size),new b2Vec2(0.01*size,0.25*size),new b2Vec2(0.06*size,0.54*size)],4);
 	basket.CreateFixture(fixDef);
 
+	fixDef.shape.SetAsArray([new b2Vec2(0*size,0.25*size),new b2Vec2(0.22*size,0*size),new b2Vec2(0.22*size,0.01*size),new b2Vec2(0.01*size,0.25*size)],4);
+	basket.CreateFixture(fixDef);
+
+	fixDef.shape.SetAsArray([new b2Vec2(0.22*size,0*size),new b2Vec2(0.87*size,0*size),new b2Vec2(0.86*size,0.01*size),new b2Vec2(0.22*size,0.01*size)],4);
+	basket.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(0.87*size,0*size),new b2Vec2(1*size,0.38*size),new b2Vec2(0.99*size,0.38*size),new b2Vec2(0.86*size,0.01*size)],4);
+	basket.CreateFixture(fixDef);
+	
+	fixDef.shape.SetAsArray([new b2Vec2(1*size,0.38*size),new b2Vec2(1*size,0.59*size),new b2Vec2(0.94*size,0.62*size),new b2Vec2(0.99*size,0.38*size)],4);
+	basket.CreateFixture(fixDef);
+
+	//Create the basket floor
+	var bodyDef = new b2BodyDef;
+	bodyDef.type = b2Body.b2_staticBody;
+	bodyDef.position.Set(x,y);
+	var floor = world.CreateBody(bodyDef);
+	
+	var texture = new lime.Sprite(); //empty sprite
+	
+	var fixDef = new b2FixtureDef;
+	fixDef.density = 1.0;
+	fixDef.friction = 0.5;
+	fixDef.restitution = 0.8;
+	fixDef.shape = new b2PolygonShape;
+	
+	floor.SetUserData(new gameObject("basket","floor",new lime.Sprite(),0,0));
+	fixDef.shape.SetAsEdge(new b2Vec2(-size + 0.5,-0.03), new b2Vec2(-0.7,-0.03));
+	floor.CreateFixture(fixDef);
+	
 	//Return the basket as a reference
 	return basket;
 }

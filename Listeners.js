@@ -68,11 +68,11 @@ function SetupCollisionListener(world)
 		}
 
 		//fruit and basket collide
-		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "basket")
+		if (objectA.GetUserData().type == "fruit" && objectB.GetUserData().type == "basket" && objectB.GetUserData().name == "floor")
 		{
 			FruitCaughtInBasket(world, objectA, objectB, objectB.GetUserData().name);
 		}
-		if (objectA.GetUserData().type == "basket" && objectB.GetUserData().type == "fruit")
+		if (objectA.GetUserData().type == "basket" && objectA.GetUserData().name == "floor" && objectB.GetUserData().type == "fruit")
 		{
 			FruitCaughtInBasket(world, objectB, objectA, objectA.GetUserData().name);
 		}

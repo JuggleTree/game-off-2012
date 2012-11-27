@@ -70,7 +70,8 @@ function StartDebug()
 	//Create the juggler
 	var rightHand = createHand(world, 11, 12, "right"),
 		leftHand = createHand(world, 7, 12, "left"),
-		juggler = createJuggler(world, 9,12);
+		juggler = createJuggler(world, 9,12),
+		rightBasket = createBasket(world, 10.5, 5.5, "rightBasket");
 
 	//Setup Listeners
 	SetupKeyboardListener(debugScene, rightHand, leftHand, juggler);
