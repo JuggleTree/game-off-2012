@@ -83,16 +83,19 @@ function SetupCollisionListener(world)
 function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 {
 	goog.events.listen(scene, ['keydown'], function(e){
-		if (e.event.keyCode == goog.events.KeyCodes.LEFT 
+		if ((e.event.keyCode == goog.events.KeyCodes.LEFT 
 			|| e.event.keyCode == goog.events.KeyCodes.A)
+			&& leftHand.GetPosition().x > 3.7)
 		{
+			//var x = leftHand.GetPosition().x;
 			rightHand.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
 			juggler.SetLinearVelocity(new b2Vec2(-movementSpeed, 0));
 		}
-		if (e.event.keyCode == goog.events.KeyCodes.RIGHT
+		if ((e.event.keyCode == goog.events.KeyCodes.RIGHT
 			 || e.event.keyCode == goog.events.KeyCodes.E
 			  || e.event.keyCode == goog.events.KeyCodes.D)
+			  && rightHand.GetPosition().x < 16.2)
 		{
 			rightHand.SetLinearVelocity(new b2Vec2(movementSpeed, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(movementSpeed, 0));

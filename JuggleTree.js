@@ -283,6 +283,14 @@ JuggleTree.start = function(){
 			world.Step(dt / 1000, 8, 3);
 			world.ClearForces();
 		
+			//Check for movement boundries
+			if (leftHand.GetPosition().x < 3.7 || rightHand.GetPosition().x > 16.2)
+			{
+				rightHand.SetLinearVelocity(new b2Vec2(0, 0));
+				leftHand.SetLinearVelocity(new b2Vec2(0, 0));
+				juggler.SetLinearVelocity(new b2Vec2(0, 0));			
+			}
+		
 			//Remove old fruits
 			for (i=0;i<fruitToRemove.length;i)
 			{
