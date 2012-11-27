@@ -55,6 +55,11 @@ function createBoundries(world)
 	wall.SetUserData(new gameObject("wall","right",texture,0,0));
 	fixDef.shape.SetAsEdge(new b2Vec2(20,15), new b2Vec2(20,-2));
 	wall.CreateFixture(fixDef);	
+	
+	wall = world.CreateBody(bodyDef);
+	wall.SetUserData(new gameObject("wall","top",texture,0,0));
+	fixDef.shape.SetAsEdge(new b2Vec2(0,-2), new b2Vec2(20,-2));
+	wall.CreateFixture(fixDef);	
 }
 
 function createHand(world, x, y, name)
