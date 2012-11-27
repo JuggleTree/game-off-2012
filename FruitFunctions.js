@@ -197,7 +197,7 @@ function HighlightNextThrow()
   if(heldFruit.length > 0)
     if(typeof(heldFruit[0]) != 'undefined')
       if(!heldFruit[0].GetUserData().texture.getStroke())
-        heldFruit[0].GetUserData().texture.setStroke(5, '#c00');
+        heldFruit[0].GetUserData().texture.setStroke(1, '#c00');
 }
 
 function RemoveHighlight(fruit)

@@ -166,16 +166,24 @@ JuggleTree.start = function(){
 		pauseScene = new lime.Scene();
 
 		var label = new lime.Label().setText('Paused').setPosition(screenWidth/2, screenHeight/2);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill('assets/pause.png').setAnchorPoint(0,0).setPosition(5,5);
+		pauseScene.appendChild(pauseButton);
 		pauseScene.appendChild(label);
 		
-		//listener to unpause the screen
+		//listeners to unpause the screen
 		goog.events.listen(pauseScene, ['keydown'], function(e){
-			if (e.event.keyCode == goog.events.KeyCodes.ENTER)
+			if (e.event.keyCode == goog.events.KeyCodes.ENTER
+				|| e.event.keyCode == goog.events.KeyCodes.P
+				|| e.event.keyCode == goog.events.KeyCodes.L)
 			{
-			director.popScene();
+				director.popScene();
 				director.setPaused(false);
 				
 			}
+		});
+		goog.events.listen(pauseButton, ['mousedown'], function(e){
+				director.popScene();
+				director.setPaused(false);
 		});
 	}
 	
@@ -190,6 +198,8 @@ JuggleTree.start = function(){
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
 		droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill('assets/pause.png').setAnchorPoint(0,0).setPosition(5,5);
+		hudLayer.appendChild(pauseButton);
 		hudLayer.appendChild(scoreLbl);
 		hudLayer.appendChild(droppedLbl);
 		
@@ -228,11 +238,17 @@ JuggleTree.start = function(){
 									
 		//listener to pause the screen
 		goog.events.listen(gameplayScene, ['keydown'], function(e){
-			if (e.event.keyCode == goog.events.KeyCodes.ENTER)
+			if (e.event.keyCode == goog.events.KeyCodes.ENTER
+				|| e.event.keyCode == goog.events.KeyCodes.P
+				|| e.event.keyCode == goog.events.KeyCodes.L)
 			{
 				director.setPaused(true);
 				director.pushScene(pauseScene);
 			}
+		});
+		goog.events.listen(pauseButton, ['mousedown'], function(e){
+				director.setPaused(true);
+				director.pushScene(pauseScene);
 		});
 		
 		//SetupPopups
