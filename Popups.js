@@ -15,7 +15,7 @@ function SetupPopupManager(layer)
 
 function CreatePopup(text, x, y)
 {
-	popup = new lime.Label().setFontSize(12).setFontColor('#000').setPosition(x,y).setText(text);
+	popup = new lime.Label().setFontSize(12).setFontColor('#FF0').setPosition(x,y).setText(text);
 	
 	layer.appendChild(popup);
 

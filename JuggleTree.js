@@ -207,11 +207,54 @@ JuggleTree.start = function(){
 	function SetupPauseScene()
 	{
 		pauseScene = new lime.Scene();
-
-		var label = new lime.Label().setText('Paused').setPosition(screenWidth/2, screenHeight/2);
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
+		var layer = new lime.Layer().setPosition(screenWidth/2, screenHeight/2);
+		
+		var continueButton = new lime.Sprite().setSize(147,37).setPosition(0,0).setFill(spriteSheet.getFrame('Continue1.png'));
+		var quitButton = new lime.Sprite().setSize(73.5,39.5).setPosition(0,50).setFill(spriteSheet.getFrame('Quit1.png'));
+		var pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
+		
+		pauseScene.appendChild(layer);
 		pauseScene.appendChild(pauseButton);
-		pauseScene.appendChild(label);
+		
+		layer.appendChild(continueButton);
+		layer.appendChild(quitButton);
+		
+		//button listeners
+		goog.events.listen(continueButton, ['mouseover'], function(e)
+		{
+			continueButton.setFill(spriteSheet.getFrame('Continue2.png'));
+			lime.updateDirtyObjects();
+		});
+		
+		goog.events.listen(pauseScene, ['mouseout'], function(e)
+		{
+			continueButton.setFill(spriteSheet.getFrame('Continue1.png'));
+			lime.updateDirtyObjects();
+		});
+		
+		goog.events.listen(continueButton,['mousedown'],function(e){
+			director.popScene();
+			director.setPaused(false);
+		});
+		
+		goog.events.listen(quitButton, ['mouseover'], function(e)
+		{
+			quitButton.setFill(spriteSheet.getFrame('Quit2.png'));
+			lime.updateDirtyObjects();
+		});
+		
+		goog.events.listen(pauseScene, ['mouseout'], function(e)
+		{
+			quitButton.setFill(spriteSheet.getFrame('Quit1.png'));
+			lime.updateDirtyObjects();
+		});
+		
+		goog.events.listen(quitButton,['mousedown'],function(e){
+			director.popScene();
+			director.setPaused(false);
+			GameOver();
+		});	
+
 		
 		//listeners to unpause the screen
 		goog.events.listen(pauseScene, ['keydown'], function(e){
@@ -287,11 +330,13 @@ JuggleTree.start = function(){
 			{
 				director.setPaused(true);
 				director.pushScene(pauseScene);
+				lime.updateDirtyObjects();
 			}
 		});
 		goog.events.listen(pauseButton, ['mousedown'], function(e){
 				director.setPaused(true);
 				director.pushScene(pauseScene);
+				lime.updateDirtyObjects();
 		});
 		
 		//SetupPopups
