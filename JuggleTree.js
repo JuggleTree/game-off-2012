@@ -87,11 +87,13 @@ JuggleTree.start = function(){
 		//set the button layer
 		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
 		var startButton = new lime.Sprite().setSize(127,46).setPosition(0,25).setFill(spriteSheet.getFrame('Start1.png'));
-		var highScoresButton = new lime.Label().setText("High Scores").setPosition(0,75).setFontSize(30);
+		var highScoresButton = new lime.Sprite().setSize(196,50).setPosition(0,75).setFill(spriteSheet.getFrame('HighScore1.png'));
+		var howToPlayButton = new lime.Sprite().setSize(240.5,59.5).setPosition(0,130).setFill(spriteSheet.getFrame('HTP1.png'));
 		var title = new lime.Sprite().setSize(270,167).setPosition(0,-100).setFill(spriteSheet.getFrame('Title.png'));
 		buttonLayer.appendChild(title);
 		buttonLayer.appendChild(startButton);
 		buttonLayer.appendChild(highScoresButton);
+		buttonLayer.appendChild(howToPlayButton);
 		titleScene.appendChild(buttonLayer);
 		
 		//Button listeners
@@ -109,8 +111,32 @@ JuggleTree.start = function(){
 			StartGame();
 		});
 		
+		goog.events.listen(highScoresButton, ['mouseover'], function(e)
+		{
+			highScoresButton.setFill(spriteSheet.getFrame('HighScore2.png'));
+		});
+		
+		goog.events.listen(titleScene, ['mouseout'], function(e)
+		{
+			highScoresButton.setFill(spriteSheet.getFrame('HighScore1.png'));
+		});
+		
 		goog.events.listen(highScoresButton,['mousedown'],function(e){
 			director.replaceScene(highScoreScene);;
+		});
+		
+		goog.events.listen(howToPlayButton, ['mouseover'], function(e)
+		{
+			howToPlayButton.setFill(spriteSheet.getFrame('HTP2.png'));
+		});
+		
+		goog.events.listen(titleScene, ['mouseout'], function(e)
+		{
+			howToPlayButton.setFill(spriteSheet.getFrame('HTP1.png'));
+		});
+		
+		goog.events.listen(howToPlayButton,['mousedown'],function(e){
+			//director.replaceScene(howToPlayScene);;
 		});
 		
 		director.replaceScene(titleScene);
@@ -183,7 +209,7 @@ JuggleTree.start = function(){
 		pauseScene = new lime.Scene();
 
 		var label = new lime.Label().setText('Paused').setPosition(screenWidth/2, screenHeight/2);
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pause.png')).setAnchorPoint(0,0).setPosition(5,5);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
 		pauseScene.appendChild(pauseButton);
 		pauseScene.appendChild(label);
 		
@@ -215,7 +241,7 @@ JuggleTree.start = function(){
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
 		droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pause.png')).setAnchorPoint(0,0).setPosition(5,5);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
 		hudLayer.appendChild(pauseButton);
 		hudLayer.appendChild(scoreLbl);
 		hudLayer.appendChild(droppedLbl);
