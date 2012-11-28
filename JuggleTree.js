@@ -9,6 +9,7 @@ goog.require('lime.Layer');
 goog.require('lime.RoundedRect');
 goog.require('lime.Circle');
 goog.require('lime.Label');
+goog.require('lime.audio.Audio');
 goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
 goog.require('JuggleTree.BoxBuilder');
@@ -45,6 +46,8 @@ JuggleTree.start = function(){
 		,	screenWidth = 600
 		,	screenHeight = 400
 		,	timeRemaining
+			//assets
+		,	music
 		;
 
 	//if (debug)
@@ -54,9 +57,15 @@ JuggleTree.start = function(){
 	//else
 	//{
 		director = new lime.Director(document.body,screenWidth,screenHeight);
+		LoadAssets();
 		SetupTitleScreen();
 		SetupPauseScene();
 	//}
+	
+	function LoadAssets()
+	{
+		music = new lime.audio.Audio('assets/JugglingMusic.mp3');
+	}
 	
 	function SetupTitleScreen()
 	{
@@ -327,10 +336,13 @@ JuggleTree.start = function(){
 		},director);
 		
 		director.replaceScene(gameplayScene);
+		music.play();
 	}
 	
 	function GameOver()
 	{
+		music.stop();
+		
 		//Remove the scheduled tasks
 		lime.scheduleManager.unschedule(updateFunction,director);
 		lime.scheduleManager.unschedule(generateFruitFunction,director);
