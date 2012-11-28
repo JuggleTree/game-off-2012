@@ -12,6 +12,9 @@ goog.require('lime.Label');
 goog.require('lime.audio.Audio');
 goog.require('lime.animation.FadeTo');
 goog.require('goog.events.KeyCodes');
+goog.require('lime.SpriteSheet');
+goog.require('lime.parser.JSON');
+goog.require('lime.ASSETS.JuggleTextures.json');
 goog.require('JuggleTree.BoxBuilder');
 goog.require('JuggleTree.Listeners');
 //goog.require('JuggleTree.Debug'); //uncomment this if you need to debug
@@ -47,6 +50,7 @@ JuggleTree.start = function(){
 		,	screenHeight = 400
 		,	timeRemaining
 			//assets
+		,	spriteSheet
 		,	music
 		;
 
@@ -65,6 +69,8 @@ JuggleTree.start = function(){
 	function LoadAssets()
 	{
 		music = new lime.audio.Audio('assets/JugglingMusic.mp3');
+		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
+		setSpriteSheet(spriteSheet);
 	}
 	
 	function SetupTitleScreen()
@@ -74,15 +80,15 @@ JuggleTree.start = function(){
 		backgroundLayer = new lime.Layer();
 		
 		//set the background
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
 		titleScene.appendChild(backgroundLayer);
 		
 		//set the button layer
 		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
-		var startButton = new lime.Sprite().setSize(127,46).setPosition(0,25).setFill('assets/Start1.png');
+		var startButton = new lime.Sprite().setSize(127,46).setPosition(0,25).setFill(spriteSheet.getFrame('Start1.png'));
 		var highScoresButton = new lime.Label().setText("High Scores").setPosition(0,75).setFontSize(30);
-		var title = new lime.Sprite().setSize(270,167).setPosition(0,-100).setFill('assets/Title.png');
+		var title = new lime.Sprite().setSize(270,167).setPosition(0,-100).setFill(spriteSheet.getFrame('Title.png'));
 		buttonLayer.appendChild(title);
 		buttonLayer.appendChild(startButton);
 		buttonLayer.appendChild(highScoresButton);
@@ -91,12 +97,12 @@ JuggleTree.start = function(){
 		//Button listeners
 		goog.events.listen(startButton, ['mouseover'], function(e)
 		{
-			startButton.setFill('assets/Start2.png');
+			startButton.setFill(spriteSheet.getFrame('Start2.png'));
 		});
 		
 		goog.events.listen(titleScene, ['mouseout'], function(e)
 		{
-			startButton.setFill('assets/Start1.png');
+			startButton.setFill(spriteSheet.getFrame('Start1.png'));
 		});
 		
 		goog.events.listen(startButton,['mousedown'],function(e){
@@ -116,8 +122,8 @@ JuggleTree.start = function(){
 	{
 		//I shouldn't have to create another background layer but using the one above doesn't work
 		backgroundLayer = new lime.Layer();
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/Background.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		backgroundLayer.appendChild(new lime.Sprite().setFill('assets/ForegroundTree.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
 	
 		highScoreScene = new lime.Scene();
 		var highScoreLayer = new lime.Layer().setPosition(screenWidth/2, 0);
@@ -177,7 +183,7 @@ JuggleTree.start = function(){
 		pauseScene = new lime.Scene();
 
 		var label = new lime.Label().setText('Paused').setPosition(screenWidth/2, screenHeight/2);
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill('assets/pause.png').setAnchorPoint(0,0).setPosition(5,5);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pause.png')).setAnchorPoint(0,0).setPosition(5,5);
 		pauseScene.appendChild(pauseButton);
 		pauseScene.appendChild(label);
 		
@@ -209,7 +215,7 @@ JuggleTree.start = function(){
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
 		droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill('assets/pause.png').setAnchorPoint(0,0).setPosition(5,5);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pause.png')).setAnchorPoint(0,0).setPosition(5,5);
 		hudLayer.appendChild(pauseButton);
 		hudLayer.appendChild(scoreLbl);
 		hudLayer.appendChild(droppedLbl);
@@ -229,8 +235,8 @@ JuggleTree.start = function(){
 		createBoundries(world);
 		
 		//Create the juggler
-		var rightHand = createHand(world, 11, 11.5, "right")
-			, leftHand = createHand(world, 7, 11.5, "left")
+		var rightHand = createHand(world, 11, 11.5, "right", spriteSheet)
+			, leftHand = createHand(world, 7, 11.5, "left", spriteSheet)
 			, juggler = createJuggler(world, 9,11.5)
 			, rightBasket = createBasket(world, 20, 13, "rightBasket") 
 			, leftBasket = createBasket(world, 3, 13, "leftBasket")
@@ -354,7 +360,7 @@ JuggleTree.start = function(){
 		
 		var gameoverLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 - 25).setText('Game Over');
 		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
-		var startButton = new lime.Sprite().setSize(127,46).setPosition(screenWidth/2,screenHeight/2 + 75).setFill('assets/Start1.png');
+		var startButton = new lime.Sprite().setSize(127,46).setPosition(screenWidth/2,screenHeight/2 + 75).setFill(spriteSheet.getFrame('Start1.png'));
 		
 		
 		gameOverScene.appendChild(gameoverLbl);

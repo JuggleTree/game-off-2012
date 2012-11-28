@@ -12,6 +12,7 @@ goog.require('lime.Sprite');
 	,	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
 	,	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape
 	,	b2EdgeShape = Box2D.Collision.Shapes.b2EdgeShape
+	,	spriteSheet
 	;
 
 //Each Box2d body will have this game object attached to it
@@ -27,7 +28,12 @@ function gameObject(type, name, texture, value, size)
 	this.size = size;
 	this.collide = false; //Need this for the fruit merging. When 2 fruits collide they call the MergeFruit function more than once, causing too many new fruits to spawn.
 }
-	
+
+function setSpriteSheet(ss)
+{
+	spriteSheet = ss;
+}
+
 function createBoundries(world)
 {
 	var bodyDef = new b2BodyDef;
@@ -74,9 +80,9 @@ function createHand(world, x, y, name)
 		.setSize(1.4*30, 0.4*30);
 		
 	if (name=="left")
-		texture.setFill('assets/LeftHand.png');
+		texture.setFill(spriteSheet.getFrame('LeftHand.png'));
 	else if (name=="right")
-		texture.setFill('assets/RightHand.png');
+		texture.setFill(spriteSheet.getFrame('RightHand.png'));
 		
 	hand.SetUserData(new gameObject("hand",name,texture,0,0));
 	hand.SetSleepingAllowed(false);
@@ -106,7 +112,7 @@ function createJuggler(world, x, y, jugglerLayer)
 	var animation = true;
 	var texture = new lime.Sprite()
 		.setSize(49, 88)
-		.setFill('assets/Juggler0.png')
+		.setFill(spriteSheet.getFrame('Juggler0.png'))
 		.setPosition(x*30,y*30);
 		
 	juggler.SetUserData(new gameObject("juggler","juggler",texture,0,0));
@@ -117,12 +123,12 @@ function createJuggler(world, x, y, jugglerLayer)
 		{
 			if (animation)
 			{
-				texture.setFill('assets/Juggler1.png');
+				texture.setFill(spriteSheet.getFrame('Juggler1.png'));
 				animation = false;
 			}
 			else
 			{
-				texture.setFill('assets/Juggler0.png');
+				texture.setFill(spriteSheet.getFrame('Juggler0.png'));
 				animation = true;
 			}
 		}, world, 600, 0)
@@ -143,7 +149,7 @@ function createBasket(world, x, y, name)
 	var texture = new lime.Sprite()
 	.setSize(size*30, size*18.6)
 	.setAnchorPoint(0,0)
-	.setFill('assets/Basket.png');
+	.setFill(spriteSheet.getFrame('Basket.png'));
 
 	basket.SetUserData(new gameObject("basket", name, texture, 0, 0));
 	basket.SetSleepingAllowed(false);
@@ -210,7 +216,7 @@ function createApple(world, x, y, size, velocity)
 		
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/apple.png')
+		.setFill(spriteSheet.getFrame('Apple.png'))
 		.setSize(size*30, size*24.27);
 	body.SetUserData(new gameObject("fruit","apple",texture,Math.floor(size*10),size));
 	body.SetAngle(Math.PI);
@@ -253,7 +259,7 @@ function createBanana(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/banana.png')
+		.setFill(spriteSheet.getFrame('Banana.png'))
 		.setSize(size*30, size*20.93)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","banana",texture,Math.floor(size*10),size));
@@ -294,7 +300,7 @@ function createGrape(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/grape.png')
+		.setFill(spriteSheet.getFrame('Grape.png'))
 		.setSize(size*30, size*45)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","grape",texture,Math.floor(size*10),size));
@@ -355,7 +361,7 @@ function createCherry(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/cherry.png')
+		.setFill(spriteSheet.getFrame('Cherry.png'))
 		.setSize(size*30, size*56.25)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","cherry",texture,Math.floor(size*10),size));
@@ -390,7 +396,7 @@ function createLemon(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/lemon.png')
+		.setFill(spriteSheet.getFrame('Lemon.png'))
 		.setSize(size*30, size*37.83)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","lemon",texture,Math.floor(size*10),size));
@@ -428,7 +434,7 @@ function createOrange(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/orange.png')
+		.setFill(spriteSheet.getFrame('Orange.png'))
 		.setSize(size*30, size*28.8)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","orange",texture,Math.floor(size*10),size));
@@ -463,7 +469,7 @@ function createPear(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/pear.png')
+		.setFill(spriteSheet.getFrame('Pear.png'))
 		.setSize(size*30, size*46.67)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pear",texture,Math.floor(size*10),size));
@@ -504,7 +510,7 @@ function createPineapple(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/pineapple.png')
+		.setFill(spriteSheet.getFrame('Pineapple.png'))
 		.setSize(size*30, size*65.17)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","pineapple",texture,Math.floor(size*10),size));
@@ -560,7 +566,7 @@ function createPlum(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/plum.png')
+		.setFill(spriteSheet.getFrame('Plum.png'))
 		.setSize(size*30, size*36.52)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","plum",texture,Math.floor(size*10),size));
@@ -592,7 +598,7 @@ function createStrawberry(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/strawberry.png')
+		.setFill(spriteSheet.getFrame('Strawberry.png'))
 		.setSize(size*30, size*35)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","strawberry",texture,Math.floor(size*10),size));
@@ -639,7 +645,7 @@ function createWatermelon(world, x, y, size, velocity)
 	
 	var body = world.CreateBody(bodyDef)
 		var texture = new lime.Sprite()
-		.setFill('assets/watermelon.png')
+		.setFill(spriteSheet.getFrame('Watermelon.png'))
 		.setSize(size*30, size*28.89)
 		.setAnchorPoint(0,0);
 	body.SetUserData(new gameObject("fruit","watermelon",texture,Math.floor(size*10),size));
