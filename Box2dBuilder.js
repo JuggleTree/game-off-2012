@@ -117,19 +117,22 @@ function createJuggler(world, x, y, jugglerLayer)
 		
 	juggler.SetUserData(new gameObject("juggler","juggler",texture,0,0));
 	juggler.SetSleepingAllowed(false);
-
+	
 	//animate the juggler
 	lime.scheduleManager.scheduleWithDelay(function (dt)
 		{
-			if (animation)
+			if (fruitsDropped != 5)
 			{
-				texture.setFill(spriteSheet.getFrame('0WalkEye.png'));
-				animation = false;
-			}
-			else
-			{
-				texture.setFill(spriteSheet.getFrame('0StandEye.png'));
-				animation = true;
+				if (animation)
+				{
+					texture.setFill(spriteSheet.getFrame(fruitsDropped + 'WalkEye.png'));
+					animation = false;
+				}
+				else
+				{
+					texture.setFill(spriteSheet.getFrame(fruitsDropped + 'StandEye.png'));
+					animation = true;
+				}
 			}
 		}, world, 600, 0)
 		
