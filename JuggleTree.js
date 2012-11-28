@@ -153,13 +153,15 @@ JuggleTree.start = function(){
 	
 		highScoreScene = new lime.Scene();
 		var highScoreLayer = new lime.Layer().setPosition(screenWidth/2, 0);
-		var title = new lime.Label().setText("High Scores").setPosition(0,75).setFontSize(20);
-		var returnButton = new lime.Label().setText("Back").setPosition(0,300).setFontSize(20);
+		var title = new lime.Sprite().setSize(196,50).setPosition(0,100).setFill(spriteSheet.getFrame('HighScore1.png'));
+		var returnButton = new lime.Label().setText("Back").setPosition(0,340).setFontSize(20);
+		var scoreSheet = new lime.RoundedRect().setSize(100,200).setPosition(0,220).setFill('#FFF').setOpacity(0.5);
 		
 		highScoreScene.appendChild(backgroundLayer);
 		highScoreScene.appendChild(highScoreLayer);
 		highScoreLayer.appendChild(title);
 		highScoreLayer.appendChild(returnButton);
+		highScoreLayer.appendChild(scoreSheet);
 		
 		highScores = getCookie();
 		if (highScores == null || highScores == "")
@@ -171,7 +173,7 @@ JuggleTree.start = function(){
 		
 		for (var i=0; i < 10; i++)
 		{
-			var score = new lime.Label().setText((i+1) + ": " + highScores[i] + " pts").setPosition(0,i*20+100).setFontSize(15);
+			var score = new lime.Label().setText((i+1) + ": " + highScores[i] + " pts").setPosition(0,i*20+130).setFontSize(15);
 			highScoreLayer.appendChild(score);
 		}
 		
@@ -284,7 +286,9 @@ JuggleTree.start = function(){
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText('Score: ');
 		droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
-		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
+		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,15);
+		hudbg = new lime.RoundedRect().setSize(120,40).setAnchorPoint(0,0).setPosition(1,10).setFill('#FFF').setOpacity(0.3);
+		hudLayer.appendChild(hudbg);
 		hudLayer.appendChild(pauseButton);
 		hudLayer.appendChild(scoreLbl);
 		hudLayer.appendChild(droppedLbl);
@@ -345,6 +349,8 @@ JuggleTree.start = function(){
 		//Create and schedule the timer
 		timeRemaining = 150; //seconds
 		var timeLabel = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(screenWidth - 40,10).setText(Math.floor((timeRemaining / 60)) + ':' + (timeRemaining%60));
+		clockbg = new lime.RoundedRect().setSize(33,18).setAnchorPoint(0,0).setPosition(screenWidth - 42,10).setFill('#FFF').setOpacity(0.3);
+		hudLayer.appendChild(clockbg);
 		hudLayer.appendChild(timeLabel);
 		lime.scheduleManager.scheduleWithDelay(setTimeRemaining = function (dt){
 				timeRemaining--;
@@ -431,14 +437,26 @@ JuggleTree.start = function(){
 		
 		var gameoverLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 - 25).setText('Game Over');
 		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
-		var startButton = new lime.Sprite().setSize(127,46).setPosition(screenWidth/2,screenHeight/2 + 75).setFill(spriteSheet.getFrame('Start1.png'));
+		var restartButton = new lime.Sprite().setSize(147,37).setPosition(screenWidth/2,screenHeight/2 + 80).setFill(spriteSheet.getFrame('Continue1.png'));
 		
 		
 		gameOverScene.appendChild(gameoverLbl);
 		gameOverScene.appendChild(scoreLbl);
-		gameOverScene.appendChild(startButton);
+		gameOverScene.appendChild(restartButton);
+
+		goog.events.listen(restartButton, ['mouseover'], function(e)
+		{
+			restartButton.setFill(spriteSheet.getFrame('Continue2.png'));
+			lime.updateDirtyObjects();
+		});
 		
-		goog.events.listen(startButton,['mousedown'],function(e){
+		goog.events.listen(gameOverScene, ['mouseout'], function(e)
+		{
+			restartButton.setFill(spriteSheet.getFrame('Continue1.png'));
+			lime.updateDirtyObjects();
+		});		
+
+		goog.events.listen(restartButton,['mousedown'],function(e){
 			//Restart the game
 			fruitsDropped = 0;
 			points = 0;
