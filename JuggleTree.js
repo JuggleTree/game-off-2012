@@ -52,6 +52,7 @@ JuggleTree.start = function(){
 			//assets
 		,	spriteSheet
 		,	bgm
+		,	throwSFX
 		;
 
 	//if (debug)
@@ -70,6 +71,7 @@ JuggleTree.start = function(){
 	{
 		bgm = new lime.audio.Audio('assets/JugglingMusic.mp3');
 		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
+		//throwSFX = new lime.audio.Audio('assets/fruitthrow.wav');
 		setSpriteSheet(spriteSheet);
 	}
 	

@@ -11,6 +11,7 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	growingFruit = new Array()
 	,	fallingFruit = new Array()
 	,	points = 0
+	,	shouldFall = true;
 	;
 
 function GenerateFruit(world)
@@ -84,7 +85,7 @@ function GenerateFruit(world)
 
 function DropFruit()
 {
-	if (fallingFruit.length < 3 && growingFruit.length > 0)
+	if (fallingFruit.length < 3 && growingFruit.length > 0 && shouldFall)
 	{
 		var fruit = growingFruit.shift();
 		fruit.SetType(b2Body.b2_dynamicBody);
@@ -161,6 +162,8 @@ function ThrowFruit(world)
 	//fruits are currently attached
 	if (heldFruit.length > 0)
 	{
+		//throwSFX.baseElement.play();
+	
 		var currentFruit = heldFruit.shift();
 		world.DestroyJoint(currentFruit.GetUserData().joint);
 		
@@ -242,6 +245,8 @@ function MergeFruits(world, fruitA, fruitB)
 	
 	CreatePopup("Merge!", x*30, y*30);
 
+	shouldFall = false;
+	
 	RemoveFruit(fruitA);
 	RemoveFruit(fruitB);
 }
@@ -291,6 +296,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "apple":
@@ -300,6 +306,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			
 			break;
@@ -310,6 +317,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "cherry":
@@ -319,6 +327,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "grape":
@@ -328,6 +337,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "lemon":
@@ -337,6 +347,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "orange":
@@ -346,6 +357,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "pear":
@@ -355,6 +367,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "pineapple":
@@ -364,6 +377,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "plum":
@@ -373,6 +387,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 		case "watermelon":
@@ -382,6 +397,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
+				shouldFall = true;
 			}, null, 10)
 			break;
 	}
