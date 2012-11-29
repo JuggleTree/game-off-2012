@@ -11,6 +11,9 @@ goog.require('lime.Circle');
 goog.require('lime.Label');
 goog.require('lime.audio.Audio');
 goog.require('lime.animation.FadeTo');
+goog.require('lime.transitions.Dissolve');
+goog.require('lime.transitions.SlideInRight');
+goog.require('lime.transitions.SlideInLeft');
 goog.require('goog.events.KeyCodes');
 goog.require('lime.SpriteSheet');
 goog.require('lime.parser.JSON');
@@ -135,7 +138,7 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(highScoresButton,['mousedown'],function(e){
-			director.replaceScene(highScoreScene);;
+			director.replaceScene(highScoreScene, lime.transitions.Dissolve);;
 		});
 		
 		goog.events.listen(howToPlayButton, ['mouseover'], function(e)
@@ -149,10 +152,10 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(howToPlayButton,['mousedown'],function(e){
-			//director.replaceScene(howToPlayScene);;
+			//director.replaceScene(howToPlayScene, lime.transitions.SlideInLeft);;
 		});
 		
-		director.replaceScene(titleScene);
+		director.replaceScene(titleScene, lime.transitions.Dissolve);
 		
 		SetupHighScoreScene();
 	}
@@ -191,7 +194,7 @@ JuggleTree.start = function(){
 		}
 		
 		goog.events.listen(returnButton,['mousedown'],function(e){
-			director.replaceScene(titleScene);
+			director.replaceScene(titleScene, lime.transitions.Dissolve);
 		});
 		
 				goog.events.listen(returnButton, ['mouseover'], function(e)
@@ -443,7 +446,7 @@ JuggleTree.start = function(){
 				GameOver();
 		},director);
 		
-		director.replaceScene(gameplayScene);
+		director.replaceScene(gameplayScene, lime.transitions.Dissolve);
 		
 		bgm.baseElement.currentTime = 0;
 		bgm.baseElement.play();
@@ -493,7 +496,7 @@ JuggleTree.start = function(){
 			SetupTitleScreen();
 		});
 		
-		director.replaceScene(gameOverScene);
+		director.replaceScene(gameOverScene, lime.transitions.Dissolve);
 		
 		//Add the new highscore
 		highScores.push(points)
