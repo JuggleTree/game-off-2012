@@ -11,26 +11,25 @@ The fruit tree grows various fruit from it's **branches** and eventually fall. T
 ### Controls
 
 Use 'A' and 'D' or 'Left' and 'Right' to move Sticky left and right.
+
 Use the mouse to aim and 'Click' to throw a fruit up to that location.
 
-
-
-<img src="" style="border:0;">
-
 ### Building From Source
-**Requirements**
-*[LimeJS](http://www.limejs.com/)
-*[Python 2.6+](http://www.python.org/)
-*[Git](http://git-scm.com/download)
 
-Once LimeJS is installed, grab our source code and stick it in the LimeJS 'bin' folder. Edit the JuggleTree.html file and point the Google Closure base to the LimeJS installation of Google Closure. In my case it's 'c:/limejs-232d784/closure/closure/goog/base.js'. Finally, open up JuggleTree.html in Chrome or Firefox.
+**Requirements**
+
+* [LimeJS](http://www.limejs.com/)
+* [Python 2.6+](http://www.python.org/)
+* [Git](http://git-scm.com/download)
+
+Once LimeJS is installed, grab our source code and stick it in the LimeJS 'bin' folder. Edit the JuggleTree.html file and point the Google Closure base to the LimeJS installation of Google Closure. In my case it's 'c:/limejs-232d784/closure/closure/goog/base.js'. Fire up the command prompt and run 'lime.py update' to update all the dependencies. Finally, open up JuggleTree.html in Chrome or Firefox.
 
 
 ### Credits
-Lead Developer - Jonathan Slabaugh
-Developer - Steven McCarthy
-Artist - Edgar Frank
-Music - 
+* Lead Developer - Jonathan Slabaugh
+* Developer - Steven McCarthy
+* Artist - Edgar Frank
+* Music - Jake Hobrath
 
 ### Libraries and Tools
 * [LimeJS](http://www.limejs.com/)
