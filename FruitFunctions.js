@@ -218,8 +218,8 @@ function MergeFruits(world, fruitA, fruitB)
 	fruitB.GetUserData().collide = true;
 	
 	//average the velocity and add a dampening effect
-	var velocityX = (fruitA.GetLinearVelocity().x + fruitB.GetLinearVelocity().x) * 0.5;
-	var velocityY = (fruitA.GetLinearVelocity().y + fruitB.GetLinearVelocity().y) * 0.5;
+	var velocityX = (fruitA.GetLinearVelocity().x + fruitB.GetLinearVelocity().x) * 0.7;
+	var velocityY = (fruitA.GetLinearVelocity().y + fruitB.GetLinearVelocity().y) * 0.7;
 	var velocity = new b2Vec2(velocityX, velocityY);
 	
 	//increase the size of the larger fruit
@@ -288,6 +288,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createStrawberry(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
@@ -296,6 +297,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createApple(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
@@ -305,6 +307,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createBanana(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
@@ -313,6 +316,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createCherry(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
@@ -321,6 +325,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createGrape(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
@@ -329,6 +334,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createLemon(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
 				AddFruit(body);
 			}, null, 10)
@@ -337,6 +343,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createOrange(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
@@ -345,6 +352,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPear(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
@@ -353,6 +361,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPineapple(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
@@ -361,6 +370,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createPlum(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
@@ -369,6 +379,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			lime.scheduleManager.callAfter(function(dt){
 				body = createWatermelon(world,x,y,size,velocity);
 				body.SetType(b2Body.b2_dynamicBody);
+				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
 				AddFruit(body);
 			}, null, 10)
