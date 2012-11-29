@@ -144,7 +144,7 @@ function CatchFruit(world, fruit, hand, handType)
 		//add highlight to the next fruit to throw
 		HighlightNextThrow();
 		
-		CreatePopup(fruit.GetUserData().value, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
+		CreatePopup(fruit.GetUserData().value, fruit.GetPosition().x*30-5, fruit.GetPosition().y*30);
 		
 		//add points to total score
 		points += fruit.GetUserData().value;
@@ -157,7 +157,7 @@ function CatchFruit(world, fruit, hand, handType)
 function FruitCaughtInBasket(world, fruit, basket, basketType)
 {
 	points += (fruit.GetUserData().value * 2);
-	CreatePopup(fruit.GetUserData().value * 2, fruit.GetPosition().x*30, fruit.GetPosition().y*30);
+	CreatePopup(fruit.GetUserData().value * 2, fruit.GetPosition().x*30, fruit.GetPosition().y*30-5);
 	RemoveFruit(fruit);
 }
 

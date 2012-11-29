@@ -15,13 +15,13 @@ function SetupPopupManager(layer)
 
 function CreatePopup(text, x, y)
 {
-	popup = new lime.Label().setFontSize(12).setFontColor('#FF0').setPosition(x,y).setText(text);
+	popup = new lime.Label().setFontSize(12).setFontColor('#22F').setPosition(x,y).setText(text);
 	
 	layer.appendChild(popup);
 
 	popup.runAction(new lime.animation.Spawn(
 		new lime.animation.FadeTo(0).setDuration(1),
-		new lime.animation.ScaleTo(2).setDuration(1),
+		new lime.animation.ScaleTo(3).setDuration(1),
 		new lime.animation.MoveTo(x,y-10).setDuration(1)
 	));
 	
