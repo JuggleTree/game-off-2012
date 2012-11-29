@@ -51,7 +51,7 @@ JuggleTree.start = function(){
 		,	timeRemaining
 			//assets
 		,	spriteSheet
-		,	music
+		,	bgm
 		;
 
 	//if (debug)
@@ -68,7 +68,7 @@ JuggleTree.start = function(){
 	
 	function LoadAssets()
 	{
-		music = new lime.audio.Audio('assets/JugglingMusic.mp3');
+		bgm = new lime.audio.Audio('assets/JugglingMusic.mp3');
 		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
 		setSpriteSheet(spriteSheet);
 	}
@@ -278,12 +278,14 @@ JuggleTree.start = function(){
 			{
 				director.popScene();
 				director.setPaused(false);
+				bgm.baseElement.play();
 				
 			}
 		});
 		goog.events.listen(pauseButton, ['mousedown'], function(e){
 				director.popScene();
 				director.setPaused(false);
+				bgm.baseElement.play();
 		});
 	}
 	
@@ -346,12 +348,14 @@ JuggleTree.start = function(){
 			{
 				director.setPaused(true);
 				director.pushScene(pauseScene);
+				bgm.baseElement.pause();
 				lime.updateDirtyObjects();
 			}
 		});
 		goog.events.listen(pauseButton, ['mousedown'], function(e){
 				director.setPaused(true);
 				director.pushScene(pauseScene);
+				bgm.baseElement.pause();
 				lime.updateDirtyObjects();
 		});
 		
@@ -431,12 +435,14 @@ JuggleTree.start = function(){
 		},director);
 		
 		director.replaceScene(gameplayScene);
-		music.play();
+		
+		bgm.baseElement.currentTime = 0;
+		bgm.baseElement.play();
 	}
 	
 	function GameOver()
 	{
-		music.stop();
+		bgm.baseElement.pause();
 		
 		//Remove the scheduled tasks
 		lime.scheduleManager.unschedule(updateFunction,director);
