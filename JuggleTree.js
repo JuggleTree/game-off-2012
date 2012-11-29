@@ -49,6 +49,7 @@ JuggleTree.start = function(){
 		,	screenWidth = 600
 		,	screenHeight = 400
 		,	timeRemaining
+		,	isPaused
 			//assets
 		,	spriteSheet
 		,	bgm
@@ -70,8 +71,7 @@ JuggleTree.start = function(){
 		SetupSoundFX(throwSFX, basketSFX, catchSFX, mergeSFX, fallSFX);
 		SetupAnimation();
 		SetupTitleScreen();
-		SetupPauseScene();
-		
+		SetupPauseScene();		
 	//}
 	
 	function LoadAssets()
@@ -260,8 +260,7 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(continueButton,['mousedown'],function(e){
-			director.popScene();
-			director.setPaused(false);
+			UnpauseGame();
 		});
 		
 		goog.events.listen(quitButton, ['mouseover'], function(e)
@@ -277,8 +276,7 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(quitButton,['mousedown'],function(e){
-			director.popScene();
-			director.setPaused(false);
+			UnpauseGame();
 			GameOver();
 		});	
 
@@ -289,16 +287,11 @@ JuggleTree.start = function(){
 				|| e.event.keyCode == goog.events.KeyCodes.P
 				|| e.event.keyCode == goog.events.KeyCodes.L)
 			{
-				director.popScene();
-				director.setPaused(false);
-				bgm.baseElement.play();
-				
+				UnpauseGame();				
 			}
 		});
 		goog.events.listen(pauseButton, ['mousedown'], function(e){
-				director.popScene();
-				director.setPaused(false);
-				bgm.baseElement.play();
+			UnpauseGame();
 		});
 	}
 	
@@ -332,7 +325,7 @@ JuggleTree.start = function(){
 		//initialize the world
 		world = new b2World
 		(
-			new b2Vec2(0, 2),    //gravity
+			new b2Vec2(0, 2.5),    //gravity
 			true                 //allow sleep
 		);
 		createBoundries(world);
@@ -368,17 +361,11 @@ JuggleTree.start = function(){
 				|| e.event.keyCode == goog.events.KeyCodes.P
 				|| e.event.keyCode == goog.events.KeyCodes.L)
 			{
-				director.setPaused(true);
-				director.pushScene(pauseScene);
-				bgm.baseElement.pause();
-				lime.updateDirtyObjects();
+				PauseGame();
 			}
 		});
 		goog.events.listen(pauseButton, ['mousedown'], function(e){
-				director.setPaused(true);
-				director.pushScene(pauseScene);
-				bgm.baseElement.pause();
-				lime.updateDirtyObjects();
+				PauseGame();
 		});
 		
 		//SetupPopups
@@ -515,7 +502,30 @@ JuggleTree.start = function(){
 			highScores.pop();
 		setCookie(highScores);
 	}
+
+		window.addEventListener("blur", function(event) { 
+			if (!isPaused)
+			{
+				PauseGame();
+			}
+		}, true);
+		
+	function PauseGame()
+	{
+		director.setPaused(true);
+		director.pushScene(pauseScene);
+		bgm.baseElement.pause();
+		lime.updateDirtyObjects();
+		isPaused = true;
+	}
 	
+	function UnpauseGame()
+	{
+		bgm.baseElement.play();
+		director.popScene();
+		director.setPaused(false);
+		isPaused = false;
+	}
 }
 
 
