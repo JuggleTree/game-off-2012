@@ -76,13 +76,13 @@ JuggleTree.start = function(){
 	
 	function LoadAssets()
 	{
-		bgm = new lime.audio.Audio('assets/JugglingMusic.mp3');
+		bgm = new lime.audio.Audio('assets/JugglingMusic.ogg');
 		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
-		throwSFX = new lime.audio.Audio('assets/fruitthrow.mp3');
-		basketSFX = new lime.audio.Audio('assets/fruitbasket.mp3');
-		catchSFX = new lime.audio.Audio('assets/fruitcatch.mp3');
-		mergeSFX = new lime.audio.Audio('assets/fruitmerge.mp3');
-		fallSFX = new lime.audio.Audio('assets/fruitfall.mp3');
+		throwSFX = new lime.audio.Audio('assets/fruitthrow.ogg');
+		basketSFX = new lime.audio.Audio('assets/fruitbasket.ogg');
+		catchSFX = new lime.audio.Audio('assets/fruitcatch.ogg');
+		mergeSFX = new lime.audio.Audio('assets/fruitmerge.ogg');
+		fallSFX = new lime.audio.Audio('assets/fruitfall.ogg');
 		setSpriteSheet(spriteSheet);
 	}
 	
