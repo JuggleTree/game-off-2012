@@ -435,7 +435,7 @@ return {"frames": {
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1d679e53ca01912ce155d59b523ac1ed$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3034bc11b06e8fae6fc7d078e36b69a3$"
 }
 }
 ;

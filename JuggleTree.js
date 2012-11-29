@@ -321,11 +321,12 @@ JuggleTree.start = function(){
 		//hudLayer.appendChild(droppedLbl);
 		
 		//add the layers to the scene
-		gameplayScene.appendChild(backgroundLayer);
-		gameplayScene.appendChild(jugglerLayer);
-		gameplayScene.appendChild(fruitLayer);
-		gameplayScene.appendChild(frontBasketLayer);
-		gameplayScene.appendChild(hudLayer);
+		gameplayScene.appendChild(backgroundLayer, 1);		
+		gameplayScene.appendChild(jugglerLayer, 2);
+		gameplayScene.appendChild(fruitLayer, 3);
+		gameplayScene.appendChild(frontBasketLayer, 4);
+		gameplayScene.appendChild(hudLayer, 5);
+
 		
 		//initialize the world
 		world = new b2World
@@ -406,7 +407,7 @@ JuggleTree.start = function(){
 		
 		//This is the Update Loop
 		lime.scheduleManager.schedule(updateFunction = function(dt) 
-		{
+		{		
 			//Update box2d
 			world.Step(dt / 1000, 8, 3);
 			world.ClearForces();
