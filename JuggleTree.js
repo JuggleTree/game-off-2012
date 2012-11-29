@@ -205,7 +205,7 @@ JuggleTree.start = function(){
 	function getCookie()
 	{
 		var i,x,y,ARRcookies=document.cookie.split(";");
-		for (i=0;i<ARRcookies.length;i++)
+		for (var i=0;i<ARRcookies.length;i++)
 		{
 			x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
 			y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
@@ -402,7 +402,7 @@ JuggleTree.start = function(){
 			}
 		
 			//Remove old fruits
-			for (i=0;i<fruitToRemove.length;i)
+			for (var i=0;i<fruitToRemove.length;i)
 			{
 				var fruit = fruitToRemove.pop();
 				fruitLayer.removeChild(fruit.GetUserData().texture);
@@ -410,7 +410,7 @@ JuggleTree.start = function(){
 			}
 			
 			//Add new fruits
-			for (i=0;i<fruitToAdd.length;i++)
+			for (var i=0;i<fruitToAdd.length;i++)
 			{
 				var fruit = fruitToAdd.pop();
 				fruitLayer.appendChild(fruit.GetUserData().texture);

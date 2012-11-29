@@ -26,7 +26,7 @@ function GenerateFruit(world)
 			x++;
 		var generate = true;
 		//Check if a fruit already exists at that location
-		for (i = 0; i < growingFruit.length; i++)
+		for (var i = 0; i < growingFruit.length; i++)
 		{
 			var newx = growingFruit[i].GetPosition().x;
 			if (growingFruit[i].GetPosition().x == x &&

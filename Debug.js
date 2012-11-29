@@ -37,7 +37,7 @@ function update()
 	world.ClearForces();
 	
 	//Remove objects
-	for (i=0;i<fruitToRemove.length;i++)
+	for (var i=0;i<fruitToRemove.length;i++)
 		{
 			//fruitsDropped++;
 			world.DestroyBody(fruitToRemove.pop());
