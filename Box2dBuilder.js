@@ -110,6 +110,7 @@ function createJuggler(world, x, y, jugglerLayer)
 	var juggler = world.CreateBody(bodyDef);
 
 	var animation = true;
+	var blink = 0;
 	var texture = new lime.Sprite()
 		.setSize(49, 88)
 		.setFill(spriteSheet.getFrame('0StandEye.png'))
@@ -121,9 +122,22 @@ function createJuggler(world, x, y, jugglerLayer)
 	//animate the juggler
 	lime.scheduleManager.scheduleWithDelay(function (dt)
 		{
+			blink++;
 			if (fruitsDropped != 5)
 			{
-				if (animation)
+				if (animation && blink == 17)
+				{
+					texture.setFill(spriteSheet.getFrame(fruitsDropped + 'WalkClose.png'));
+					animation = false;
+					blink = 0;
+				}
+				else if (blink == 17)
+				{
+					texture.setFill(spriteSheet.getFrame(fruitsDropped + 'StandClose.png'));
+					animation = true;
+					blink = 0;				
+				}
+				else if (animation)
 				{
 					texture.setFill(spriteSheet.getFrame(fruitsDropped + 'WalkEye.png'));
 					animation = false;
@@ -134,7 +148,7 @@ function createJuggler(world, x, y, jugglerLayer)
 					animation = true;
 				}
 			}
-		}, world, 600, 0)
+		}, world, 400, 0)
 		
 	return juggler;
 }
