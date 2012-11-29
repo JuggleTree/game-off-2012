@@ -11,9 +11,23 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	growingFruit = new Array()
 	,	fallingFruit = new Array()
 	,	points = 0
-	,	shouldFall = true;
+	,	shouldFall = true
+	,	throwSFX
+	,	basketSFX
+	,	catchSFX
+	,	mergeSFX
+	,	fallSFX
 	;
 
+function SetupSoundFX(t, b, c, m, f)
+{
+	throwSFX = t;
+	basketSFX = b;
+	catchSFX = c;
+	mergeSFX = m;
+	fallSFX = f;
+}
+	
 function GenerateFruit(world)
 {
 	if (growingFruit.length < 10)
@@ -90,6 +104,8 @@ function DropFruit()
 		var fruit = growingFruit.shift();
 		fruit.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruit);
+		//fallSFX.stop();
+		//fallSFX.play();
 	}
 }
 
@@ -103,12 +119,16 @@ function CheckForDrop(fruitA, fruitB)
 		growingFruit.splice(indexA,1);
 		fruitA.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruitA);
+		//fallSFX.stop();
+		//fallSFX.play();
 	}
 	else if (indexB > -1)
 	{
 		growingFruit.splice(indexB,1);
 		fruitB.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruitB);
+		//fallSFX.play();
+		//fallSFX.play();
 	}
 }
 
@@ -151,6 +171,9 @@ function CatchFruit(world, fruit, hand, handType)
 		
 		//increase point value by one
 		fruit.GetUserData().value++;
+		
+		catchSFX.stop();
+		catchSFX.play();
 	}
 }
 
@@ -159,6 +182,8 @@ function FruitCaughtInBasket(world, fruit, basket, basketType)
 	points += (fruit.GetUserData().value * 2);
 	CreatePopup(fruit.GetUserData().value * 2, fruit.GetPosition().x*30, fruit.GetPosition().y*30-5);
 	RemoveFruit(fruit);
+	basketSFX.stop();
+	basketSFX.play();
 }
 
 function ThrowFruit(world)
@@ -166,7 +191,8 @@ function ThrowFruit(world)
 	//fruits are currently attached
 	if (heldFruit.length > 0)
 	{
-		//throwSFX.baseElement.play();
+		throwSFX.stop();
+		throwSFX.play();
 	
 		var currentFruit = heldFruit.shift();
 		world.DestroyJoint(currentFruit.GetUserData().joint);
@@ -255,6 +281,9 @@ function MergeFruits(world, fruitA, fruitB)
 	
 	RemoveFruit(fruitA);
 	RemoveFruit(fruitB);
+	
+	mergeSFX.stop();
+	mergeSFX.play();
 }
 
 function ForkFruits(world, fruitA, fruitB)

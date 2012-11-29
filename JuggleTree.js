@@ -53,6 +53,10 @@ JuggleTree.start = function(){
 		,	spriteSheet
 		,	bgm
 		,	throwSFX
+		,	basketSFX
+		,	catchSFX
+		,	mergeSFX
+		,	fallSFX
 		;
 
 	//if (debug)
@@ -63,15 +67,21 @@ JuggleTree.start = function(){
 	//{
 		director = new lime.Director(document.body,screenWidth,screenHeight);
 		LoadAssets();
+		SetupSoundFX(throwSFX, basketSFX, catchSFX, mergeSFX, fallSFX);
 		SetupTitleScreen();
 		SetupPauseScene();
+		
 	//}
 	
 	function LoadAssets()
 	{
 		bgm = new lime.audio.Audio('assets/JugglingMusic.mp3');
 		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
-		//throwSFX = new lime.audio.Audio('assets/fruitthrow.wav');
+		throwSFX = new lime.audio.Audio('assets/fruitthrow.mp3');
+		basketSFX = new lime.audio.Audio('assets/fruitbasket.mp3');
+		catchSFX = new lime.audio.Audio('assets/fruitcatch.mp3');
+		mergeSFX = new lime.audio.Audio('assets/fruitmerge.mp3');
+		fallSFX = new lime.audio.Audio('assets/fruitfall.mp3');
 		setSpriteSheet(spriteSheet);
 	}
 	
