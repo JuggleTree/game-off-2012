@@ -30,7 +30,7 @@ Once LimeJS is installed, grab our source code and stick it in the LimeJS 'bin' 
 Lead Developer - Jonathan Slabaugh
 Developer - Steven McCarthy
 Artist - Edgar Frank
-Music - 
+Music - Jake Hobrath
 
 ### Libraries and Tools
 * [LimeJS](http://www.limejs.com/)
