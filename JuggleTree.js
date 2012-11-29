@@ -504,7 +504,7 @@ JuggleTree.start = function(){
 	}
 
 		window.addEventListener("blur", function(event) { 
-			if (!isPaused)
+			if (!isPaused && director.getCurrentScene() == gameplayScene)
 			{
 				PauseGame();
 			}
