@@ -35,7 +35,7 @@ function GenerateFruit(world)
 		//Generate the fruit
 		if (generate)
 		{
-			var size = Math.random() + 0.3;
+			var size = getRandomInt(4, 9)/10 + 0.3;
 			var type = Math.floor((Math.random()*11));
 			var initialVelocity = new b2Vec2(0, 0);
 			var body;
@@ -385,4 +385,9 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			}, null, 10)
 			break;
 	}
+}
+
+function getRandomInt (min, max) 
+{
+      return Math.floor(Math.random() * (max - min + 1)) + min;
 }
