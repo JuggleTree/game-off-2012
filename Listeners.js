@@ -105,13 +105,13 @@ function SetupKeyboardListener(scene, rightHand, leftHand, juggler, director)
 	
 	goog.events.listen(scene, ['keyup'], function(e){
 		var velocity = leftHand.GetLinearVelocity().x;
-		if ((e.event.keyCode == goog.events.KeyCodes.LEFT
-			|| e.event.keyCode == goog.events.KeyCodes.A
-			&& velocity < 0)
-			|| (e.event.keyCode == goog.events.KeyCodes.RIGHT
+		if (((e.event.keyCode == goog.events.KeyCodes.LEFT
+			|| e.event.keyCode == goog.events.KeyCodes.A)
+				&& velocity < 0)
+			|| ((e.event.keyCode == goog.events.KeyCodes.RIGHT
 			|| e.event.keyCode == goog.events.KeyCodes.E
-			|| e.event.keyCode == goog.events.KeyCodes.D
-			&& velocity > 0))
+			|| e.event.keyCode == goog.events.KeyCodes.D)
+				&& velocity > 0))
 		{
 			rightHand.SetLinearVelocity(new b2Vec2(0, 0));
 			leftHand.SetLinearVelocity(new b2Vec2(0, 0));
