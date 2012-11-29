@@ -247,7 +247,9 @@ function MergeFruits(world, fruitA, fruitB)
 	
 	CreateNewFruit(fruitA.GetUserData().name, world, x, y, size, velocity);
 	
-	CreatePopup("Merge!", x*30, y*30);
+	points += value*2;
+	CreatePopup(value*2, x*30, y*30+12);
+	CreatePopup("Merge!", x*30, y*30, '#FF0');
 
 	shouldFall = false;
 	
