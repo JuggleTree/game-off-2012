@@ -298,6 +298,7 @@ JuggleTree.start = function(){
 		fruitLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
+		frontBasketLayer = new lime.Layer();
 		
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText(' points');
@@ -313,6 +314,7 @@ JuggleTree.start = function(){
 		gameplayScene.appendChild(backgroundLayer);
 		gameplayScene.appendChild(jugglerLayer);
 		gameplayScene.appendChild(fruitLayer);
+		gameplayScene.appendChild(frontBasketLayer);
 		gameplayScene.appendChild(hudLayer);
 		
 		//initialize the world
@@ -337,6 +339,12 @@ JuggleTree.start = function(){
 		jugglerLayer.appendChild(rightBasket.GetUserData().texture);
 		jugglerLayer.appendChild(leftBasket.GetUserData().texture);
 
+		frontBasketLeft = new lime.Sprite().setSize(90, 55.8).setAnchorPoint(0,0).setFill(spriteSheet.getFrame('BasketFront.png')).setPosition(0,390-55.8);
+		frontBasketRight = new lime.Sprite().setSize(90, 55.8).setAnchorPoint(0,0).setFill(spriteSheet.getFrame('BasketFront.png')).setPosition(600-90,390-55.8);
+		
+		frontBasketLayer.appendChild(frontBasketLeft);
+		frontBasketLayer.appendChild(frontBasketRight);
+		
 		//Setup Listeners
 		SetupKeyboardListener(gameplayScene, rightHand, leftHand, juggler, director);
 		SetupCollisionListener(world);
