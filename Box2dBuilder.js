@@ -49,7 +49,7 @@ function createBoundries(world)
 	fixDef.shape = new b2PolygonShape;
 	
 	wall.SetUserData(new gameObject("wall","left",texture,0,0));
-	fixDef.shape.SetAsEdge(new b2Vec2(0,-2), new b2Vec2(0,15));
+	fixDef.shape.SetAsEdge(new b2Vec2(0,-5), new b2Vec2(0,15));
 	wall.CreateFixture(fixDef);
 	
 	wall = world.CreateBody(bodyDef);
@@ -59,12 +59,12 @@ function createBoundries(world)
 
 	wall = world.CreateBody(bodyDef);
 	wall.SetUserData(new gameObject("wall","right",texture,0,0));
-	fixDef.shape.SetAsEdge(new b2Vec2(20,15), new b2Vec2(20,-2));
+	fixDef.shape.SetAsEdge(new b2Vec2(20,15), new b2Vec2(20,-5));
 	wall.CreateFixture(fixDef);	
 	
 	wall = world.CreateBody(bodyDef);
 	wall.SetUserData(new gameObject("wall","top",texture,0,0));
-	fixDef.shape.SetAsEdge(new b2Vec2(0,-2), new b2Vec2(20,-2));
+	fixDef.shape.SetAsEdge(new b2Vec2(0,-5), new b2Vec2(20,-5));
 	wall.CreateFixture(fixDef);	
 }
 
