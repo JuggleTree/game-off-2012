@@ -286,7 +286,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 	{
 		case "strawberry":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createStrawberry(world,x,y,size,velocity);
+				body = createStrawberry(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
@@ -295,7 +295,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "apple":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createApple(world,x,y,size,velocity);
+				body = createApple(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
@@ -305,7 +305,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "banana":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createBanana(world,x,y,size,velocity);
+				body = createBanana(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
@@ -314,7 +314,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "cherry":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createCherry(world,x,y,size,velocity);
+				body = createCherry(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
@@ -323,7 +323,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "grape":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createGrape(world,x,y,size,velocity);
+				body = createGrape(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
@@ -332,7 +332,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "lemon":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createLemon(world,x,y,size,velocity);
+				body = createLemon(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);
@@ -341,7 +341,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "orange":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createOrange(world,x,y,size,velocity);
+				body = createOrange(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
@@ -350,7 +350,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "pear":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createPear(world,x,y,size,velocity);
+				body = createPear(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
@@ -359,7 +359,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "pineapple":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createPineapple(world,x,y,size,velocity);
+				body = createPineapple(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
@@ -368,7 +368,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "plum":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createPlum(world,x,y,size,velocity);
+				body = createPlum(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
@@ -377,7 +377,7 @@ function CreateNewFruit(name, world, x, y, size, velocity)
 			break;
 		case "watermelon":
 			lime.scheduleManager.callAfter(function(dt){
-				body = createWatermelon(world,x,y,size,velocity);
+				body = createWatermelon(world,x,y,size);
 				body.SetType(b2Body.b2_dynamicBody);
 				body.SetLinearVelocity(velocity);
 				fallingFruit.push(body);				
