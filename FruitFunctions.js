@@ -104,7 +104,7 @@ function CheckForDrop(fruitA, fruitB)
 		fruitA.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruitA);
 	}
-	if (indexB > -1)
+	else if (indexB > -1)
 	{
 		growingFruit.splice(indexB,1);
 		fruitB.SetType(b2Body.b2_dynamicBody);
@@ -115,7 +115,11 @@ function CheckForDrop(fruitA, fruitB)
 function RemoveFruit(fruit)
 {
 	var index = fallingFruit.lastIndexOf(fruit);
-	fallingFruit.splice(index,1);
+	if (index != -1)
+		fallingFruit.splice(index,1);
+	var index = growingFruit.lastIndexOf(fruit);
+	if (index != -1)
+		{growingFruit.splice(index,1);}
 	fruitToRemove.push(fruit);
 }
 
@@ -179,8 +183,8 @@ function Throw(world, fruit)
 	//calculate the initial vertical velocity required to reach the apex
 	var height = mouseY - fruit.GetPosition().y;
 	if (height < 0) {height = -height;}
-	var gravity = world.GetGravity()
-		var velocityY = -Math.sqrt(2*gravity.y*height);
+	var gravity = world.GetGravity();
+	var velocityY = -Math.sqrt(2*gravity.y*height);
 
 	//calculate the time to reach the apex
 	var time = -velocityY / gravity.y;
@@ -190,8 +194,8 @@ function Throw(world, fruit)
 	var velocityX = width / time;
 
 	fruit.SetLinearVelocity(new b2Vec2(velocityX, velocityY));
-  RemoveHighlight(fruit);
-  HighlightNextThrow();
+	RemoveHighlight(fruit);
+	HighlightNextThrow();
 }
 
 // highlights top helfFruit after checking for existence and existing highlight
