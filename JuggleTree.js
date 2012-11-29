@@ -53,6 +53,7 @@ JuggleTree.start = function(){
 		,	screenHeight = 400
 		,	timeRemaining
 		,	isPaused
+		,	transitionSpeed = 0.5
 			//assets
 		,	spriteSheet
 		,	bgm
@@ -138,7 +139,7 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(highScoresButton,['mousedown'],function(e){
-			director.replaceScene(highScoreScene, lime.transitions.Dissolve);;
+			director.replaceScene(highScoreScene, lime.transitions.Dissolve,transitionSpeed);;
 		});
 		
 		goog.events.listen(howToPlayButton, ['mouseover'], function(e)
@@ -155,7 +156,7 @@ JuggleTree.start = function(){
 			//director.replaceScene(howToPlayScene, lime.transitions.SlideInLeft);;
 		});
 		
-		director.replaceScene(titleScene, lime.transitions.Dissolve);
+		director.replaceScene(titleScene, lime.transitions.Dissolve,transitionSpeed);
 		
 		SetupHighScoreScene();
 	}
@@ -194,7 +195,7 @@ JuggleTree.start = function(){
 		}
 		
 		goog.events.listen(returnButton,['mousedown'],function(e){
-			director.replaceScene(titleScene, lime.transitions.Dissolve);
+			director.replaceScene(titleScene, lime.transitions.Dissolve,transitionSpeed);
 		});
 		
 				goog.events.listen(returnButton, ['mouseover'], function(e)
@@ -301,7 +302,7 @@ JuggleTree.start = function(){
 	function StartGame()
 	{	
 		//initialize objects
-		gameplayScene = new lime.Scene();
+		gameplayScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
 		fruitLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
@@ -446,7 +447,7 @@ JuggleTree.start = function(){
 				GameOver();
 		},director);
 		
-		director.replaceScene(gameplayScene, lime.transitions.Dissolve);
+		director.replaceScene(gameplayScene, lime.transitions.Dissolve,transitionSpeed);
 		
 		bgm.baseElement.currentTime = 0;
 		bgm.baseElement.play();
@@ -462,7 +463,7 @@ JuggleTree.start = function(){
 		lime.scheduleManager.unschedule(setTimeRemaining,director);
 		
 		//Set up the game over screen
-		gameOverScene = new lime.Scene();
+		gameOverScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
 		gameOverScene.appendChild(backgroundLayer);
 		
 		var gameoverText = new lime.Sprite().setSize(316,175).setPosition(screenWidth/2,screenHeight/2 - 75).setFill(spriteSheet.getFrame('GameOver.png'));
@@ -496,7 +497,7 @@ JuggleTree.start = function(){
 			SetupTitleScreen();
 		});
 		
-		director.replaceScene(gameOverScene, lime.transitions.Dissolve);
+		director.replaceScene(gameOverScene, lime.transitions.Dissolve,transitionSpeed);
 		
 		//Add the new highscore
 		highScores.push(points)
