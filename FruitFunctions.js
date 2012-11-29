@@ -79,25 +79,25 @@ function GenerateFruit(world)
 					body = createBanana(world,x,y,size,initialVelocity);
 					break;
 				case 3:
-					body = createCherry(world,x,y,size*0.5,initialVelocity);
+					body = createCherry(world,x,y,size*0.3,initialVelocity);
 					break;
 				case 4:
 					body = createGrape(world,x,y,size*0.8,initialVelocity);
 					break;
 				case 5:
-					body = createLemon(world,x,y,size,initialVelocity);
+					body = createLemon(world,x,y,size*.9,initialVelocity);
 					break;
 				case 6:
-					body = createOrange(world,x,y,size*0.7,initialVelocity);
+					body = createOrange(world,x,y,size*0.8,initialVelocity);
 					break;
 				case 7:
-					body = createPear(world,x,y,size,initialVelocity);
+					body = createPear(world,x,y,size*0.7,initialVelocity);
 					break;
 				case 8:
-					body = createPineapple(world,x,y,size,initialVelocity);
+					body = createPineapple(world,x,y,size*.8,initialVelocity);
 					break;
 				case 9:
-					body = createPlum(world,x,y,size,initialVelocity);
+					body = createPlum(world,x,y,size*.7,initialVelocity);
 					break;
 				case 10:
 					body = createWatermelon(world,x,y,size*1.3,initialVelocity);
