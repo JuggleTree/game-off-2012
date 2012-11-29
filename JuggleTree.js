@@ -68,6 +68,7 @@ JuggleTree.start = function(){
 		director = new lime.Director(document.body,screenWidth,screenHeight);
 		LoadAssets();
 		SetupSoundFX(throwSFX, basketSFX, catchSFX, mergeSFX, fallSFX);
+		SetupAnimation();
 		SetupTitleScreen();
 		SetupPauseScene();
 		

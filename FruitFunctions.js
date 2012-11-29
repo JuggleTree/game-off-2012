@@ -1,6 +1,9 @@
 goog.provide('JuggleTree.FruitFunctions');
 
 goog.require('JuggleTree.Popups');
+goog.require('lime.animation.FadeTo');
+goog.require('lime.animation.Loop');
+goog.require('lime.animation.Sequence');
 
 var     b2Vec2 = Box2D.Common.Math.b2Vec2	
 	,	fruitToRemove = new Array()
@@ -17,8 +20,18 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	catchSFX
 	,	mergeSFX
 	,	fallSFX
+	,	nextFruitAnimation
 	;
 
+function SetupAnimation()
+{
+	nextFruitAnimation = new lime.animation.Loop(
+				new lime.animation.Sequence(
+					new lime.animation.FadeTo(0.5).setDuration(0.35),
+					new lime.animation.FadeTo(1).setDuration(0.35)
+				));
+}
+	
 function SetupSoundFX(t, b, c, m, f)
 {
 	throwSFX = t;
@@ -224,18 +237,20 @@ function Throw(world, fruit)
 	HighlightNextThrow();
 }
 
-// highlights top helfFruit after checking for existence and existing highlight
 function HighlightNextThrow()
 {
-  if(heldFruit.length > 0)
-    if(typeof(heldFruit[0]) != 'undefined')
-      if(!heldFruit[0].GetUserData().texture.getStroke())
-        heldFruit[0].GetUserData().texture.setStroke(1, '#c00');
+// highlights top helfFruit after checking for existence and existing highlight
+	if(heldFruit.length > 0)
+	{
+		nextFruitAnimation.addTarget(heldFruit[0].GetUserData().texture);
+		nextFruitAnimation.play();
+	}
 }
 
 function RemoveHighlight(fruit)
 {
-  fruit.GetUserData().texture.setStroke(null);
+	nextFruitAnimation.removeTarget(fruit.GetUserData().texture);
+	fruit.GetUserData().texture.setOpacity(1);
 }
 
 function MergeFruits(world, fruitA, fruitB)
