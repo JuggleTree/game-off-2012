@@ -36,11 +36,6 @@ JuggleTree.start = function(){
 		,	howToPlayScene2
 		,	howToPlayScene3
 		,	pauseScene
-		,	fruitLayer
-		,	jugglerLayer
-		,	buttonLayer
-		,	backgroundLayer
-		,	hudLayer
 			//Schedule Manager Functions
 		,	updateFunction
 		,	generateFruitFunction
@@ -97,7 +92,7 @@ JuggleTree.start = function(){
 	function SetupTitleScreen()
 	{
 		titleScene = new lime.Scene();
-		buttonLayer = new lime.Layer();
+		var buttonLayer = new lime.Layer();
 		titleBackgroundLayer = new lime.Layer();
 		
 		//set the background
@@ -354,21 +349,19 @@ JuggleTree.start = function(){
 	{	
 		//initialize objects
 		gameplayScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
-		backgroundLayer = new lime.Layer();
-		fruitLayer = new lime.Layer();
-		jugglerLayer = new lime.Layer();
-		hudLayer = new lime.Layer();
+		var backgroundLayer = new lime.Layer();
+		var fruitLayer = new lime.Layer();
+		var jugglerLayer = new lime.Layer();
+		var hudLayer = new lime.Layer();
 		frontBasketLayer = new lime.Layer();
 		
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText(' points');
-		//droppedLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,30).setText('Dropped: ');
 		pauseButton = new lime.Sprite().setSize(25, 25).setFill(spriteSheet.getFrame('pauseButton.png')).setAnchorPoint(0,0).setPosition(5,5);
 		hudbg = new lime.RoundedRect().setSize(120,25).setAnchorPoint(0,0).setPosition(1,5).setFill('#FFF').setOpacity(0.3);
 		hudLayer.appendChild(hudbg);
 		hudLayer.appendChild(pauseButton);
 		hudLayer.appendChild(scoreLbl);
-		//hudLayer.appendChild(droppedLbl);
 		
 		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
@@ -521,7 +514,11 @@ JuggleTree.start = function(){
 		
 		//Set up the game over screen
 		gameOverScene = new lime.Scene().setRenderer(lime.Renderer.DOM);
-		gameOverScene.appendChild(backgroundLayer);
+		
+		var gameOverBackgroundLayer = new lime.Layer();
+		gameOverBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		gameOverBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		gameOverScene.appendChild(gameOverBackgroundLayer);
 		
 		var gameoverText = new lime.Sprite().setSize(316,200).setPosition(screenWidth/2,screenHeight/2 - 100);
 		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
