@@ -27,7 +27,19 @@ Use the mouse to aim and 'Click' to throw a fruit up to that location.
 Once LimeJS is installed, grab our source code and stick it in the LimeJS 'bin' folder. Edit the JuggleTree.html file and point the Google Closure base to the LimeJS installation of Google Closure. In my case it's 'c:/limejs-232d784/closure/closure/goog/base.js'. Fire up the command prompt and run 'lime.py update' to update all the dependencies. Finally, open up JuggleTree.html in Chrome or Firefox.
 
 ### Bugs
-There appears to be a bug with a few graphic cards and Chrome. The game is perfectly playable but the background and tree may not show up during gameplay. If this happens, please let me know! In the meantime, try Firefox.
+If you experience a black background while playing the game, you need to disable GPU acceleration in your browser.
+
+**Firefox**
+
+1. Click on Firefox button, and then Options
+2. Go to the Advanced tab
+3. Untick the check box of the "Use hardware acceleration when available" option
+
+**Chrome**
+
+1. Type "about:flags" into the browser bar 
+2. Enable the "Disable accelerated 2D canvas" option
+3. Restart your browser
 
 ### Screenshots
 
