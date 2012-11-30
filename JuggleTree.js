@@ -196,8 +196,8 @@ JuggleTree.start = function(){
 		var htp1 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay1.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
 		var htp2 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay2.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
 		var htp3 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay3.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		var leftArrow = new lime.Sprite().setFill(spriteSheet.getFrame('LeftArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
-		var rightArrow = new lime.Sprite().setFill(spriteSheet.getFrame('RightArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
+		var leftArrow = new lime.Sprite().setFill(spriteSheet.getFrame('LeftArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2-25);
+		var rightArrow = new lime.Sprite().setFill(spriteSheet.getFrame('RightArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2-25);
 
 		howToPlayScene1.appendChild(htp1);
 		howToPlayScene1.appendChild(leftArrow);
