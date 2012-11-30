@@ -556,7 +556,7 @@ JuggleTree.start = function(){
 			fruitsDropped = 0;
 			points = 0;
 			fallingFruit = new Array();
-			growingFruit = new Array();
+			hangingFruit = new Array();
 			heldFruit = new Array();
 			SetupTitleScreen();
 		});
