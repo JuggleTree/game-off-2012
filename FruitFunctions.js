@@ -2,6 +2,7 @@ goog.provide('JuggleTree.FruitFunctions');
 
 goog.require('JuggleTree.Popups');
 goog.require('lime.animation.FadeTo');
+goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.Loop');
 goog.require('lime.animation.Sequence');
 
@@ -11,7 +12,7 @@ var     b2Vec2 = Box2D.Common.Math.b2Vec2
 	,	leftHandJoint = "empty"
 	,	rightHandJoint = "empty"
 	,	heldFruit = new Array()
-	,	growingFruit = new Array()
+	,	hangingFruit = new Array()
 	,	fallingFruit = new Array()
 	,	points = 0
 	,	shouldFall = true
@@ -30,6 +31,8 @@ function SetupAnimation()
 					new lime.animation.FadeTo(0.5).setDuration(0.35),
 					new lime.animation.FadeTo(1).setDuration(0.35)
 				));
+				
+	
 }
 	
 function SetupSoundFX(t, b, c, m, f)
@@ -43,7 +46,7 @@ function SetupSoundFX(t, b, c, m, f)
 	
 function GenerateFruit(world)
 {
-	if (growingFruit.length < 10)
+	if (hangingFruit.length < 10)
 	{
 		//Get a random, even number between 4 and 16
 		var x = (Math.floor((Math.random() * 7) + 2))*2;
@@ -53,11 +56,11 @@ function GenerateFruit(world)
 			x++;
 		var generate = true;
 		//Check if a fruit already exists at that location
-		for (var i = 0; i < growingFruit.length; i++)
+		for (var i = 0; i < hangingFruit.length; i++)
 		{
-			var newx = growingFruit[i].GetPosition().x;
-			if (growingFruit[i].GetPosition().x == x &&
-				growingFruit[i].GetPosition().y == y)
+			var newx = hangingFruit[i].GetPosition().x;
+			if (hangingFruit[i].GetPosition().x == x &&
+				hangingFruit[i].GetPosition().y == y)
 				generate = false;
 		}
 		//Generate the fruit
@@ -104,17 +107,29 @@ function GenerateFruit(world)
 					break;
 			}
 			AddFruit(body);
-			growingFruit.push(body);
+			GrowFruit(body);
 		}
 	}
+}
 
+function GrowFruit(fruit)
+{
+	//Set up the animation
+	fruit.GetUserData().texture.setScale(0.1);	
+	var growingAnimation = new lime.animation.ScaleTo(1).setDuration(2);
+	fruit.GetUserData().texture.runAction(growingAnimation);
+	
+	//When the animation is finished add it to the hanging fruit array
+	goog.events.listen(growingAnimation,lime.animation.Event.STOP,function(){
+		hangingFruit.push(fruit);
+	})
 }
 
 function DropFruit()
 {
-	if (fallingFruit.length < 3 && growingFruit.length > 0 && shouldFall)
+	if (fallingFruit.length < 3 && hangingFruit.length > 0 && shouldFall)
 	{
-		var fruit = growingFruit.shift();
+		var fruit = hangingFruit.shift();
 		fruit.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruit);
 		//fallSFX.stop();
@@ -124,12 +139,12 @@ function DropFruit()
 
 function CheckForDrop(fruitA, fruitB)
 {
-	var indexA = growingFruit.lastIndexOf(fruitA);
-	var indexB = growingFruit.lastIndexOf(fruitB);
+	var indexA = hangingFruit.lastIndexOf(fruitA);
+	var indexB = hangingFruit.lastIndexOf(fruitB);
 	//See if the fruit is on the tree and if so remove it from the array and drop it
 	if (indexA > -1)
 	{
-		growingFruit.splice(indexA,1);
+		hangingFruit.splice(indexA,1);
 		fruitA.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruitA);
 		//fallSFX.stop();
@@ -137,7 +152,7 @@ function CheckForDrop(fruitA, fruitB)
 	}
 	else if (indexB > -1)
 	{
-		growingFruit.splice(indexB,1);
+		hangingFruit.splice(indexB,1);
 		fruitB.SetType(b2Body.b2_dynamicBody);
 		fallingFruit.push(fruitB);
 		//fallSFX.play();
@@ -150,9 +165,9 @@ function RemoveFruit(fruit)
 	var index = fallingFruit.lastIndexOf(fruit);
 	if (index != -1)
 		fallingFruit.splice(index,1);
-	var index = growingFruit.lastIndexOf(fruit);
+	var index = hangingFruit.lastIndexOf(fruit);
 	if (index != -1)
-		{growingFruit.splice(index,1);}
+		{hangingFruit.splice(index,1);}
 	fruitToRemove.push(fruit);
 }
 
