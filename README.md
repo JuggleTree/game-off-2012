@@ -1,6 +1,6 @@
 ## Juggle Tree
 
-![JuggleTree](JuggleTree.github.com/game-off-2012/Raw Assets/Title.png)
+![JuggleTree](game-off-2012/Raw Images/Title.png)
 
 Little Sticky put on his favorite smiley shirt one morning and had a vision. It showed him a magical tree which grew all sorts of different fruit. Sticky was tasked with collecting as many fruits as possible before his vision ended.
 
