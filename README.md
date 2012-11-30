@@ -1,10 +1,10 @@
 ## Juggle Tree
 
-![JuggleTree](/Raw%20Images/Title.png)
+![http://juggletree.github.com/game-off-2012/](https://raw.github.com/JuggleTree/game-off-2012/master/Raw%20Images/Title.png)
 
 Little Sticky put on his favorite smiley shirt one morning and had a vision. It showed him a magical tree which grew all sorts of different fruit. Sticky was tasked with collecting as many fruits as possible before his vision ended.
 
-Play the game at [http://www.donkeykongpunch.com/js/JuggleTree.html](http://www.donkeykongpunch.com/js/JuggleTree.html)
+Play the game at [http://juggletree.github.com/game-off-2012/](http://juggletree.github.com/game-off-2012/)
 
 ### Gameplay
 
@@ -26,6 +26,16 @@ Use the mouse to aim and 'Click' to throw a fruit up to that location.
 
 Once LimeJS is installed, grab our source code and stick it in the LimeJS 'bin' folder. Edit the JuggleTree.html file and point the Google Closure base to the LimeJS installation of Google Closure. In my case it's 'c:/limejs-232d784/closure/closure/goog/base.js'. Fire up the command prompt and run 'lime.py update' to update all the dependencies. Finally, open up JuggleTree.html in Chrome or Firefox.
 
+### Bugs
+There appears to be a bug with a few graphic cards and Chrome. The game is perfectly playable but the background and tree may not show up during gameplay. If this happens please let me know! In the meantime, try Firefox.
+
+### Screenshots
+
+The Title Screen
+![JuggleTree](https://raw.github.com/JuggleTree/game-off-2012/master/Raw%20Images/TitleScreen.jpg)
+
+Some Gameplay
+![JuggleTree](https://raw.github.com/JuggleTree/game-off-2012/master/Raw%20Images/GamePlay.jpg)
 
 ### Credits
 * Lead Developer - Jonathan Slabaugh
