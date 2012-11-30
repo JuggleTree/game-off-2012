@@ -79,13 +79,13 @@ JuggleTree.start = function(){
 	
 	function LoadAssets()
 	{
-		bgm = new lime.audio.Audio('assets/JugglingMusic.ogg');
+		bgm = new lime.audio.Audio('Music/JugglingMusic.ogg');
 		spriteSheet = new lime.SpriteSheet('JuggleTextures.png',lime.ASSETS.JuggleTextures.json,lime.parser.JSON);
-		throwSFX = new lime.audio.Audio('assets/fruitthrow.ogg');
-		basketSFX = new lime.audio.Audio('assets/fruitbasket.ogg');
-		catchSFX = new lime.audio.Audio('assets/fruitcatch.ogg');
-		mergeSFX = new lime.audio.Audio('assets/fruitmerge.ogg');
-		fallSFX = new lime.audio.Audio('assets/fruitfall.ogg');
+		throwSFX = new lime.audio.Audio('Music/fruitthrow.ogg');
+		basketSFX = new lime.audio.Audio('Music/fruitbasket.ogg');
+		catchSFX = new lime.audio.Audio('Music/fruitcatch.ogg');
+		mergeSFX = new lime.audio.Audio('Music/fruitmerge.ogg');
+		fallSFX = new lime.audio.Audio('Music/fruitfall.ogg');
 		setSpriteSheet(spriteSheet);
 	}
 	
@@ -353,7 +353,14 @@ JuggleTree.start = function(){
 		var fruitLayer = new lime.Layer();
 		var jugglerLayer = new lime.Layer();
 		var hudLayer = new lime.Layer();
-		frontBasketLayer = new lime.Layer();
+		var frontBasketLayer = new lime.Layer();
+
+		//add the layers to the scene
+		gameplayScene.appendChild(backgroundLayer);
+		gameplayScene.appendChild(jugglerLayer);
+		gameplayScene.appendChild(fruitLayer);
+		gameplayScene.appendChild(frontBasketLayer);
+		gameplayScene.appendChild(hudLayer);
 		
 		//Create the Heads Up Display
 		scoreLbl = new lime.Label().setFontSize(15).setFontColor('#000').setAnchorPoint(0,0).setPosition(30,10).setText(' points');
@@ -366,15 +373,7 @@ JuggleTree.start = function(){
 		//set the background
 		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
 		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		
-		//add the layers to the scene
-		gameplayScene.appendChild(backgroundLayer, 1);		
-		gameplayScene.appendChild(jugglerLayer, 2);
-		gameplayScene.appendChild(fruitLayer, 3);
-		gameplayScene.appendChild(frontBasketLayer, 4);
-		gameplayScene.appendChild(hudLayer, 5);
 
-		
 		//initialize the world
 		world = new b2World
 		(
