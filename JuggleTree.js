@@ -212,6 +212,19 @@ JuggleTree.start = function(){
 			returnButton.setFill(spriteSheet.getFrame('Back1.png'));
 		});
 	}
+
+	function SetupMouseOver(button, buttonName, scene)
+	{
+		goog.events.listen(button, ['mouseover'], function(e)
+		{
+			button.setFill(buttonName + '2.png');
+		});
+		
+		goog.events.listen(scene, ['mouseout'], function(e)
+		{
+			button.setFill(buttonName + '1.png');
+		});	
+	}
 	
 	function SetupHowToPlayScenes()
 	{
@@ -219,52 +232,65 @@ JuggleTree.start = function(){
 		howToPlayScene2 = new lime.Scene();
 		howToPlayScene3 = new lime.Scene();
 		
-		//var htp1 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay1.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		//var htp2 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay2.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		//var htp3 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay3.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
 		var htp1 = new lime.Sprite().setFill('assets/HowToPlay1.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
 		var htp2 = new lime.Sprite().setFill('assets/HowToPlay2.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
 		var htp3 = new lime.Sprite().setFill('assets/HowToPlay3.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		var leftArrow1 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
-		var rightArrow1 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
-		var leftArrow2 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
-		var rightArrow2 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
-		var leftArrow3 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
-		var rightArrow3 = new lime.Sprite().setFill('assets/Arrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
-		
+		var leftArrow = new lime.Sprite().setFill('assets/LeftArrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
+		var rightArrow = new lime.Sprite().setFill('assets/RightArrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
+
 		howToPlayScene1.appendChild(htp1);
-		howToPlayScene1.appendChild(leftArrow1);
-		howToPlayScene1.appendChild(rightArrow1);
+		howToPlayScene1.appendChild(leftArrow);
+		howToPlayScene1.appendChild(rightArrow);
+		
 		howToPlayScene2.appendChild(htp2);
-		howToPlayScene2.appendChild(leftArrow2);
-		howToPlayScene2.appendChild(rightArrow2);
 		howToPlayScene3.appendChild(htp3);
-		howToPlayScene3.appendChild(leftArrow3);
-		howToPlayScene3.appendChild(rightArrow3);
 		
-		goog.events.listen(leftArrow1,['mousedown'],function(e){
-			director.replaceScene(titleScene, lime.transitions.SlideInLeft, transitionSpeed);
-		});
-		
-		goog.events.listen(rightArrow1,['mousedown'],function(e){
-			director.replaceScene(howToPlayScene2, lime.transitions.SlideInRight, transitionSpeed);
-		});
+		var howToPlay = new Array(howToPlayScene1, howToPlayScene2, howToPlayScene3);
+		var currentIndex = 0;
 
-		goog.events.listen(leftArrow2,['mousedown'],function(e){
-			director.replaceScene(howToPlayScene1, lime.transitions.SlideInLeft, transitionSpeed);
+		
+		goog.events.listen(leftArrow,['mousedown'],function(e){
+			var newIndex = currentIndex-1;
+			if (newIndex >= 0)
+			{
+				director.replaceScene(howToPlay[newIndex], lime.transitions.SlideInLeft, transitionSpeed);
+				howToPlay[newIndex].appendChild(leftArrow);
+				howToPlay[newIndex].appendChild(rightArrow);
+				currentIndex = newIndex;
+			}
+			else
+			{
+				director.replaceScene(titleScene, lime.transitions.SlideInLeft, transitionSpeed);
+				howToPlayScene1.appendChild(leftArrow);
+				howToPlayScene1.appendChild(rightArrow);
+				currentIndex = 0;
+			}
 		});
 		
-		goog.events.listen(rightArrow2,['mousedown'],function(e){
-			director.replaceScene(howToPlayScene3, lime.transitions.SlideInRight, transitionSpeed);
-		});
-
-		goog.events.listen(leftArrow1,['mousedown'],function(e){
-			director.replaceScene(howToPlayScene2, lime.transitions.SlideInLeft, transitionSpeed);
-		});
+		goog.events.listen(rightArrow,['mousedown'],function(e){
+			var newIndex = currentIndex+1;
+			if (newIndex < 3)
+			{
+				director.replaceScene(howToPlay[newIndex], lime.transitions.SlideInRight, transitionSpeed);
+				howToPlay[newIndex].appendChild(leftArrow);
+				howToPlay[newIndex].appendChild(rightArrow);
+				currentIndex = newIndex;
+			}
+			else
+			{
+				director.replaceScene(titleScene, lime.transitions.SlideInRight, transitionSpeed);
+				howToPlayScene1.appendChild(leftArrow);
+				howToPlayScene1.appendChild(rightArrow);
+				currentIndex = 0;
+			}
+		});	
 		
-		goog.events.listen(rightArrow1,['mousedown'],function(e){
-			director.replaceScene(titleScene, lime.transitions.SlideInRight, transitionSpeed);
-		});		
+		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene1);
+		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene1);
+		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene2);
+		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene2);
+		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene3);
+		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene3);
 	}
 	
 	function setCookie(value)
