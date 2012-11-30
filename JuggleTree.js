@@ -98,12 +98,12 @@ JuggleTree.start = function(){
 	{
 		titleScene = new lime.Scene();
 		buttonLayer = new lime.Layer();
-		backgroundLayer = new lime.Layer();
+		titleBackgroundLayer = new lime.Layer();
 		
 		//set the background
-		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		titleScene.appendChild(backgroundLayer);
+		titleBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		titleBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		titleScene.appendChild(titleBackgroundLayer);
 		
 		//set the button layer
 		buttonLayer.setPosition(screenWidth/2, screenHeight/2);
@@ -118,42 +118,16 @@ JuggleTree.start = function(){
 		titleScene.appendChild(buttonLayer);
 		
 		//Button listeners
-		goog.events.listen(startButton, ['mouseover'], function(e)
-		{
-			startButton.setFill(spriteSheet.getFrame('Start2.png'));
-		});
-		
-		goog.events.listen(titleScene, ['mouseout'], function(e)
-		{
-			startButton.setFill(spriteSheet.getFrame('Start1.png'));
-		});
+		SetupMouseOver(startButton, 'Start', titleScene);
+		SetupMouseOver(highScoresButton, 'HighScore', titleScene);
+		SetupMouseOver(howToPlayButton, 'HTP', titleScene);
 		
 		goog.events.listen(startButton,['mousedown'],function(e){
 			StartGame();
 		});
 		
-		goog.events.listen(highScoresButton, ['mouseover'], function(e)
-		{
-			highScoresButton.setFill(spriteSheet.getFrame('HighScore2.png'));
-		});
-		
-		goog.events.listen(titleScene, ['mouseout'], function(e)
-		{
-			highScoresButton.setFill(spriteSheet.getFrame('HighScore1.png'));
-		});
-		
 		goog.events.listen(highScoresButton,['mousedown'],function(e){
 			director.replaceScene(highScoreScene, lime.transitions.Dissolve,transitionSpeed);;
-		});
-		
-		goog.events.listen(howToPlayButton, ['mouseover'], function(e)
-		{
-			howToPlayButton.setFill(spriteSheet.getFrame('HTP2.png'));
-		});
-		
-		goog.events.listen(titleScene, ['mouseout'], function(e)
-		{
-			howToPlayButton.setFill(spriteSheet.getFrame('HTP1.png'));
 		});
 		
 		goog.events.listen(howToPlayButton,['mousedown'],function(e){
@@ -168,9 +142,9 @@ JuggleTree.start = function(){
 	function SetupHighScoreScene()
 	{
 		//I shouldn't have to create another background layer but using the one above doesn't work
-		backgroundLayer = new lime.Layer();
-		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
-		backgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		scoreBackgroundLayer = new lime.Layer();
+		scoreBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('Background.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
+		scoreBackgroundLayer.appendChild(new lime.Sprite().setFill(spriteSheet.getFrame('ForegroundTree.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0));
 	
 		highScoreScene = new lime.Scene();
 		var highScoreLayer = new lime.Layer().setPosition(screenWidth/2, 0);
@@ -178,7 +152,7 @@ JuggleTree.start = function(){
 		var returnButton = new lime.Sprite().setSize(87,38).setPosition(0,340).setFill(spriteSheet.getFrame('Back1.png'));
 		var scoreSheet = new lime.RoundedRect().setSize(100,200).setPosition(0,220).setFill('#FFF').setOpacity(0.5);
 		
-		highScoreScene.appendChild(backgroundLayer);
+		highScoreScene.appendChild(scoreBackgroundLayer);
 		highScoreScene.appendChild(highScoreLayer);
 		highScoreLayer.appendChild(title);
 		highScoreLayer.appendChild(returnButton);
@@ -198,18 +172,10 @@ JuggleTree.start = function(){
 			highScoreLayer.appendChild(score);
 		}
 		
+		SetupMouseOver(returnButton, 'Back', highScoreScene);
+		
 		goog.events.listen(returnButton,['mousedown'],function(e){
 			director.replaceScene(titleScene, lime.transitions.Dissolve,transitionSpeed);
-		});
-		
-				goog.events.listen(returnButton, ['mouseover'], function(e)
-		{
-			returnButton.setFill(spriteSheet.getFrame('Back2.png'));
-		});
-		
-		goog.events.listen(highScoreScene, ['mouseout'], function(e)
-		{
-			returnButton.setFill(spriteSheet.getFrame('Back1.png'));
 		});
 	}
 
@@ -217,12 +183,12 @@ JuggleTree.start = function(){
 	{
 		goog.events.listen(button, ['mouseover'], function(e)
 		{
-			button.setFill(buttonName + '2.png');
+			button.setFill(spriteSheet.getFrame(buttonName + '2.png'));
 		});
 		
 		goog.events.listen(scene, ['mouseout'], function(e)
 		{
-			button.setFill(buttonName + '1.png');
+			button.setFill(spriteSheet.getFrame(buttonName + '1.png'));
 		});	
 	}
 	
@@ -232,11 +198,11 @@ JuggleTree.start = function(){
 		howToPlayScene2 = new lime.Scene();
 		howToPlayScene3 = new lime.Scene();
 		
-		var htp1 = new lime.Sprite().setFill('assets/HowToPlay1.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		var htp2 = new lime.Sprite().setFill('assets/HowToPlay2.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		var htp3 = new lime.Sprite().setFill('assets/HowToPlay3.png').setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
-		var leftArrow = new lime.Sprite().setFill('assets/LeftArrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
-		var rightArrow = new lime.Sprite().setFill('assets/RightArrow1.png').setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
+		var htp1 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay1.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var htp2 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay2.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var htp3 = new lime.Sprite().setFill(spriteSheet.getFrame('HowToPlay3.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var leftArrow = new lime.Sprite().setFill(spriteSheet.getFrame('LeftArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(0,screenHeight/2);
+		var rightArrow = new lime.Sprite().setFill(spriteSheet.getFrame('RightArrow1.png')).setSize(29,56).setAnchorPoint(0,0).setPosition(screenWidth-50,screenHeight/2);
 
 		howToPlayScene1.appendChild(htp1);
 		howToPlayScene1.appendChild(leftArrow);
@@ -285,12 +251,12 @@ JuggleTree.start = function(){
 			}
 		});	
 		
-		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene1);
-		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene1);
-		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene2);
-		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene2);
-		SetupMouseOver(leftArrow, 'assets/LeftArrow', howToPlayScene3);
-		SetupMouseOver(rightArrow, 'assets/RightArrow', howToPlayScene3);
+		SetupMouseOver(leftArrow, 'LeftArrow', howToPlayScene1);
+		SetupMouseOver(rightArrow, 'RightArrow', howToPlayScene1);
+		SetupMouseOver(leftArrow, 'LeftArrow', howToPlayScene2);
+		SetupMouseOver(rightArrow, 'RightArrow', howToPlayScene2);
+		SetupMouseOver(leftArrow, 'LeftArrow', howToPlayScene3);
+		SetupMouseOver(rightArrow, 'RightArrow', howToPlayScene3);
 	}
 	
 	function setCookie(value)
@@ -334,7 +300,7 @@ JuggleTree.start = function(){
 		layer.appendChild(continueButton);
 		layer.appendChild(quitButton);
 		
-		//button listeners
+		//button listeners		
 		goog.events.listen(continueButton, ['mouseover'], function(e)
 		{
 			continueButton.setFill(spriteSheet.getFrame('Continue2.png'));
@@ -373,7 +339,8 @@ JuggleTree.start = function(){
 		goog.events.listen(pauseScene, ['keydown'], function(e){
 			if (e.event.keyCode == goog.events.KeyCodes.ENTER
 				|| e.event.keyCode == goog.events.KeyCodes.P
-				|| e.event.keyCode == goog.events.KeyCodes.L)
+				|| e.event.keyCode == goog.events.KeyCodes.L
+				|| e.event.keyCode == goog.events.KeyCodes.ESC)
 			{
 				UnpauseGame();				
 			}
@@ -387,6 +354,7 @@ JuggleTree.start = function(){
 	{	
 		//initialize objects
 		gameplayScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
+		backgroundLayer = new lime.Layer();
 		fruitLayer = new lime.Layer();
 		jugglerLayer = new lime.Layer();
 		hudLayer = new lime.Layer();
@@ -451,7 +419,8 @@ JuggleTree.start = function(){
 		goog.events.listen(gameplayScene, ['keydown'], function(e){
 			if (e.event.keyCode == goog.events.KeyCodes.ENTER
 				|| e.event.keyCode == goog.events.KeyCodes.P
-				|| e.event.keyCode == goog.events.KeyCodes.L)
+				|| e.event.keyCode == goog.events.KeyCodes.L
+				|| e.event.keyCode == goog.events.KeyCodes.ESC)
 			{
 				PauseGame();
 			}
@@ -551,29 +520,23 @@ JuggleTree.start = function(){
 		lime.scheduleManager.unschedule(setTimeRemaining,director);
 		
 		//Set up the game over screen
-		gameOverScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
+		gameOverScene = new lime.Scene().setRenderer(lime.Renderer.DOM);
 		gameOverScene.appendChild(backgroundLayer);
 		
-		var gameoverText = new lime.Sprite().setSize(316,175).setPosition(screenWidth/2,screenHeight/2 - 100).setFill('assets/GameOver.png');
+		var gameoverText = new lime.Sprite().setSize(316,200).setPosition(screenWidth/2,screenHeight/2 - 100);
 		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
 		var restartButton = new lime.Sprite().setSize(147,37).setPosition(screenWidth/2,screenHeight/2 + 80).setFill(spriteSheet.getFrame('Continue1.png'));
 		
+		if (timeRemaining == 0)
+			gameoverText.setFill(spriteSheet.getFrame('TimeUp.png'))
+		else
+			gameoverText.setFill(spriteSheet.getFrame('GameOver.png'))
 		
 		gameOverScene.appendChild(gameoverText);
 		gameOverScene.appendChild(scoreLbl);
 		gameOverScene.appendChild(restartButton);
 
-		goog.events.listen(restartButton, ['mouseover'], function(e)
-		{
-			restartButton.setFill(spriteSheet.getFrame('Continue2.png'));
-			lime.updateDirtyObjects();
-		});
-		
-		goog.events.listen(gameOverScene, ['mouseout'], function(e)
-		{
-			restartButton.setFill(spriteSheet.getFrame('Continue1.png'));
-			lime.updateDirtyObjects();
-		});		
+		SetupMouseOver(restartButton, 'Continue', gameOverScene);
 
 		goog.events.listen(restartButton,['mousedown'],function(e){
 			//Restart the game
