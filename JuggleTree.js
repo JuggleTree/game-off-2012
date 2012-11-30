@@ -554,7 +554,7 @@ JuggleTree.start = function(){
 		gameOverScene = new lime.Scene().setRenderer(lime.Renderer.CANVAS);
 		gameOverScene.appendChild(backgroundLayer);
 		
-		var gameoverText = new lime.Sprite().setSize(316,175).setPosition(screenWidth/2,screenHeight/2 - 75).setFill(spriteSheet.getFrame('GameOver.png'));
+		var gameoverText = new lime.Sprite().setSize(316,175).setPosition(screenWidth/2,screenHeight/2 - 100).setFill('assets/GameOver.png');
 		var scoreLbl = new lime.Label().setFontSize(30).setPosition(screenWidth/2,screenHeight/2 + 25).setText('Your Score: ' + points);
 		var restartButton = new lime.Sprite().setSize(147,37).setPosition(screenWidth/2,screenHeight/2 + 80).setFill(spriteSheet.getFrame('Continue1.png'));
 		
