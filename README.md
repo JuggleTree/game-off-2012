@@ -8,7 +8,7 @@ Play the game at [http://juggletree.github.com/game-off-2012/](http://juggletree
 
 ### Gameplay
 
-The fruit tree grows various fruit from it's **branches** and eventually fall. The player must control Sticky to catch the fruit. He can throw two fruit together to have them **merge** and increase in point value. If there are too many fruit for Sticky to handle, he can toss a few in the basket to lighten the load. Sticky will return to the real world when his vision ends after 2 minutes, or if he drops too many fruits!
+The fruit tree grows various fruit from it's **branches** and eventually fall. The player must control Sticky to catch the fruit. He can throw two fruit together to have them **merge** and increase in point value. If there are too many fruit for Sticky to handle, he can toss a few in the basket to lighten the load. Dropping fruit will make his shirt angry! Sticky will return to the real world when his vision ends after 2 and a half minutes, or if he drops too many fruits!
 
 ### Controls
 
@@ -32,9 +32,11 @@ There appears to be a bug with a few graphic cards and Chrome. The game is perfe
 ### Screenshots
 
 The Title Screen
+
 ![JuggleTree](https://raw.github.com/JuggleTree/game-off-2012/master/Raw%20Images/TitleScreen.jpg)
 
 Some Gameplay
+
 ![JuggleTree](https://raw.github.com/JuggleTree/game-off-2012/master/Raw%20Images/GamePlay.jpg)
 
 ### Credits
