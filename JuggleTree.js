@@ -126,7 +126,7 @@ JuggleTree.start = function(){
 		});
 		
 		goog.events.listen(howToPlayButton,['mousedown'],function(e){
-			director.replaceScene(howToPlayScene1, lime.transitions.SlideInRight);;
+			director.replaceScene(howToPlayScene1, lime.transitions.SlideInRight,transitionSpeed);
 		});
 		
 		director.replaceScene(titleScene, lime.transitions.Dissolve,transitionSpeed);
@@ -442,10 +442,13 @@ JuggleTree.start = function(){
 				
 		}, director, 1000, 0);		
 		
+		//Generate the first fruit
+		GenerateFruit(world);
+		
 		//Schedule a fruit to grow every 2.5 seconds
 		lime.scheduleManager.scheduleWithDelay(generateFruitFunction = function (dt){
 				GenerateFruit(world);
-		}, director, 2500, 0);
+		}, director, 1700, 0);
 		
 		//This is the Update Loop
 		lime.scheduleManager.schedule(updateFunction = function(dt) 

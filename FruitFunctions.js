@@ -116,7 +116,7 @@ function GrowFruit(fruit)
 {
 	//Set up the animation
 	fruit.GetUserData().texture.setScale(0.1);	
-	var growingAnimation = new lime.animation.ScaleTo(1).setDuration(2);
+	var growingAnimation = new lime.animation.ScaleTo(1).setDuration(1.5);
 	fruit.GetUserData().texture.runAction(growingAnimation);
 	
 	//When the animation is finished add it to the hanging fruit array
