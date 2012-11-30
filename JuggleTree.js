@@ -32,6 +32,10 @@ JuggleTree.start = function(){
 		,	titleScene
 		,	gameOverScene
 		,	highScoreScene
+		,	howToPlayScene1
+		,	howToPlayScene2
+		,	howToPlayScene3
+		,	howToPlayScene4
 		,	pauseScene
 		,	fruitLayer
 		,	jugglerLayer
@@ -75,7 +79,8 @@ JuggleTree.start = function(){
 		SetupSoundFX(throwSFX, basketSFX, catchSFX, mergeSFX, fallSFX);
 		SetupAnimation();
 		SetupTitleScreen();
-		SetupPauseScene();		
+		SetupPauseScene();	
+		//SetupHowToPlayScenes();
 	//}
 	
 	function LoadAssets()
@@ -207,6 +212,65 @@ JuggleTree.start = function(){
 		{
 			returnButton.setFill(spriteSheet.getFrame('Back1.png'));
 		});
+	}
+	
+	function SetupHowToPlayScenes()
+	{
+		howToPlayScene1 = new lime.Scene();
+		howToPlayScene2 = new lime.Scene();
+		howToPlayScene3 = new lime.Scene();
+		howToPlayScene4 = new lime.Scene();
+		var htp1 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay1.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var htp2 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay2.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var htp3 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay3.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var htp4 = new lime.Sprite().setFill(spriteSheet.getFrame('howtoplay4.png')).setSize(screenWidth,screenHeight).setAnchorPoint(0,0);
+		var leftArrow = new lime.Sprite().setFill(spriteSheet.getFrame('leftArrow.png')).setSize(50,50).setAnchorPoint(0,screenHeight/2);
+		var rightArrow = new lime.Sprite().setFill(spriteSheet.getFrame('rightArrow.png')).setSize(50,50).setAnchorPoint(screenWidth-50,screenHeight/2);
+		
+		var howToPlay = new Array(howToPlayScene1, howToPlayScene2, howToPlayScene3, howToPlayScene4);
+		var currentIndex = 0;
+		
+		howToPlayScene1.appendchild(htp1);
+		howToPlayScene1.appendchild(leftArrow);
+		howToPlayScene1.appendchild(rightArrow);
+		howToPlayScene2.appendchild(htp2);
+		howToPlayScene2.appendchild(leftArrow);
+		howToPlayScene2.appendchild(rightArrow);
+		howToPlayScene3.appendchild(htp3);
+		howToPlayScene3.appendchild(leftArrow);
+		howToPlayScene3.appendchild(rightArrow);
+		howToPlayScene4.appendchild(htp4);
+		howToPlayScene4.appendchild(leftArrow);
+		howToPlayScene4.appendchild(rightArrow);
+		
+		goog.events.listen(leftArrow,['mousedown'],function(e){
+			var newIndex = currentIndex-1;
+			if (newIndex >= 0)
+			{
+				director.replaceScene(howToPlay[newIndex], lime.transitions.SlideInLeft, transitionSpeed);
+				currentIndex = newIndex;
+			}
+			else
+			{
+				director.replaceScene(titleScene, lime.transitions.SlideInLeft, transitionSpeed);
+				currentIndex = 0;
+			}
+		});
+		
+		goog.events.listen(rightArrow,['mousedown'],function(e){
+			var newIndex = currentIndex+1;
+			if (newIndex <= 4)
+			{
+				director.replaceScene(howToPlay[newIndex], lime.transitions.SlideInRight, transitionSpeed);
+				currentIndex = newIndex;
+			}
+			else
+			{
+				director.replaceScene(titleScene, lime.transitions.SlideInRight, transitionSpeed);
+				currentIndex = 0;
+			}
+		});
+		
 	}
 	
 	function setCookie(value)
